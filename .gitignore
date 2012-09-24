@@ -1,0 +1,3 @@
+*.pyc
+/hfa/settings.py
+/database.db

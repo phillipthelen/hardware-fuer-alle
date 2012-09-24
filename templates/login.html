@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block heading %}
+Login
+{% endblock %}
+
+{% block content %}
+Login via:
+<ul>
+	<li><a href="{% url socialauth_begin 'twitter' %}?{{ redirect_querystring }}">Twitter</a></li>
+
+	<li><a href="{% url socialauth_begin 'facebook' %}?{{ redirect_querystring }}">Facebook</a></li>
+
+	<li><a href="{% url socialauth_begin 'google' %}?{{ redirect_querystring }}">Google</a></li>
+{% endblock %}

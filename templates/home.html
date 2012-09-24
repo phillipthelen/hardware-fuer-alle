@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% block heading %}
+Welcome
+{% endblock %}
+
+
+{% block content %}
+{% if social_auth.associated %}
+{{ user.username }}
+  <ul>
+  {% for type, accounts in social_auth.associated.items %}
+    {% for account in accounts %}
+    <li>
+        <span class="disconnect">{{ account.provider|title }} (ID {{ account.id }})</span>
+    </li>
+    {% endfor %}
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

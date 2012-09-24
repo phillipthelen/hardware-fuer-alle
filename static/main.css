@@ -1,0 +1,8 @@
+.navbar-inner {
+	padding-left:0px;
+	padding-right:0px;
+}
+
+.navbar-inner .container {
+	width:940px;
+}

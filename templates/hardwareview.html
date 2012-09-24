@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block heading %}
+{{hardware.name}}
+{% endblock %}
+
+
+{% block content %}
+<p>State: {{hardware.state}}</p>
+<p>Condition: {{hardware.condition}}</p>
+<p>Category: {{hardware.category}}</p>
+<p>Owner: <a href="{% url users.views.profile hardware.owner.username %}">{{hardware.owner.username}}</a></p>
+<p>Availability: {{hardware.availability}}</p>
+<p>Lent to: {{hardware.lent_to}}</p>
+<p>Description: {{hardware.description}}</p>
+{% endblock %}
