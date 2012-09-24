@@ -11,5 +11,5 @@ Login via:
 
 	<li><a href="{% url socialauth_begin 'facebook' %}?{{ redirect_querystring }}">Facebook</a></li>
 
-	<li><a href="{% url socialauth_begin 'google' %}?{{ redirect_querystring }}">Google</a></li>
+	<li><a href="{% url socialauth_begin 'google-oauth2' %}?{{ redirect_querystring }}">Google</a></li>
 {% endblock %}

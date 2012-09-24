@@ -1,7 +1,7 @@
 # coding: utf-8 f
 from django.conf.urls import patterns, include, url
 from main.views import home
-from users.views import done, logout, error, login, profile
+from users.views import done, logout, error, login, profile, settings
 from django.contrib import admin
 from hardware.views import displayHardware, listAll
 
@@ -17,15 +17,12 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^$', home, name='home'),
-    url(r'^login/$', login, name="login"),
-    url(r'^accounts/done/$', done, name='done'),
-    url(r'^accounts/error/$', error, name='error'),
-    url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^users/(?P<username>.*)$', profile, name='profile'),
+    url(r'^settings/$', settings, name='settings'),
     url(r'^hardware/view/(?P<id>.*)$', displayHardware, name="display hardware"),
     url(r'^hardware/$', listAll),
     url(r'^hardware/(?P<page>\d*)$', listAll),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/', include('social_auth.urls')),
+    url(r'^accounts/', include('allauth.urls')),
     
 )

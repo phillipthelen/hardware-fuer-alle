@@ -7,16 +7,19 @@ Welcome
 
 
 {% block content %}
+{% if not user.is_authenticated %}
+	<p>Why don't you <a href="{% url allauth.account.views.login %}">log in</a> 
+{% endif %}
 {% if social_auth.associated %}
-{{ user.username }}
-  <ul>
-  {% for type, accounts in social_auth.associated.items %}
-    {% for account in accounts %}
-    <li>
-        <span class="disconnect">{{ account.provider|title }} (ID {{ account.id }})</span>
-    </li>
-    {% endfor %}
-  {% endfor %}
-  </ul>
+	{{ user.username }}
+	<ul>
+	{% for type, accounts in social_auth.associated.items %}
+		{% for account in accounts %}
+			<li>
+				<span class="disconnect">{{ account.provider|title }} (ID {{ account.id }})</span>
+			</li>
+		{% endfor %}
+	{% endfor %}
+	</ul>
 {% endif %}
 {% endblock %}

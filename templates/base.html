@@ -25,7 +25,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="{% url users.views.profile user.username %}">Profile</a></li>
 							<li><a href="#">Settings</a></li>
-							<li><a href="{% url users.views.logout %}">Logout</a></li>
+							<li><a href="{% url allauth.account.views.logout %}">Logout</a></li>
 						</ul>
 					</li>
 					{% endif %}

@@ -38,3 +38,9 @@ def profile(request, username):
 	hardware =Hardware.objects.filter(owner=user)
 	context = {'userprofile':user, 'hardware':hardware}
 	return render_to_response('userprofile.html', context, RequestContext(request))
+
+
+def settings(request):
+	"""displays the settings for an account"""
+	context = {}
+	return render_to_response('usersettings.html', context, RequestContext(request))
