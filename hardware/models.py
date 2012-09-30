@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
 class Condition(models.Model):
+	"""Different conditions such as 'damaged', 'new', 'slightly used'"""
 	name = models.CharField(_('name'), max_length=200)
 
 	def __unicode__(self):
@@ -14,6 +15,7 @@ class Condition(models.Model):
 		verbose_name_plural = _('condition')
 
 class Category(models.Model):
+	"""Categories such as 'smartphone', 'laptop', ..."""
 	name = models.CharField(_('name'), max_length=200)
 
 	def __unicode__(self):
@@ -24,6 +26,7 @@ class Category(models.Model):
 		verbose_name_plural = _('category')
 
 class State(models.Model):
+	"""Whether the owner wants to give the hardware away or lend it"""
 	name = models.CharField(_('name'), max_length=200)
 
 	def __unicode__(self):
@@ -34,6 +37,7 @@ class State(models.Model):
 		verbose_name_plural = _('state')
 
 class Hardware(models.Model):
+	"""The hardware itself"""
 	name = models.CharField(_('name'), max_length=200)
 	condition = models.ForeignKey(Condition, verbose_name = _('condition'), blank=False)
 	category = models.ForeignKey(Category, verbose_name = _('category'), blank=False)
