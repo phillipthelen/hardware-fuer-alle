@@ -21,6 +21,18 @@ Settings
 		</li>
 	{% endfor %}
 </ul>
+
+<h3>Settings</h3>
+<form action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
+	<div class="control-group">
+		<label class="control-label" for="id_email">Email</label>
+		<div class="controls">
+			<input id="id_email" type="text" name="city" maxlength="200"/>
+		</div>
+	</div>
+		<button type="submit" class="btn btn-primary">Save changes</button>
+</form>
+
 <h3>Location</h3>
 <form action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">
