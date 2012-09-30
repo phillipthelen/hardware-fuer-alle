@@ -6,3 +6,11 @@
 .navbar-inner .container {
 	width:940px;
 }
+
+.connectionlist {
+	list-style: none outside none;
+}
+
+.connectionlist li {
+	margin-bottom:10px;
+}

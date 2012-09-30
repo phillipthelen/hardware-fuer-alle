@@ -6,14 +6,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
 from hardware.models import Hardware
-
-@login_required
-def done(request):
-	"""Login complete view, displays user data"""
-	ctx = {
-		'last_login': request.session.get('social_auth_last_login_backend')
-	}
-	return render_to_response('done.html', ctx, RequestContext(request))
+from allauth.socialaccount.models import SocialAccount, SocialApp
 
 
 def error(request):
@@ -26,12 +19,6 @@ def login(request):
 	return render_to_response('login.html', {},
 		RequestContext(request))
 
-
-def logout(request):
-	"""Logs out user"""
-	auth_logout(request)
-	return HttpResponseRedirect('/')
-
 def profile(request, username):
 	"""displays a user profile"""
 	user = get_object_or_404(User, username = username)
@@ -39,8 +26,14 @@ def profile(request, username):
 	context = {'userprofile':user, 'hardware':hardware}
 	return render_to_response('userprofile.html', context, RequestContext(request))
 
-
+@login_required
 def settings(request):
 	"""displays the settings for an account"""
-	context = {}
+	user = request.user
+	accounts = SocialAccount.objects.filter(user=user)
+	accountlist = []
+	for account in accounts:
+		accountlist.append(account.provider)
+	apps = SocialApp.objects.all()
+	context = {"apps":apps, "accountlist":accountlist}
 	return render_to_response('usersettings.html', context, RequestContext(request))

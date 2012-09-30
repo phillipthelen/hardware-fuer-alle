@@ -1,7 +1,7 @@
 # coding: utf-8 f
 from django.conf.urls import patterns, include, url
 from main.views import home
-from users.views import done, logout, error, login, profile, settings
+from users.views import error, login, profile, settings
 from django.contrib import admin
 from hardware.views import displayHardware, listAll
 

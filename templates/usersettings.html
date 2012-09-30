@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load socialaccount %}
+{% load i18n %}
 
 {% block heading %}
 Settings
@@ -7,5 +9,16 @@ Settings
 
 
 {% block content %}
-
+<h3>Connections</h3>
+<ul class="connectionlist">
+	{% for app in apps %}
+		<li>
+			{% if app.provider in accountlist %}
+				<a href="" class="btn btn-danger">Disconnect {{app.provider}}</a>
+			{% else %}
+				<a href="{% provider_login_url app.provider %}" class="btn btn-success">Connect with {{app.provider}}</a>
+			{% endif %}
+		</li>
+	{% endfor %}
+</ul>
 {% endblock %}
