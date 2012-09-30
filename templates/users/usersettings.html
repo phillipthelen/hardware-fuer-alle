@@ -21,4 +21,41 @@ Settings
 		</li>
 	{% endfor %}
 </ul>
+<h3>Location</h3>
+<form action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
+	<div class="control-group">
+		<label class="control-label" for="id_city">City</label>
+		<div class="controls">
+			<input id="id_city" type="text" name="city" maxlength="200" value="{{ profile.city }}"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_postcode">Postcode</label>
+		<div class="controls">
+			<input id="id_postcode" type="text" name="postcode" maxlength="5" value="{{ profile.postcode }}"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_street">Street</label>
+		<div class="controls">
+			<input id="id_street" type="text" name="street" maxlength="200" value="{{ profile.street }}"/>
+		</div>
+	</div>
+	<div class="control-group">
+		
+		<div class="controls">
+			{% if profile.displayLocation %}
+				<input type="checkbox" name="displayLocation" id="id_displayLocation" checked/>
+			{% else %}
+				<input type="checkbox" name="displayLocation" id="id_displayLocation"/>
+			{% endif %}
+			<span> Display location in profile</span>
+		</div>
+	</div>
+		<button type="submit" class="btn btn-primary">Save changes</button>
+</form>
+
+{% if showmap %}
+	{{ map.map }}
+{% endif %}
 {% endblock %}
