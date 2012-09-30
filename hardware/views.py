@@ -21,7 +21,7 @@ def displayHardware(request, id):
 	"""Display a hardware"""
 	hardware = get_object_or_404(Hardware, id=id)
 	context = {'hardware':hardware}
-	return render_to_response('hardwareview.html', context, RequestContext(request))
+	return render_to_response('hardware/hardwareview.html', context, RequestContext(request))
 
 def listAll(request, page=None):
 	"""list all available hardware"""
@@ -38,4 +38,4 @@ def listAll(request, page=None):
 	
 	
 	context = {'hardware':hardware, }
-	return render_to_response('hardwarelist.html', context, RequestContext(request))
+	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))

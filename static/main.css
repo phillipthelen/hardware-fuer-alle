@@ -14,3 +14,7 @@
 .connectionlist li {
 	margin-bottom:10px;
 }
+
+.brand:hover {
+	color:#000;
+}

@@ -16,7 +16,7 @@ def error(request):
 		RequestContext(request))
 
 def login(request):
-	return render_to_response('login.html', {},
+	return render_to_response('users/login.html', {},
 		RequestContext(request))
 
 def profile(request, username):
@@ -24,7 +24,7 @@ def profile(request, username):
 	user = get_object_or_404(User, username = username)
 	hardware =Hardware.objects.filter(owner=user)
 	context = {'userprofile':user, 'hardware':hardware}
-	return render_to_response('userprofile.html', context, RequestContext(request))
+	return render_to_response('users/userprofile.html', context, RequestContext(request))
 
 @login_required
 def settings(request):
@@ -36,4 +36,4 @@ def settings(request):
 		accountlist.append(account.provider)
 	apps = SocialApp.objects.all()
 	context = {"apps":apps, "accountlist":accountlist}
-	return render_to_response('usersettings.html', context, RequestContext(request))
+	return render_to_response('users/usersettings.html', context, RequestContext(request))
