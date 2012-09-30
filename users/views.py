@@ -16,6 +16,7 @@ def error(request):
 		RequestContext(request))
 
 def login(request):
+	"""Displays the login options"""
 	return render_to_response('users/login.html', {},
 		RequestContext(request))
 
