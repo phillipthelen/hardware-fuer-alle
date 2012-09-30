@@ -18,3 +18,19 @@
 .brand:hover {
 	color:#000;
 }
+
+.footer {
+	background-color: rgb(245, 245, 245);
+	border-top-color: rgb(229, 229, 229);
+	border-top-style: solid;
+	border-top-width: 1px;
+	color: rgb(51, 51, 51);
+	display: block;
+	font-size: 14px;
+	line-height: 20px;
+	margin-top: 70px;
+	padding-bottom: 70px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 70px;
+}
