@@ -33,6 +33,9 @@
 					</li>
 					{% endif %}
 					<li><a href="{% url hardware.views.listAll %}">Hardware</a></li>
+					{% if user.is_authenticated %}
+						<li><a href="{% url hardware.views.hardwareEdit %}">add hardware</a></li>
+					{% endif %}
 					
 				</ul>
 				<form class="navbar-search pull-right">

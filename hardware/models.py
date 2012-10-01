@@ -42,7 +42,7 @@ class Hardware(models.Model):
 	condition = models.ForeignKey(Condition, verbose_name = _('condition'), blank=False)
 	category = models.ForeignKey(Category, verbose_name = _('category'), blank=False)
 	description = models.TextField(_('description'))
-	availability = models.BooleanField(_('availability'))
+	availability = models.BooleanField(_('availability'), default=True)
 	state = models.ForeignKey(State, verbose_name = _('state'), blank=False)
 	owner = models.ForeignKey(User, verbose_name = _('owner'), related_name='hardware_owner')
 	lent_to = models.ForeignKey(User, verbose_name = _('lent to'), related_name='hardware_lent_to', blank=True, null=True)

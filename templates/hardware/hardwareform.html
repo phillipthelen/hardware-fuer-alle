@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+{% load i18n %}
+
+{% block heading %}
+Add/Edit Hardware
+{% endblock %}
+
+
+{% block content %}
+<form action="{% url hardware.views.hardwareEdit %}" method="post">{% csrf_token %}
+	{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}
