@@ -12,6 +12,7 @@ from geopy import geocoders
 from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 from django.core.urlresolvers import reverse
+from main.models import Location
 
 class MapForm(forms.Form):
 	map = forms.Field(widget=GoogleMap(attrs={'width':250, 'height':250}))
@@ -54,16 +55,28 @@ def settings(request):
 	if request.method == 'POST': # If the form has been submitted...
 		form = LocationForm(request.POST) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
-			profile.city = form.cleaned_data['city']
-			profile.street = form.cleaned_data['street']
-			profile.postcode = form.cleaned_data['postcode']
+			if profile.location==None:
+				location = Location()
+				location.save()
+				profile.location = location
+				profile.save()
+			else:
+				location = profile.location
+			location.city = form.cleaned_data['city']
+			location.street = form.cleaned_data['street']
+			location.postcode = form.cleaned_data['postcode']
 			profile.displayLocation = form.cleaned_data['displayLocation']
 			g = geocoders.Google()
-			place, (lat, lng) = g.geocode(profile.street + ", " + profile.postcode + " " + profile.city)
-			profile.latitude = lat
-			profile.longitude = lng  		
+			if location.city!= "" or location.street!="" or location.street!="":
+				places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
+				location.latitude = places[0][1][0]
+				location.longitude = places[0][1][1]
+			else:
+				location.latitude = None
+				location.longitude = None
+			location.save()
 			profile.save()
-
+			print profile.location.city
 			return HttpResponseRedirect(reverse(settings)) # Redirect after POST
 	else:
 		form = LocationForm() # An unbound form
@@ -71,19 +84,18 @@ def settings(request):
 		#	form.fields['city'] = profile.city
 
 	context = {"apps":apps, "accountlist":accountlist, 'form':form, 'profile':profile}
-	if profile.latitude != None and profile.longitude != None:
+	if profile.location != None and profile.location.latitude != None and profile.location.longitude != None:
 		gmap = maps.Map(opts = {
-			'center': maps.LatLng(profile.latitude, profile.longitude),
+			'center': maps.LatLng(profile.location.latitude, profile.location.longitude),
 			'mapTypeId': maps.MapTypeId.ROADMAP,
 			'zoom': 10,
 		})
 		marker = maps.Marker(opts = {
 			'map': gmap,
-			'position': maps.LatLng(profile.latitude, profile.longitude),
+			'position': maps.LatLng(profile.location.latitude, profile.location.longitude),
 		})
 		context['map'] =  MapForm(initial={'map': gmap})
 		context['showmap'] = True
 	else:
 		context['showmap'] = False
-	print context, profile.latitude, profile.longitude
 	return render_to_response('users/usersettings.html', context, RequestContext(request))

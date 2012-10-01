@@ -61,7 +61,6 @@ def hardwareEdit(request, id=None):
 				h.owner = request.user
 				h.save()
 
-
 				return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST
 		else:
 			form = HardwareForm()

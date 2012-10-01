@@ -38,19 +38,19 @@ Settings
 	<div class="control-group">
 		<label class="control-label" for="id_city">City</label>
 		<div class="controls">
-			<input id="id_city" type="text" name="city" maxlength="200" value="{{ profile.city }}"/>
+			<input id="id_city" type="text" name="city" maxlength="200" value="{{ profile.location.city }}"/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="id_postcode">Postcode</label>
 		<div class="controls">
-			<input id="id_postcode" type="text" name="postcode" maxlength="5" value="{{ profile.postcode }}"/>
+			<input id="id_postcode" type="text" name="postcode" maxlength="5" value="{{ profile.location.postcode }}"/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="id_street">Street</label>
 		<div class="controls">
-			<input id="id_street" type="text" name="street" maxlength="200" value="{{ profile.street }}"/>
+			<input id="id_street" type="text" name="street" maxlength="200" value="{{ profile.location.street }}"/>
 		</div>
 	</div>
 	<div class="control-group">
