@@ -9,8 +9,41 @@ Add/Edit Hardware
 
 
 {% block content %}
-<form action="{% url hardware.views.hardwareEdit %}" method="post">{% csrf_token %}
-	{{ form.as_p }}
-<input type="submit" value="Submit" />
+{%if edit%}
+<form action="{% url hardware.views.hardwareEdit hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
+{% else %}
+<form action="{% url hardware.views.hardwareEdit %}" method="post" class="form-horizontal">{% csrf_token %}
+{%endif %}
+	<div class="control-group">
+		<label class="control-label" for="id_name">Name</label>
+		<div class="controls">
+			{{ form.name}}
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_description">Description</label>
+		<div class="controls">
+			{{form.description}}
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_condition">Condition</label>
+		<div class="controls">
+			{{form.condition}}
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_category">Category</label>
+		<div class="controls">
+			{{form.category}}
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_state">State</label>
+		<div class="controls">
+			{{form.state}}
+		</div>
+	</div>
+<input type="submit" value="Submit" class="btn btn-primary" />
 </form>
 {% endblock %}
