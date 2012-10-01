@@ -17,9 +17,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^$', home, name='home'),
-    url(r'^users/(?P<username>.*)$', profile, name='profile'),
+    url(r'^users/(?P<id>.*)/(?P<username>.*)$', profile, name='profile'),
     url(r'^settings/$', settings, name='settings'),
-    url(r'^hardware/view/(?P<id>.*)$', displayHardware, name="display hardware"),
+    url(r'^hardware/view/(?P<id>.*)/(?P<name>.*)$', displayHardware, name="display hardware"),
     url(r'^hardware/new/$', hardwareEdit),
     url(r'^hardware/$', listAll),
     url(r'^hardware/(?P<page>\d*)$', listAll),

@@ -22,7 +22,7 @@ class HardwareForm(forms.Form):
 	state = forms.ModelChoiceField(queryset=State.objects.all())
 	
 
-def displayHardware(request, id):
+def displayHardware(request, id, name):
 	"""Display a hardware"""
 	hardware = get_object_or_404(Hardware, id=id)
 	context = {'hardware':hardware}
@@ -46,7 +46,7 @@ def listAll(request, page=None):
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
 @login_required
-def hardwareEdit(request, hardware=None):
+def hardwareEdit(request, id=None):
 	
 	if hardware==None:
 		if request.method == 'POST': # If the form has been submitted...
@@ -62,7 +62,7 @@ def hardwareEdit(request, hardware=None):
 				h.save()
 
 
-				return HttpResponseRedirect(reverse(displayHardware, args=[h.id])) # Redirect after POST
+				return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST
 		else:
 			form = HardwareForm()
 		

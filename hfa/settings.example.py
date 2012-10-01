@@ -154,7 +154,7 @@ SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
 LOGIN_REDIRECT_URL = '/'
-
+AUTH_PROFILE_MODULE = 'users.UserProfile'
 FORCE_SCRIPT_NAME = ''
 
 # A sample logging configuration. The only tangible logging

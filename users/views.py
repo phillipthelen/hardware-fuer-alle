@@ -11,7 +11,7 @@ from django import forms
 from geopy import geocoders
 from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
-
+from django.core.urlresolvers import reverse
 
 class MapForm(forms.Form):
 	map = forms.Field(widget=GoogleMap(attrs={'width':250, 'height':250}))
@@ -34,9 +34,9 @@ def login(request):
 	return render_to_response('users/login.html', {},
 		RequestContext(request))
 
-def profile(request, username):
+def profile(request, id, username):
 	"""displays a user profile"""
-	user = get_object_or_404(User, username = username)
+	user = get_object_or_404(User, id = id)
 	hardware =Hardware.objects.filter(owner=user)
 	context = {'userprofile':user, 'hardware':hardware}
 	return render_to_response('users/userprofile.html', context, RequestContext(request))
@@ -64,7 +64,7 @@ def settings(request):
 			profile.longitude = lng  		
 			profile.save()
 
-			return HttpResponseRedirect('/settings/') # Redirect after POST
+			return HttpResponseRedirect(reverse(settings)) # Redirect after POST
 	else:
 		form = LocationForm() # An unbound form
 		#if profile.city != None:

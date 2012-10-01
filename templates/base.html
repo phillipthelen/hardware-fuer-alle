@@ -26,7 +26,7 @@
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="{% url users.views.profile user.username %}">Profile</a></li>
+							<li><a href="{% url users.views.profile user.id user.username %}">Profile</a></li>
 							<li><a href="{% url users.views.settings %}">Settings</a></li>
 							<li><a href="{% url allauth.account.views.logout %}">Logout</a></li>
 						</ul>
@@ -39,7 +39,9 @@
 					
 				</ul>
 				<form class="navbar-search pull-right">
-					<input type="text" class="search-query" placeholder="Search">
+					<div class="input-append">
+						<input class="span2" id="appendedInputButtons" size="16" type="text"><button class="btn" type="button">Search</button>
+					</div>
 				</form>
 			</div>
 		</div>
