@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from main.views import home
 from users.views import error, login, profile, settings
 from django.contrib import admin
-from hardware.views import displayHardware, listAll, hardwareEdit
+from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware
 
 admin.autodiscover()
 
@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^hardware/view/(?P<id>.*)/(?P<name>.*)$', displayHardware, name="display hardware"),
     url(r'^hardware/new/$', hardwareEdit),
     url(r'^hardware/edit/(?P<id>.*)$', hardwareEdit),
+    url(r'^hardware/delete/(?P<id>.*)$', deleteHardware),
     url(r'^hardware/$', listAll),
     url(r'^hardware/(?P<page>\d*)$', listAll),
     url(r'^admin/', include(admin.site.urls)),

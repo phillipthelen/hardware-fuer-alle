@@ -8,7 +8,10 @@
 
 {% block content %}
 {% if hardware.owner == user %}
-<a class="pull-right btn" href="{% url hardware.views.hardwareEdit hardware.id %}">Edit</a>
+<div class="pull-right">
+	<a class="btn" href="{% url hardware.views.hardwareEdit hardware.id %}">Edit</a>
+	<a class="btn btn-danger" href="{% url hardware.views.deleteHardware hardware.id %}">Delete</a>
+</div>
 {% endif %}
 <p>State: {{hardware.state}}</p>
 <p>Condition: {{hardware.condition}}</p>

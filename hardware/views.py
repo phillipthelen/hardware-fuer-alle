@@ -10,6 +10,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import hfa.util
 from django import forms
 from django.core.urlresolvers import reverse
+from main.views import home
 
 class HardwareForm(forms.Form):
 	condition_choices = [(c.id, c.name) for c in Condition.objects.all()]
@@ -44,6 +45,15 @@ def listAll(request, page=None):
 	
 	context = {'hardware':hardware, }
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
+
+@login_required
+def deleteHardware(request, id):
+	hardware = get_object_or_404(Hardware, id=id)
+	if hardware.owner == request.user:
+		hardware.delete()
+		return HttpResponseRedirect(reverse(home))
+	else:
+		return HttpResponseForbidden(loader.get_template("403.html").render(RequestContext({})))
 
 @login_required
 def hardwareEdit(request, id=None):
