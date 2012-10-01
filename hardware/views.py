@@ -48,7 +48,7 @@ def listAll(request, page=None):
 @login_required
 def hardwareEdit(request, id=None):
 	
-	if hardware==None:
+	if id==None:
 		if request.method == 'POST': # If the form has been submitted...
 			form = HardwareForm(request.POST) # A form bound to the POST data
 			if form.is_valid(): # All validation rules pass
