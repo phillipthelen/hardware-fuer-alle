@@ -7,57 +7,66 @@
 	<meta charset="utf-8" />
 	<title>Hardware für Alle</title>
 	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 	<link href="/static/main.css" rel="stylesheet">
+	<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	{% block script %}{% endblock %}
 </head>
 <body>
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="{% url main.views.home %}">Hardware für Alle</a>
-				<ul class="nav">
-					<li class="active"><a href="{% url main.views.home %}">Home</a></li>
-					{% if user.is_authenticated %}
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							{% user_display user %}
-							<b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="{% url users.views.profile user.id user.username %}">Profile</a></li>
-							<li><a href="{% url users.views.settings %}">Settings</a></li>
-							<li><a href="{% url allauth.account.views.logout %}">Logout</a></li>
-						</ul>
-					</li>
-					{% endif %}
-					<li><a href="{% url hardware.views.listAll %}">Hardware</a></li>
-					{% if user.is_authenticated %}
-						<li><a href="{% url hardware.views.hardwareEdit %}">add hardware</a></li>
-					{% endif %}
-					
-				</ul>
-				<form class="navbar-search pull-right">
-					<div class="input-append">
-						<input class="span2" id="appendedInputButtons" size="16" type="text"><button class="btn" type="button">Search</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="row-fluid">
-			<div class="span12">
-				<h1>{% block heading %}{% endblock %}</h1>
-				{% block content %}{% endblock %}
-			</div>
-		</div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+						<li class="active"><a href="{% url main.views.home %}">Home</a></li>
+						{% if user.is_authenticated %}
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								{% user_display user %}
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="{% url users.views.profile user.id user.username %}">Profile</a></li>
+								<li><a href="{% url users.views.settings %}">Settings</a></li>
+								<li><a href="{% url allauth.account.views.logout %}">Logout</a></li>
+							</ul>
+						</li>
+						{% endif %}
+						<li><a href="{% url hardware.views.listAll %}">Hardware</a></li>
+						{% if user.is_authenticated %}
+							<li><a href="{% url hardware.views.hardwareEdit %}">add hardware</a></li>
+						{% endif %}
+            </ul>
+            <form class="navbar-form pull-right">
+              <div class="input-append">
+							<input class="span2" id="appendedInputButtons" size="16" type="text"><button class="btn" type="button">Search</button>
+						</div>
+            </form>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
-	</div>
-    <!-- Footer
-    ================================================== -->
-    <footer class="footer">
+    <div class="container">
+
+<h1>{% block heading %}{% endblock %}</h1>
+				{% block content %}{% endblock %}
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+     <footer class="footer">
       <div class="container">
         <p class="pull-right"><a href="#">Back to top</a></p>
       </div>

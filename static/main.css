@@ -1,11 +1,13 @@
+     body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+
 .navbar-inner {
 	padding-left:0px;
 	padding-right:0px;
 }
 
-.navbar-inner .container {
-	width:940px;
-}
 
 .connectionlist {
 	list-style: none outside none;
@@ -33,4 +35,53 @@
 	padding-left: 0px;
 	padding-right: 0px;
 	padding-top: 70px;
+}
+
+/* Responsive
+-------------------------------------------------- */
+
+/* Tablet
+------------------------- */
+@media (max-width: 767px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+
+  /* Unfloat the back to top link in footer */
+  .footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .footer p {
+    margin-bottom: 9px;
+  }
+}
+
+/* Landscape phones
+------------------------- */
+@media (max-width: 480px) {
+  /* Remove padding above jumbotron */
+  body {
+    padding-top: 0;
+  }
+
+  /* Change up some type stuff */
+  h2 small {
+    display: block;
+  }
+
+  /* Do our best to make tables work in narrow viewports */
+  table code {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  /* Unfloat the back to top in footer to prevent odd text wrapping */
+  .footer .pull-right {
+    float: none;
+  }
 }
