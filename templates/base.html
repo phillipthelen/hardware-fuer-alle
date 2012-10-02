@@ -14,17 +14,17 @@
 	{% block script %}{% endblock %}
 </head>
 <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Project name</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">Project name</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
 						<li class="active"><a href="{% url main.views.home %}">Home</a></li>
 						{% if user.is_authenticated %}
 						<li class="dropdown">
@@ -43,39 +43,31 @@
 						{% if user.is_authenticated %}
 							<li><a href="{% url hardware.views.hardwareEdit %}">add hardware</a></li>
 						{% endif %}
-            </ul>
-            <form class="navbar-form pull-right">
-              <div class="input-append">
+					</ul>
+					<form class="navbar-form pull-right">
+						<div class="input-append">
 							<input class="span2" id="appendedInputButtons" size="16" type="text"><button class="btn" type="button">Search</button>
 						</div>
-            </form>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+					</form>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
-
-<h1>{% block heading %}{% endblock %}</h1>
-				{% block content %}{% endblock %}
-
-      <hr>
-
-      <footer>
-        <p>&copy; Company 2012</p>
-      </footer>
-
-    </div> <!-- /container -->
-     <footer class="footer">
-      <div class="container">
-        <p class="pull-right"><a href="#">Back to top</a></p>
-      </div>
-    </footer>
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    <script src="/static/bootstrap/js/jquery.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.js"></script>
+	<div class="container">
+	<h1>{% block heading %}{% endblock %}</h1>
+	{% block content %}{% endblock %}
+	</div> <!-- /container -->
+	<footer class="footer">
+		<div class="container">
+			<p class="pull-right"><a href="#">Back to top</a></p>
+		</div>
+	</footer>
+	<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	<script src="/static/bootstrap/js/jquery.js"></script>
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
 </body>
 </html>
