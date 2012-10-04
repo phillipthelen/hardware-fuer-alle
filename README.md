@@ -5,3 +5,4 @@ Siehe den Blogpost von @sofakissen: http://raummaschine.de/blog/2012/09/16/bedin
 * Django-allauth
 * geopy
 * django-gmapi
+* sorl-thumbnail
