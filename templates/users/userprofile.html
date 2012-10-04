@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% load socialaccount %}
+{% load i18n %}
+{% load thumbnail %}
 
 {% block heading %}
 {{userprofile.username}}
@@ -7,6 +10,11 @@
 
 
 {% block content %}
+{% if user.get_profile.avatar != None %}
+{% thumbnail user.get_profile.avatar "200x200" as im %}
+    <img src="{{ im.url }}" class="pull-left img-rounded" style="margin-right:30px;">
+{% endthumbnail %}
+{% endif %}
 <h3>hardware</h3>
 <ul>
 {% for h in hardware %}
