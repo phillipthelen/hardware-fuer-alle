@@ -14,7 +14,6 @@ from gmapi.forms.widgets import GoogleMap
 from django.core.urlresolvers import reverse
 from main.models import Location
 from users.models import UserProfile
-from hfa.util import setAvatar
 from sorl.thumbnail import get_thumbnail
 
 class MapForm(forms.Form):
@@ -94,7 +93,6 @@ def settings(request):
 				print "valid"
 				if 'avatar' in request.FILES:
 					profile.avatar = request.FILES["avatar"]
-					#profile.thumbnail = get_thumbnail(profile.avatar, '100x100', crop='center', quality=99)
 					profile.save()
 					print "file saved"
 				user.email = mform.cleaned_data['email']

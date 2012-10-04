@@ -25,9 +25,8 @@ Settings
 
 <h3>Settings</h3>
 {% if user.get_profile.avatar != None %}
-asdqweqwe
 {% thumbnail user.get_profile.avatar "100x100" crop="center" as im %}
-    <img src="{{ im.url }}">
+    <img src="{{ im.url }}" class="img-rounded">
 {% endthumbnail %}
 {% endif %}
 <form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}

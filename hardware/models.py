@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from main.models import Location
 
 class Condition(models.Model):
 	"""Different conditions such as 'damaged', 'new', 'slightly used'"""
@@ -46,6 +47,7 @@ class Hardware(models.Model):
 	state = models.ForeignKey(State, verbose_name = _('state'), blank=False)
 	owner = models.ForeignKey(User, verbose_name = _('owner'), related_name='hardware_owner')
 	lent_to = models.ForeignKey(User, verbose_name = _('lent to'), related_name='hardware_lent_to', blank=True, null=True)
+	location = models.ForeignKey(Location, verbose_name = _('location'), null=True)
 
 	def __unicode__(self):
 		return self.name

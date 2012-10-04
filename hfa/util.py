@@ -1,4 +1,5 @@
 import settings
+import os, time
 
 def stripSlash(string):
 	if string[-1:] != '/':
