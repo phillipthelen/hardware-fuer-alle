@@ -13,7 +13,7 @@ class UserProfile(models.Model):
 	location = models.ForeignKey(Location, null=True)
 	displayLocation = models.BooleanField(_('display location'), default=False)
 
-	avatar = ImageField(upload_to=get_avatar_name, null=True, blank=True)
+	avatar = ImageField(upload_to=get_file_name, null=True, blank=True)
 
 	def delete(self, *args, **kwargs):
 		# You have to prepare what you need before delete the model
