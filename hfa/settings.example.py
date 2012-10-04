@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.twitter',
     'sorl.thumbnail',
+    'south',
 )
 
 LOGIN_REDIRECT_URL = '/'
