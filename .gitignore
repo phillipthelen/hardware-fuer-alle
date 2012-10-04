@@ -1,3 +1,4 @@
+/media/
 *.pyc
 /hfa/settings.py
 /database.db
