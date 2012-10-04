@@ -13,6 +13,9 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 from django.core.urlresolvers import reverse
 from main.models import Location
+from users.models import UserProfile
+from hfa.util import setAvatar
+from sorl.thumbnail import get_thumbnail
 
 class MapForm(forms.Form):
 	map = forms.Field(widget=GoogleMap(attrs={'width':250, 'height':250}))
@@ -23,6 +26,10 @@ class LocationForm(forms.Form):
 	street = forms.CharField(max_length=200, required=False)
 	postcode = forms.CharField(max_length=5, required=False)
 	displayLocation = forms.BooleanField(required=False)
+
+class UserSettingsForm(forms.Form):
+	email = forms.EmailField(required=False)
+	avatar = forms.ImageField(required=False)
 
 def error(request):
 	"""Error view"""
@@ -52,38 +59,50 @@ def settings(request):
 	for account in accounts:
 		accountlist.append(account.provider)
 	apps = SocialApp.objects.all()
+	
 	if request.method == 'POST': # If the form has been submitted...
-		form = LocationForm(request.POST) # A form bound to the POST data
-		if form.is_valid(): # All validation rules pass
-			if profile.location==None:
-				location = Location()
+		if request.POST["type"] == "location":
+			lform = LocationForm(request.POST)
+			mform = UserSettingsForm()
+			if lform.is_valid(): # All validation rules pass
+				if profile.location==None:
+					location = Location()
+					location.save()
+					profile.location = location
+					profile.save()
+				else:
+					location = profile.location
+				location.city = lform.cleaned_data['city']
+				location.street = lform.cleaned_data['street']
+				location.postcode = lform.cleaned_data['postcode']
+				profile.displayLocation = lform.cleaned_data['displayLocation']
+				g = geocoders.Google()
+				if location.city!= "" or location.street!="" or location.street!="":
+					places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
+					location.latitude = places[0][1][0]
+					location.longitude = places[0][1][1]
+				else:
+					location.latitude = None
+					location.longitude = None
 				location.save()
-				profile.location = location
 				profile.save()
-			else:
-				location = profile.location
-			location.city = form.cleaned_data['city']
-			location.street = form.cleaned_data['street']
-			location.postcode = form.cleaned_data['postcode']
-			profile.displayLocation = form.cleaned_data['displayLocation']
-			g = geocoders.Google()
-			if location.city!= "" or location.street!="" or location.street!="":
-				places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
-				location.latitude = places[0][1][0]
-				location.longitude = places[0][1][1]
-			else:
-				location.latitude = None
-				location.longitude = None
-			location.save()
-			profile.save()
-			print profile.location.city
-			return HttpResponseRedirect(reverse(settings)) # Redirect after POST
+				print profile.location.city
+		else:
+			lform = LocationForm()
+			mform = UserSettingsForm(request.POST, request.FILES)
+			if mform.is_valid():
+				print "valid"
+				if 'avatar' in request.FILES:
+					profile.avatar = request.FILES["avatar"]
+					#profile.thumbnail = get_thumbnail(profile.avatar, '100x100', crop='center', quality=99)
+					profile.save()
+					print "file saved"
+				user.email = mform.cleaned_data['email']
+				user.save()
 	else:
-		form = LocationForm() # An unbound form
-		#if profile.city != None:
-		#	form.fields['city'] = profile.city
-
-	context = {"apps":apps, "accountlist":accountlist, 'form':form, 'profile':profile}
+		lform = LocationForm()
+		mform = UserSettingsForm()
+	context = {"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform}
 	if profile.location != None and profile.location.latitude != None and profile.location.longitude != None:
 		gmap = maps.Map(opts = {
 			'center': maps.LatLng(profile.location.latitude, profile.location.longitude),

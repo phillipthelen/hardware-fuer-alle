@@ -4,6 +4,7 @@ from main.views import home
 from users.views import error, login, profile, settings
 from django.contrib import admin
 from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware
+from hfa.settings import DEBUG, MEDIA_ROOT
 
 admin.autodiscover()
 
@@ -29,3 +30,9 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('allauth.urls')),
     
 )
+
+if DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^images/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': MEDIA_ROOT}))
