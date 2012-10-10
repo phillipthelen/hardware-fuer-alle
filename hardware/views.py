@@ -11,6 +11,8 @@ import hfa.util
 from django import forms
 from django.core.urlresolvers import reverse
 from main.views import home
+from main.models import Location
+from geopy import geocoders
 
 class HardwareForm(forms.Form):
 	condition_choices = [(c.id, c.name) for c in Condition.objects.all()]
@@ -21,6 +23,10 @@ class HardwareForm(forms.Form):
 	condition = forms.ModelChoiceField(queryset=Condition.objects.all())
 	category = forms.ModelChoiceField(queryset=Category.objects.all())
 	state = forms.ModelChoiceField(queryset=State.objects.all())
+	ownlocation = forms.BooleanField(required=False)
+	city = forms.CharField(max_length=200, required=False)
+	postcode = forms.CharField(max_length=5, required=False)
+	street = forms.CharField(max_length=200, required=False)
 	
 
 def displayHardware(request, id, name):
@@ -62,6 +68,7 @@ def hardwareEdit(request, id=None):
 		if request.method == 'POST': # If the form has been submitted...
 			form = HardwareForm(request.POST) # A form bound to the POST data
 			if form.is_valid(): # All validation rules pass
+				print "valid"
 				h = Hardware()
 				h.name = form.cleaned_data['name']
 				h.description = form.cleaned_data['description']
@@ -69,6 +76,23 @@ def hardwareEdit(request, id=None):
 				h.category = form.cleaned_data['category']
 				h.state = form.cleaned_data['state']
 				h.owner = request.user
+				if form.cleaned_data['ownlocation']:
+					location = Location()
+					location.city = form.cleaned_data['city']
+					location.street = form.cleaned_data['street']
+					location.postcode = form.cleaned_data['postcode']
+					g = geocoders.Google()
+					if location.city!= "" or location.street!="" or location.street!="":
+						places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
+						location.latitude = places[0][1][0]
+						location.longitude = places[0][1][1]
+					else:
+						location.latitude = None
+						location.longitude = None
+					location.save()
+					h.location = location
+				else:
+					h.location = request.user.get_profile().location
 				h.save()
 
 				return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST
