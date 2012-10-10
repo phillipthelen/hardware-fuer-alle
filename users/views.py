@@ -7,17 +7,13 @@ from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
 from hardware.models import Hardware
 from allauth.socialaccount.models import SocialAccount, SocialApp
-from django import forms
 from geopy import geocoders
-from gmapi import maps
-from gmapi.forms.widgets import GoogleMap
+from django import forms
 from django.core.urlresolvers import reverse
 from main.models import Location
 from users.models import UserProfile
 from sorl.thumbnail import get_thumbnail
-
-class MapForm(forms.Form):
-	map = forms.Field(widget=GoogleMap(attrs={'width':250, 'height':250}))
+from hfa.util import create_map
 
 
 class LocationForm(forms.Form):
@@ -101,18 +97,7 @@ def settings(request):
 		lform = LocationForm()
 		mform = UserSettingsForm()
 	context = {"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform}
-	if profile.location != None and profile.location.latitude != None and profile.location.longitude != None:
-		gmap = maps.Map(opts = {
-			'center': maps.LatLng(profile.location.latitude, profile.location.longitude),
-			'mapTypeId': maps.MapTypeId.ROADMAP,
-			'zoom': 10,
-		})
-		marker = maps.Marker(opts = {
-			'map': gmap,
-			'position': maps.LatLng(profile.location.latitude, profile.location.longitude),
-		})
-		context['map'] =  MapForm(initial={'map': gmap})
-		context['showmap'] = True
-	else:
-		context['showmap'] = False
+	map, showmap = create_map(profile.location)
+	context["map"] = map
+	context["showmap"] = showmap
 	return render_to_response('users/usersettings.html', context, RequestContext(request))
