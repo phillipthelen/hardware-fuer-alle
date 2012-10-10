@@ -18,30 +18,63 @@ Add/Edit Hardware
 		<label class="control-label" for="id_name">Name</label>
 		<div class="controls">
 			{{ form.name}}
+			<span class="help-inline">{{form.name.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="id_description">Description</label>
 		<div class="controls">
 			{{form.description}}
+			<span class="help-inline">{{form.description.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="id_condition">Condition</label>
 		<div class="controls">
 			{{form.condition}}
+			<span class="help-inline">{{form.condition.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="id_category">Category</label>
 		<div class="controls">
 			{{form.category}}
+			<span class="help-inline">{{form.category.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="id_state">State</label>
 		<div class="controls">
 			{{form.state}}
+			<span class="help-inline">{{form.state.errors}}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_ownlocation">Own Location</label>
+		<div class="controls">
+			{{form.ownlocation}}
+			<span class="help-inline">{{form.ownlocation.errors}}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_city">City</label>
+		<div class="controls">
+			{{form.city}}
+			<span class="help-inline">{{form.city.errors}}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_postcode">Postcode</label>
+		<div class="controls">
+			{{form.postcode}}
+			<span class="help-inline">{{form.postcode.errors}}</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_street">Street</label>
+		<div class="controls">
+			{{form.street}}
+			<span class="help-inline">{{form..errors}}</span>
 		</div>
 	</div>
 <input type="submit" value="Submit" class="btn btn-primary" />
