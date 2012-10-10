@@ -20,4 +20,10 @@
 <p>Availability: {{hardware.availability}}</p>
 <p>Lent to: {{hardware.lent_to}}</p>
 <p>Description: {{hardware.description}}</p>
+<p>City: {{hardware.location.city}}</p>
+<p>Postcode: {{hardware.location.postcode}}</p>
+<p>Street: {{hardware.location.street}}</p>
+{% if showmap %}
+	{{ map.map }}
+{% endif %}
 {% endblock %}

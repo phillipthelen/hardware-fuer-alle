@@ -33,6 +33,9 @@ def displayHardware(request, id, name):
 	"""Display a hardware"""
 	hardware = get_object_or_404(Hardware, id=id)
 	context = {'hardware':hardware}
+	map, showmap = hfa.util.create_map(hardware.location)
+	context["map"] = map
+	context["showmap"] = showmap
 	return render_to_response('hardware/hardwareview.html', context, RequestContext(request))
 
 def listAll(request, page=None):
