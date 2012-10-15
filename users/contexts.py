@@ -7,7 +7,7 @@ def email(request):
 		errors = request["hfaerrors"]
 	else:
 		errors = []
-	if user.is_authenticated:
+	if user.is_authenticated():
 		print user.email
 		if user.email == None or user.email == "":
 			errors.append("You haven't set a email adress. Please do so <a href='{0}'>here</a>".format(reverse(newEmail)),)
