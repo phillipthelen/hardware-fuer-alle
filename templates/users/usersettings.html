@@ -40,8 +40,9 @@ Settings
 	<div class="control-group">
 		<label class="control-label" for="id_email">Email</label>
 		<div class="controls">
-			<input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}"/>
+			<input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}" {% if mailconfirm != "" %} disabled {% endif %}/>
 			<span class="help-inline">{{mform.email.errors}}</span>
+			<span>{{mailconfirm}}</span>
 		</div>
 	</div>
 		<input type="hidden" name="type" value="main">

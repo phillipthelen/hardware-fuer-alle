@@ -17,6 +17,34 @@ from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
 
+def set_mail(user, email):
+	profile = user.get_profile()
+	# Build the activation key for their account                                                                                                                    
+	salt = sha.new(str(random.random())).hexdigest()[:5]
+	confirmation_key = sha.new(salt+user.username).hexdigest()
+	key_expires = datetime.datetime.today() + datetime.timedelta(2)
+	
+	
+	
+	profile.confirmation_key = confirmation_key
+	profile.key_expires = key_expires
+	profile.mail_confirmed = False
+	profile.save()
+	user.email = email
+	user.save()
+	# Send an email with the confirmation link
+	
+	email_subject = 'Your new hardware-fuer-alle.de email confirmation'
+	email_body = """Hello, %s, and thanks for signing up for an                     
+example.com account!\n\nTo activate your account, click this link within 48
+hours:\n\nhttp://127.0.0.1:8000/accounts/confirm/%s""" % (
+		user.username,
+		profile.confirmation_key)
+	send_mail(email_subject,
+			  email_body,
+			  'noreply@hardware-fuer-alle.de',
+			  [user.email])
+
 def error(request):
 	"""Error view"""
 	messages = get_messages(request)
@@ -45,7 +73,7 @@ def settings(request):
 	for account in accounts:
 		accountlist.append(account.provider)
 	apps = SocialApp.objects.all()
-	
+	context = {}
 	if request.method == 'POST': # If the form has been submitted...
 		if request.POST["type"] == "location":
 			lform = LocationForm(request.POST)
@@ -82,12 +110,16 @@ def settings(request):
 					profile.avatar = request.FILES["avatar"]
 					profile.save()
 					print "file saved"
-				user.email = mform.cleaned_data['email']
+				if mform.cleaned_data['email'] != user.email:
+					set_mail(user, mform.cleaned_data['email'])
 				user.save()
 	else:
 		lform = LocationForm()
 		mform = UserSettingsForm()
-	context = {"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform}
+	if not profile.mail_confirmed:
+		print "confirm", profile.mail_confirmed
+		context["mailconfirm"] = "We sent you a confirmation link. Please check your mail."
+	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform})
 	map, showmap = create_map(profile.location)
 	context["map"] = map
 	context["showmap"] = showmap
@@ -113,34 +145,11 @@ def newEmail(request):
 		form = EmailForm(request.POST)
 		if form.is_valid():
 			
-			# Build the activation key for their account                                                                                                                    
-			salt = sha.new(str(random.random())).hexdigest()[:5]
-			confirmation_key = sha.new(salt+user.username).hexdigest()
-			key_expires = datetime.datetime.today() + datetime.timedelta(2)
-			
-			
-			
-			profile.confirmation_key = confirmation_key
-			profile.key_expires = key_expires
-			profile.save()
-			user.email = form.cleaned_data["email"]
-			user.save()
-			# Send an email with the confirmation link
-			
-			email_subject = 'Your new hardware-fuer-alle.de email confirmation'
-			email_body = """Hello, %s, and thanks for signing up for an                     
-example.com account!\n\nTo activate your account, click this link within 48
-hours:\n\nhttp://127.0.0.1:8000/accounts/confirm/%s""" % (
-				user.username,
-				profile.confirmation_key)
-			send_mail(email_subject,
-					  email_body,
-					  'noreply@hardware-fuer-alle.de',
-					  [user.email])
+			set_mail(user, form.cleaned_data["email"])
 			
 			return render_to_response('users/newmail.html', {'set': True}, RequestContext(request))
 	else:
 		form = EmailForm()
-		if not profile.mail_confirmed:
+		if not profile.mail_confirmed and user.email != "":
 			return render_to_response('users/newmail.html', {'unfinished': True}, RequestContext(request))
 	return render_to_response('users/newmail.html', {'form': form}, RequestContext(request))

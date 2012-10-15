@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from main.views import home
 from main.models import Location
 from geopy import geocoders
+import urllib
 
 class HardwareForm(forms.Form):
 	condition_choices = [(c.id, c.name) for c in Condition.objects.all()]
@@ -86,7 +87,10 @@ def hardwareEdit(request, id=None):
 					location.postcode = form.cleaned_data['postcode']
 					g = geocoders.Google()
 					if location.city!= "" or location.street!="" or location.street!="":
-						places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
+						print location.city, type(location.city)
+						searchstring = location.street + ", " + location.postcode + " " + form.cleaned_data['city']
+						print searchstring, type(searchstring), urllib.quote(searchstring)
+						places = g.geocode(urllib.quote(searchstring), exactly_one=False)
 						location.latitude = places[0][1][0]
 						location.longitude = places[0][1][1]
 					else:
