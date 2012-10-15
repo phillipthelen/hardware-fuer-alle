@@ -8,28 +8,19 @@ from django.contrib.auth.models import User
 from hardware.models import Hardware
 from allauth.socialaccount.models import SocialAccount, SocialApp
 from geopy import geocoders
-from django import forms
+from users.forms import EmailForm, LocationForm, UserSettingsForm
 from django.core.urlresolvers import reverse
 from main.models import Location
 from users.models import UserProfile
 from sorl.thumbnail import get_thumbnail
 from hfa.util import create_map
-
-
-class LocationForm(forms.Form):
-	city = forms.CharField(max_length=200, required=False)
-	street = forms.CharField(max_length=200, required=False)
-	postcode = forms.CharField(max_length=5, required=False)
-	displayLocation = forms.BooleanField(required=False)
-
-class UserSettingsForm(forms.Form):
-	email = forms.EmailField(required=False)
-	avatar = forms.ImageField(required=False)
+import datetime, random, sha
+from django.core.mail import send_mail
 
 def error(request):
 	"""Error view"""
 	messages = get_messages(request)
-	return render_to_response('error.html', {'messages': messages},
+	return render_to_response('error.html', {'messages': messages, },
 		RequestContext(request))
 
 def login(request):
@@ -101,3 +92,55 @@ def settings(request):
 	context["map"] = map
 	context["showmap"] = showmap
 	return render_to_response('users/usersettings.html', context, RequestContext(request))
+
+@login_required
+def confirmEmail(request, confirmation_key):
+	profile = request.user.get_profile()
+	if profile.confirmation_key==confirmation_key:
+		#if profile.key_expires < datetime.datetime.today():
+		#	return render_to_response('users/confirm.html', {'expired': True}, RequestContext(request))
+		profile.mail_confirmed = True
+		profile.save()
+		return render_to_response('users/confirm.html', {'success': True}, RequestContext(request))
+	else:
+		return render_to_response('users/confirm.html', {'invalid': True}, RequestContext(request))
+
+@login_required
+def newEmail(request):
+	user = request.user
+	profile = user.get_profile()
+	if request.POST:
+		form = EmailForm(request.POST)
+		if form.is_valid():
+			
+			# Build the activation key for their account                                                                                                                    
+			salt = sha.new(str(random.random())).hexdigest()[:5]
+			confirmation_key = sha.new(salt+user.username).hexdigest()
+			key_expires = datetime.datetime.today() + datetime.timedelta(2)
+			
+			
+			
+			profile.confirmation_key = confirmation_key
+			profile.key_expires = key_expires
+			profile.save()
+			user.email = form.cleaned_data["email"]
+			user.save()
+			# Send an email with the confirmation link
+			
+			email_subject = 'Your new hardware-fuer-alle.de email confirmation'
+			email_body = """Hello, %s, and thanks for signing up for an                     
+example.com account!\n\nTo activate your account, click this link within 48
+hours:\n\nhttp://127.0.0.1:8000/accounts/confirm/%s""" % (
+				user.username,
+				profile.confirmation_key)
+			send_mail(email_subject,
+					  email_body,
+					  'noreply@hardware-fuer-alle.de',
+					  [user.email])
+			
+			return render_to_response('users/newmail.html', {'set': True}, RequestContext(request))
+	else:
+		form = EmailForm()
+		if not profile.mail_confirmed:
+			return render_to_response('users/newmail.html', {'unfinished': True}, RequestContext(request))
+	return render_to_response('users/newmail.html', {'form': form}, RequestContext(request))

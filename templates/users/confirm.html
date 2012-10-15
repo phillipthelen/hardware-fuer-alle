@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+{% load i18n %}
+
+{% block heading %}
+Email Confirmation
+{% endblock %}
+
+
+{% block content %}
+{% if success %}
+	<p>your email was successfully confirmed!</p>
+{% elif expired %}
+	<p>Your confirmation code expired. Should we send you a new one or do you want to specify a different mail adress?</p>
+{% else %}
+	<p>Your confirmation code is invalid. Should we send you a new one or do you want to specify a different mail adress?</p>
+{% endif %}
+{% endblock %}

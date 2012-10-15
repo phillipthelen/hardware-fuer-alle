@@ -15,6 +15,10 @@ class UserProfile(models.Model):
 
 	avatar = ImageField(upload_to=get_file_name, null=True, blank=True)
 
+	confirmation_key = models.CharField(max_length=40)
+	key_expires = models.DateTimeField()
+	mail_confirmed = models.BooleanField(default=False)
+
 	def delete(self, *args, **kwargs):
 		# You have to prepare what you need before delete the model
 		storage, path = self.avatar.storage, self.avatar.path

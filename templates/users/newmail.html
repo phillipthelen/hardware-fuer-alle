@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+{% load i18n %}
+
+{% block heading %}
+Set new mail
+{% endblock %}
+
+
+{% block content %}
+{% if set %}
+	<p>We sent you a mail with a confirmation link to {{user.email}}. Please follow the instructions in the mail in the next 48 hours to confirm your mail adress</p>
+{% elif unfinished %}
+	<p>We already sent you a confirmation link. please use that one first.</p>
+{% else %}
+	<form action="{% url users.views.newEmail %}" method="post" class="form-horizontal">{% csrf_token %}
+	<div class="control-group">
+		<label class="control-label" for="id_email">Email</label>
+		<div class="controls">
+			<input id="id_email" type="text" name="email" maxlength="200">
+			<span class="help-inline">{{form.email.errors}}</span>
+		</div>
+	</div>
+		<button type="submit" class="btn btn-primary">Set email</button>
+</form>
+{% endif %}
+{% endblock %}

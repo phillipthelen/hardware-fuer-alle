@@ -57,7 +57,7 @@
 	<div class="container">
 	{% for errormessage in hfaerrors %}
 		<div class="alert alert-error">
-			{{errormessage}}
+			{{errormessage|safe }}
 		</div>
 	{% endfor %}
 	<h1>{% block heading %}{% endblock %}</h1>
