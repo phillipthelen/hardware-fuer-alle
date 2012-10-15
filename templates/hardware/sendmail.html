@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+{% load i18n %}
+
+{% block heading %}
+Contact Owner
+{% endblock %}
+
+
+{% block content %}
+{% if invalidmail %}
+	<p>Please check your mail.</p>
+{% elif ownhardware %}
+	<p>You can't contact yourself!</p>
+{% else %}
+<form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
+	<div class="control-group">
+		<label class="control-label" for="id_text">Text</label>
+		<div class="controls">
+			{{ form.text}}
+			<span class="help-inline">{{form.text.errors}}</span>
+		</div>
+	</div>
+<input type="submit" value="Submit" class="btn btn-primary" />
+</form>
+{% endif %}
+{% endblock %}

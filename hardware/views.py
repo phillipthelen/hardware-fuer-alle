@@ -8,27 +8,13 @@ from django.contrib.auth.models import User
 from hardware.models import Hardware, Category, Condition, State
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import hfa.util
-from django import forms
 from django.core.urlresolvers import reverse
 from main.views import home
 from main.models import Location
 from geopy import geocoders
 import urllib
-
-class HardwareForm(forms.Form):
-	condition_choices = [(c.id, c.name) for c in Condition.objects.all()]
-	category_choices = [(c.id, c.name) for c in Category.objects.all()]
-	state_choices = [(c.id, c.name) for c in State.objects.all()]
-	name = forms.CharField(max_length=200)
-	description = forms.CharField(widget=forms.Textarea)
-	condition = forms.ModelChoiceField(queryset=Condition.objects.all())
-	category = forms.ModelChoiceField(queryset=Category.objects.all())
-	state = forms.ModelChoiceField(queryset=State.objects.all())
-	ownlocation = forms.BooleanField(required=False)
-	city = forms.CharField(max_length=200, required=False)
-	postcode = forms.CharField(max_length=5, required=False)
-	street = forms.CharField(max_length=200, required=False)
-	
+from hardware.forms import SendmailForm, HardwareForm
+from django.core.mail import EmailMessage
 
 def displayHardware(request, id, name):
 	"""Display a hardware"""
@@ -136,3 +122,31 @@ def hardwareEdit(request, id=None):
 				return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
 		else:
 			return HttpResponseForbidden(loader.get_template("403.html").render(RequestContext({})))
+
+@login_required
+def sendMail(request, hardwareid):
+	hardware = get_object_or_404(Hardware, id=hardwareid)
+	user = request.user
+	profile = user.get_profile()
+	if hardware.owner != user:
+		if user.email != "" and profile.mail_confirmed:
+			if request.method == "POST":
+				form = SendmailForm(request.POST)
+				if form.is_valid(): 
+					headers = {'Reply-To':user.email}  # From-header  
+					from_email = 'noreply@hardware-fuer-alle.de'          # Return-Path header   
+					subject = "Somebody is interested in your hardware!"
+					body = """The user {0} is interested in your hardware.
+He/She wrote the following text:
+{1}""".format(user.username, form.cleaned_data["text"])
+					EmailMessage(subject, body, from_email, [hardware.owner.email],   
+					                   headers=headers).send()
+			else:
+				form = SendmailForm()
+			context = {"form":form, "hardware":hardware}
+			return render_to_response('hardware/sendmail.html',context , RequestContext(request))
+		else:
+			return render_to_response('hardware/sendmail.html', {"invalidmail":True} , RequestContext(request))
+
+	else:
+		return render_to_response('hardware/sendmail.html', {"ownhardware":True} , RequestContext(request))
