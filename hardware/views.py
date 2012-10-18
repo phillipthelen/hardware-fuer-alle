@@ -20,6 +20,10 @@ def displayHardware(request, id, name):
 	"""Display a hardware"""
 	hardware = get_object_or_404(Hardware, id=id)
 	context = {'hardware':hardware}
+	if hardware.owner != request.user and hardware.owner.location != None and request.user.location != None:
+		ownerlocation = hardware.owner.get_profile().location
+		userlocation = request.user.get_profile().location
+		context["distance"] = hfa.util.get_distance_string(ownerlocation, userlocation)
 	map, showmap = hfa.util.create_map(hardware.location)
 	context["map"] = map
 	context["showmap"] = showmap

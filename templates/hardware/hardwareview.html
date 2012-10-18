@@ -29,6 +29,9 @@
 <p>City: {{hardware.location.city}}</p>
 <p>Postcode: {{hardware.location.postcode}}</p>
 <p>Street: {{hardware.location.street}}</p>
+{% if distance %}
+	<p>Distance: {{distance}}
+{% endif%}
 {% if showmap %}
 	{{ map.map }}
 {% endif %}

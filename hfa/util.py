@@ -3,6 +3,7 @@ import os, time
 from django import forms
 from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
+from geopy import distance
 
 class MapForm(forms.Form):
 	map = forms.Field(widget=GoogleMap(attrs={'width':250, 'height':250}))
@@ -35,3 +36,13 @@ def create_map(location):
 		return map, True
 	else:
 		return None, False
+
+def get_distance(location1, location2):
+    pos1 = (location1.latitude, location1.longitude)
+    pos2 = (location2.latitude, location2.longitude)
+    dist = distance.distance(pos1, pos2).km
+    return dist
+
+def get_distance_string(location1, location2):
+	dist = get_distance(location1, location2)
+	return "{0:.2f}km".format(dist)
