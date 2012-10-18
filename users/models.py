@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from main.models import Location
 from sorl.thumbnail import ImageField
-from hfa.util import get_file_name
+from hfa.util import get_afile_name
 
 class UserProfile(models.Model):
 	# This field is required.
@@ -13,7 +13,7 @@ class UserProfile(models.Model):
 	location = models.ForeignKey(Location, null=True)
 	displayLocation = models.BooleanField(_('display location'), default=False)
 
-	avatar = ImageField(upload_to=get_file_name, null=True, blank=True)
+	avatar = ImageField(upload_to=get_afile_name, null=True, blank=True)
 
 	confirmation_key = models.CharField(max_length=40)
 	key_expires = models.DateTimeField()

@@ -1,9 +1,9 @@
-# coding: utf-8 
+# coding: utf-8
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from main.models import Location
-
+from hfa.util import get_hfile_name
 class Condition(models.Model):
 	"""Different conditions such as 'damaged', 'new', 'slightly used'"""
 	name = models.CharField(_('name'), max_length=200)
@@ -55,3 +55,8 @@ class Hardware(models.Model):
 	class Meta:
 		verbose_name = _('hardware')
 		verbose_name_plural = _('hardware')
+
+class Image(models.Model):
+	image = models.ImageField(upload_to=get_hfile_name)
+	caption = models.TextField(max_length=400)
+	hardware = models.ForeignKey(Hardware)

@@ -77,7 +77,49 @@ Add/Edit Hardware
 			<label class="control-label" for="id_street">Street</label>
 			<div class="controls">
 				{{form.street}}
-				<span class="help-inline">{{form..errors}}</span>
+				<span class="help-inline">{{form.street.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id_image1">Image 1</label>
+			<div class="controls">
+				{{form.image1}}
+				<span class="help-inline">{{form.image1.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id_caption1">Caption 1</label>
+			<div class="controls">
+				{{form.caption1}}
+				<span class="help-inline">{{form.caption1.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id_image2">Image 2</label>
+			<div class="controls">
+				{{form.image2}}
+				<span class="help-inline">{{form.image2.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id_caption2">Caption 2</label>
+			<div class="controls">
+				{{form.caption2}}
+				<span class="help-inline">{{form.caption2.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id_image3">Image 3</label>
+			<div class="controls">
+				{{form.image3}}
+				<span class="help-inline">{{form.image3.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="id_caption3">Caption 3</label>
+			<div class="controls">
+				{{form.caption3}}
+				<span class="help-inline">{{form.caption3.errors}}</span>
 			</div>
 		</div>
 	<input type="submit" value="Submit" class="btn btn-primary" />

@@ -16,10 +16,16 @@ def stripSlash(string):
 def getMapDepth(city=False, postcode=False, street=False):
 	return 10
 
-def get_file_name(instance, old_filename):
+def get_file_name(old_filename):
 	extension = os.path.splitext(old_filename)[1]
 	filename = str(time.time()) + extension
-	return 'avatars/' + filename
+	return filename
+
+def get_hfile_name(instance, old_filename):
+	return "hardware/"+get_file_name(old_filename)
+
+def get_afile_name(instance, old_filename):
+	return "avatars/"+get_file_name(old_filename)
 
 def create_map(location):
 	if location != None and location.latitude != None and location.longitude != None:

@@ -14,6 +14,14 @@ class HardwareForm(forms.Form):
 	city = forms.CharField(max_length=200, required=False)
 	postcode = forms.CharField(max_length=5, required=False)
 	street = forms.CharField(max_length=200, required=False)
+	image1 = forms.ImageField(max_length=2000, required=False)
+	caption1 = forms.CharField(max_length=400, required=False)
+
+	image2 = forms.ImageField(max_length=2000, required=False)
+	caption2 = forms.CharField(max_length=400, required=False)
+
+	image3 = forms.ImageField(max_length=2000, required=False)
+	caption3 = forms.CharField(max_length=400, required=False)
 
 class SendmailForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea)

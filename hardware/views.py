@@ -20,7 +20,7 @@ def displayHardware(request, id, name):
 	"""Display a hardware"""
 	hardware = get_object_or_404(Hardware, id=id)
 	context = {'hardware':hardware}
-	if hardware.owner != request.user and hardware.owner.location != None and request.user.location != None:
+	if hardware.owner != request.user and hardware.owner.get_profile().location != None and request.user.get_profile().location != None:
 		ownerlocation = hardware.owner.get_profile().location
 		userlocation = request.user.get_profile().location
 		context["distance"] = hfa.util.get_distance_string(ownerlocation, userlocation)
@@ -79,9 +79,7 @@ def hardwareEdit(request, id=None):
 						location.postcode = form.cleaned_data['postcode']
 						g = geocoders.Google()
 						if location.city!= "" or location.street!="" or location.street!="":
-							print location.city, type(location.city)
 							searchstring = location.street + ", " + location.postcode + " " + form.cleaned_data['city']
-							print searchstring, type(searchstring), urllib.quote(searchstring)
 							places = g.geocode(urllib.quote(searchstring), exactly_one=False)
 							location.latitude = places[0][1][0]
 							location.longitude = places[0][1][1]

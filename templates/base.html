@@ -41,10 +41,10 @@
 						{% endif %}
 						<li><a href="{% url hardware.views.listAll %}">Hardware</a></li>
 						{% if user.is_authenticated %}
-						{% if mailconfirm and user.email != "" %}
+						{% if user.get_profile.mail_confirmed and user.email != "" %}
 							<li><a href="{% url hardware.views.hardwareEdit %}">add hardware</a></li>
 						{% else %}
-						<li><a href="#" style="color:#999"  rel="tooltip" title="You need a confirmed email adress.">add hardware</a></li>
+							<li><a href="#" style="color:#999"  rel="tooltip" title="You need a confirmed email adress.">add hardware</a></li>
 						{% endif %}
 						{% endif %}
 					</ul>
