@@ -29,6 +29,7 @@ class Category(models.Model):
 class State(models.Model):
 	"""Whether the owner wants to give the hardware away or lend it"""
 	name = models.CharField(_('name'), max_length=200)
+	temporary = models.BooleanField()
 
 	def __unicode__(self):
 		return self.name
@@ -48,6 +49,7 @@ class Hardware(models.Model):
 	owner = models.ForeignKey(User, verbose_name = _('owner'), related_name='hardware_owner')
 	lent_to = models.ForeignKey(User, verbose_name = _('lent to'), related_name='hardware_lent_to', blank=True, null=True)
 	location = models.ForeignKey(Location, verbose_name = _('location'), null=True)
+	lendlength = models.IntegerField(null=True, blank=True)
 
 	def __unicode__(self):
 		return self.name

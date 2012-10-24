@@ -70,7 +70,7 @@ def hardwareEdit(request, id=None):
 					h.description = form.cleaned_data['description']
 					h.condition = form.cleaned_data['condition']
 					h.category = form.cleaned_data['category']
-					h.state = form.cleaned_data['state']
+					h.state = get_object_or_404(State, id=form.cleaned_data['state'])
 					h.owner = user
 					if form.cleaned_data['ownlocation']:
 						location = Location()
@@ -90,6 +90,8 @@ def hardwareEdit(request, id=None):
 						h.location = location
 					else:
 						h.location = profile.location
+					if h.state.temporary:
+						h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
 					h.save()
 
 					return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST

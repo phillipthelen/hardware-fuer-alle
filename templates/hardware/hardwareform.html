@@ -8,6 +8,10 @@ Add/Edit Hardware
 {% endblock %}
 
 
+{% block script %}
+
+{% endblock %}
+
 {% block content %}
 {% if invalidmail %}
 	<p>You need a confirmed email adress</p>
@@ -50,6 +54,14 @@ Add/Edit Hardware
 			<div class="controls">
 				{{form.state}}
 				<span class="help-inline">{{form.state.errors}}</span>
+			</div>
+		</div>
+		<div class="control-group" id="lendlength_tag">
+			<label class="control-label" for="id_lendlength">Lend Length</label>
+			<div class="controls">
+				{{form.lendlength}} {{form.lendlengthtype}}
+				<span class="help-inline">{{form.lendlength.errors}}</span>
+				<span class="help-inline">{{form.lendlengthtype.errors}}</span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -125,6 +137,20 @@ Add/Edit Hardware
 	<input type="submit" value="Submit" class="btn btn-primary" />
 	</form>
 	<script type="text/javascript">
+	function toggleLendlength() {
+		if($("#id_state").find("option:selected").attr("title") == "temporary") {
+			$("#lendlength_tag").slideDown("fast");
+		} else {
+			$("#lendlength_tag").slideUp("fast");
+		}
+	}
+
+	toggleDuedate();
+
+	$("#id_state").change(function() {
+		toggleLendlength();
+	});
+
 	$("#id_ownlocation").change(function() {
 		$(".location").slideToggle("fast");
 	});
