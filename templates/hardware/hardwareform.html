@@ -21,42 +21,42 @@ Add/Edit Hardware
 	{% else %}
 	<form action="{% url hardware.views.hardwareEdit %}" method="post" class="form-horizontal">{% csrf_token %}
 	{%endif %}
-		<div class="control-group">
+		<div class="control-group {{form.name.css_classes}}">
 			<label class="control-label" for="id_name">Name</label>
 			<div class="controls">
 				{{ form.name}}
 				<span class="help-inline">{{form.name.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.description.css_classes}}">
 			<label class="control-label" for="id_description">Description</label>
 			<div class="controls">
 				{{form.description}}
 				<span class="help-inline">{{form.description.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.condition.css_classes}}">
 			<label class="control-label" for="id_condition">Condition</label>
 			<div class="controls">
 				{{form.condition}}
 				<span class="help-inline">{{form.condition.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.category.css_classes}}">
 			<label class="control-label" for="id_category">Category</label>
 			<div class="controls">
 				{{form.category}}
 				<span class="help-inline">{{form.category.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.state.css_classes}}">
 			<label class="control-label" for="id_state">State</label>
 			<div class="controls">
 				{{form.state}}
 				<span class="help-inline">{{form.state.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group" id="lendlength_tag">
+		<div class="control-group {{form.lendlength.css_classes}}" id="lendlength_tag">
 			<label class="control-label" for="id_lendlength">Lend Length</label>
 			<div class="controls">
 				{{form.lendlength}} {{form.lendlengthtype}}
@@ -64,70 +64,70 @@ Add/Edit Hardware
 				<span class="help-inline">{{form.lendlengthtype.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.ownlocation.css_classes}}">
 			<label class="control-label" for="id_ownlocation">Own Location</label>
 			<div class="controls">
 				{{form.ownlocation}}
 				<span class="help-inline">{{form.ownlocation.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group location" style="display:none">
+		<div class="control-group location {{form.city.css_classes}}" style="display:none">
 			<label class="control-label" for="id_city">City</label>
 			<div class="controls">
 				{{form.city}}
 				<span class="help-inline">{{form.city.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group location" style="display:none">
+		<div class="control-group location {{form.postcode.css_classes}}" style="display:none">
 			<label class="control-label" for="id_postcode">Postcode</label>
 			<div class="controls">
 				{{form.postcode}}
 				<span class="help-inline">{{form.postcode.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group location" style="display:none">
+		<div class="control-group location {{form.street.css_classes}}" style="display:none">
 			<label class="control-label" for="id_street">Street</label>
 			<div class="controls">
 				{{form.street}}
 				<span class="help-inline">{{form.street.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.image1.css_classes}}">
 			<label class="control-label" for="id_image1">Image 1</label>
 			<div class="controls">
 				{{form.image1}}
 				<span class="help-inline">{{form.image1.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.caption1.css_classes}}">
 			<label class="control-label" for="id_caption1">Caption 1</label>
 			<div class="controls">
 				{{form.caption1}}
 				<span class="help-inline">{{form.caption1.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.image2.css_classes}}">
 			<label class="control-label" for="id_image2">Image 2</label>
 			<div class="controls">
 				{{form.image2}}
 				<span class="help-inline">{{form.image2.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.caption2.css_classes}}">
 			<label class="control-label" for="id_caption2">Caption 2</label>
 			<div class="controls">
 				{{form.caption2}}
 				<span class="help-inline">{{form.caption2.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.image3.css_classes}}">
 			<label class="control-label" for="id_image3">Image 3</label>
 			<div class="controls">
 				{{form.image3}}
 				<span class="help-inline">{{form.image3.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group {{form.caption3.css_classes}}">
 			<label class="control-label" for="id_caption3">Caption 3</label>
 			<div class="controls">
 				{{form.caption3}}

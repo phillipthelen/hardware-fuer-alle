@@ -6,10 +6,13 @@ class LocationForm(forms.Form):
 	street = forms.CharField(max_length=200, required=False)
 	postcode = forms.CharField(max_length=5, required=False)
 	displayLocation = forms.BooleanField(required=False)
+	error_css_class = 'error'
 
 class UserSettingsForm(forms.Form):
 	email = forms.EmailField(required=False)
 	avatar = forms.ImageField(required=False)
+	error_css_class = 'error'
 
 class EmailForm(forms.Form):
 	email = forms.EmailField(required=True)
+	error_css_class = 'error'

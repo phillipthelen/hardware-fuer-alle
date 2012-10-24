@@ -30,14 +30,14 @@ Settings
 {% endthumbnail %}
 {% endif %}
 <form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
-	<div class="control-group">
+	<div class="control-group {{form.avatar.css_classes}}">
 		<label class="control-label" for="id_avatar">Avatar</label>
 		<div class="controls">
 			<input id="id_avatar" type="file" name="avatar" maxlength="100000">
 			<span class="help-inline">{{mform.avatar.errors}}</span>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="control-group {{form.email.css_classes}}">
 		<label class="control-label" for="id_email">Email</label>
 		<div class="controls">
 			<input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}" {% if mailconfirm and user.email != "" %} disabled {% endif %}/>
@@ -52,21 +52,21 @@ Settings
 <h3>Location</h3>
 <form action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">
-		<label class="control-label" for="id_city">City</label>
+		<label class="control-label {{form.city.css_classes}}" for="id_city">City</label>
 		<div class="controls">
 			<input id="id_city" type="text" name="city" maxlength="200" value="{{ profile.location.city }}"/>
 			<span class="help-inline">{{lform.city.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label" for="id_postcode">Postcode</label>
+		<label class="control-label {{form.postcode.css_classes}}" for="id_postcode">Postcode</label>
 		<div class="controls">
 			<input id="id_postcode" type="text" name="postcode" maxlength="5" value="{{ profile.location.postcode }}"/>
 			<span class="help-inline">{{lform.postcode.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label" for="id_street">Street</label>
+		<label class="control-label {{form.street.css_classes}}" for="id_street">Street</label>
 		<div class="controls">
 			<input id="id_street" type="text" name="street" maxlength="200" value="{{ profile.location.street }}"/>
 			<span class="help-inline">{{lform.street.errors}}</span>

@@ -32,6 +32,7 @@ class HardwareForm(forms.Form):
 		('30', 'month(s)'),
 		('356', 'year(s)')
 	)
+	error_css_class = 'error'
 	name = forms.CharField(max_length=200)
 	description = forms.CharField(widget=forms.Textarea)
 	condition = forms.ModelChoiceField(queryset=Condition.objects.all(), empty_label=None)
