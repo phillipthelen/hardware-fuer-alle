@@ -158,3 +158,20 @@ He/She wrote the following text:
 
 	else:
 		return render_to_response('hardware/sendmail.html', {"ownhardware":True} , RequestContext(request))
+
+def searchHardware(request, page=None):
+	"""list all available hardware"""
+	try:
+		page = int(hfa.util.stripSlash(page))
+	except:
+		page = 1
+	hardware = Hardware.objects.all()
+	paginator = Paginator(hardware, 15)
+	try:
+		hardware = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		return redirect(reverse(listAll))
+
+
+	context = {'hardware':hardware, }
+	return render_to_response('hardware/hardwaresearch.html', context, RequestContext(request))

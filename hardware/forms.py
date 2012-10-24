@@ -29,6 +29,7 @@ class ChoiceFieldWithTitles(forms.ChoiceField):
 class HardwareForm(forms.Form):
 	lendlengthtypes = (
 		('1', 'day(s)'),
+		('7', 'weeks'),
 		('30', 'month(s)'),
 		('356', 'year(s)')
 	)

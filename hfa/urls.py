@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from main.views import home
 from users.views import error, login, profile, settings, confirmEmail, newEmail
 from django.contrib import admin
-from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail
+from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware
 from hfa.settings import DEBUG, MEDIA_ROOT
 
 admin.autodiscover()
@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^hardware/edit/(?P<id>.*)$', hardwareEdit),
     url(r'^hardware/delete/(?P<id>.*)$', deleteHardware),
     url(r'^hardware/contact/(?P<hardwareid>.*)$', sendMail),
+    url(r'^hardware/search/$', searchHardware),
     url(r'^hardware/$', listAll),
     url(r'^hardware/(?P<page>\d*)$', listAll),
     url(r'^admin/', include(admin.site.urls)),
