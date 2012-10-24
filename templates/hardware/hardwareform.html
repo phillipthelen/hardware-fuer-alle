@@ -59,21 +59,21 @@ Add/Edit Hardware
 				<span class="help-inline">{{form.ownlocation.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group location" style="display:none">
 			<label class="control-label" for="id_city">City</label>
 			<div class="controls">
 				{{form.city}}
 				<span class="help-inline">{{form.city.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group location" style="display:none">
 			<label class="control-label" for="id_postcode">Postcode</label>
 			<div class="controls">
 				{{form.postcode}}
 				<span class="help-inline">{{form.postcode.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group location" style="display:none">
 			<label class="control-label" for="id_street">Street</label>
 			<div class="controls">
 				{{form.street}}
@@ -124,5 +124,10 @@ Add/Edit Hardware
 		</div>
 	<input type="submit" value="Submit" class="btn btn-primary" />
 	</form>
+	<script type="text/javascript">
+	$("#id_ownlocation").change(function() {
+		$(".location").slideToggle("fast");
+	});
+	</script>
 {% endif %}
 {% endblock %}
