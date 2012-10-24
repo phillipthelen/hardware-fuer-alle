@@ -7,9 +7,9 @@ class HardwareForm(forms.Form):
 	state_choices = [(c.id, c.name) for c in State.objects.all()]
 	name = forms.CharField(max_length=200)
 	description = forms.CharField(widget=forms.Textarea)
-	condition = forms.ModelChoiceField(queryset=Condition.objects.all())
-	category = forms.ModelChoiceField(queryset=Category.objects.all())
-	state = forms.ModelChoiceField(queryset=State.objects.all())
+	condition = forms.ModelChoiceField(queryset=Condition.objects.all(), empty_label=None)
+	category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
+	state = forms.ModelChoiceField(queryset=State.objects.all(), empty_label=None)
 	ownlocation = forms.BooleanField(required=False)
 	city = forms.CharField(max_length=200, required=False)
 	postcode = forms.CharField(max_length=5, required=False)
