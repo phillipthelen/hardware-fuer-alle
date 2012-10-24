@@ -5,82 +5,89 @@
 {% load thumbnail %}
 
 {% block heading %}
-Settings
+Profil bearbeiten
 {% endblock %}
 
 
 {% block content %}
-<h3>Connections</h3>
-<ul class="connectionlist">
+
+
+<div class="row">
+	<div class="span4">
+
+	<h3>Verbindungen</h3>
+	<p>Wenn du Verbindungen zu anderen Seiten herstellst, kannst du dich mit diesen Profilen hier anmelden.</p>
 	{% for app in apps %}
-		<li>
-			{% if app.provider in accountlist %}
-				<a href="" class="btn btn-danger">Disconnect {{app.provider}}</a>
-			{% else %}
-				<a href="{% provider_login_url app.provider %}" class="btn btn-success">Connect with {{app.provider}}</a>
-			{% endif %}
-		</li>
+		<p>
+		{% if app.provider in accountlist %}
+			<a href="" class="btn btn-danger">Entferne Verbindung zu {{app.provider}}</a>
+		{% else %}
+			<a href="{% provider_login_url app.provider %}" class="btn btn-success">Verbinde dein Profil mit {{app.provider}}</a>
+		{% endif %}
+		</p>
 	{% endfor %}
-</ul>
 
-<h3>Settings</h3>
-{% if user.get_profile.avatar != None %}
-{% thumbnail user.get_profile.avatar "100x100" crop="center" as im %}
-    <img src="{{ im.url }}" class="img-rounded">
-{% endthumbnail %}
-{% endif %}
-<form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
-	<div class="control-group {{form.avatar.css_classes}}">
-		<label class="control-label" for="id_avatar">Avatar</label>
-		<div class="controls">
-			<input id="id_avatar" type="file" name="avatar" maxlength="100000">
-			<span class="help-inline">{{mform.avatar.errors}}</span>
-		</div>
-	</div>
-	<div class="control-group {{form.email.css_classes}}">
-		<label class="control-label" for="id_email">Email</label>
-		<div class="controls">
-			<input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}" {% if mailconfirm and user.email != "" %} disabled {% endif %}/>
-			<span class="help-inline">{{mform.email.errors}}</span>
-			<span>{{mailconfirm}}</span>
-		</div>
-	</div>
-		<input type="hidden" name="type" value="main">
-		<button type="submit" class="btn btn-primary">Save changes</button>
-</form>
+	<h3>Mail</h3>
+	<p>Trage eine Mail-Adresse ein, damit du Benachrichtigungen über Leihanfragen erhalten kannst.</p>
+	<form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
+		<p><input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}"/>
+		<span class="help-inline">{{mform.email.errors}}</span>
+		<span>{{mailconfirm}}</span>
+		<input type="hidden" name="type" value="main"></p>
+		<p><button type="submit" class="btn btn-primary">Speichern</button></p>
+	</form>
 
-<h3>Location</h3>
-<form action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
+	</div>
+	<div class="span4">
+
+	<h3>Avatar</h3>
+		<form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
+		<p>{% if user.get_profile.avatar != None %}
+	    	<img src="http://placekitten.com/g/300/300" class="img-polaroid">
+		{% endif %}
+		{% thumbnail user.get_profile.avatar "100x100" crop="center" as im %}
+		    <img src="{{ im.url }}" class="img-rounded">
+		{% endthumbnail %}</p>
+		<p><input id="id_avatar" type="file" name="avatar" maxlength="100000">
+		<span class="help-inline">{{mform.avatar.errors}}</span></p>
+		<p><input type="hidden" name="type" value="main"><button type="submit" class="btn btn-primary">Hochladen</button></p>
+		</form>
+
+	</div>
+	<div class="span4">
+
+	<h3>Standort</h3>
+<form action="{% url users.views.settings %}" method="post" class="form-inline">{% csrf_token %}
 	<div class="control-group">
-		<label class="control-label {{form.city.css_classes}}" for="id_city">City</label>
+		<label class="control-label" for="id_city">Stadt</label>
 		<div class="controls">
 			<input id="id_city" type="text" name="city" maxlength="200" value="{{ profile.location.city }}"/>
 			<span class="help-inline">{{lform.city.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label {{form.postcode.css_classes}}" for="id_postcode">Postcode</label>
+		<label class="control-label" for="id_postcode">Postleitzahl</label>
 		<div class="controls">
 			<input id="id_postcode" type="text" name="postcode" maxlength="5" value="{{ profile.location.postcode }}"/>
 			<span class="help-inline">{{lform.postcode.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label {{form.street.css_classes}}" for="id_street">Street</label>
+		<label class="control-label" for="id_street">Straße</label>
 		<div class="controls">
 			<input id="id_street" type="text" name="street" maxlength="200" value="{{ profile.location.street }}"/>
 			<span class="help-inline">{{lform.street.errors}}</span>
 		</div>
 	</div>
 	<div class="control-group">
-		
+
 		<div class="controls">
 			{% if profile.displayLocation %}
 				<input type="checkbox" name="displayLocation" id="id_displayLocation" checked/>
 			{% else %}
 				<input type="checkbox" name="displayLocation" id="id_displayLocation"/>
 			{% endif %}
-			<span> Display location in profile</span>
+			<span>Ort im meinem öffentlichen Profil anzeigen</span>
 			<span class="help-inline">{{lform.displayLocation.errors}}</span>
 		</div>
 	</div>
@@ -91,4 +98,8 @@ Settings
 {% if showmap %}
 	{{ map.map }}
 {% endif %}
+
+	</div>
+</div>
+
 {% endblock %}

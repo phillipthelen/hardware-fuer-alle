@@ -26,34 +26,38 @@
 				<a class="brand" href="{% url main.views.home %}">Hardware für Alle</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="{% url main.views.home %}">Home</a></li>
+						<!--li class="active"><a href="{% url main.views.home %}">Home</a></li-->
+						<li><a href="{% url hardware.views.listAll %}"><i class="icon-list"></i> Liste</a></li>
+						<li><a href="{% url hardware.views.listAll %}"><i class="icon-search"></i> suchen</a></li>
+						{% if user.is_authenticated %}
+							<li><a href="{% url hardware.views.hardwareEdit %}"><i class="icon-edit"></i> hinzufügen</a></li>
+						{% endif %}
+					</ul>
+					<ul class="nav pull-right">
 						{% if user.is_authenticated %}
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								{% user_display user %}
+								Angemeldet als {% user_display user %}
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="{% url users.views.profile user.id user.username %}">Profile</a></li>
-								<li><a href="{% url users.views.settings %}">Settings</a></li>
-								<li><a href="{% url allauth.account.views.logout %}">Logout</a></li>
+								<li><a href="{% url users.views.profile user.id user.username %}"><i class="icon-user"></i> Profil</a></li>
+								<li><a href="{% url users.views.settings %}"><i class="icon-pencil"></i> Einstellungen</a></li>
+								<li><a href="{% url allauth.account.views.logout %}"><i class="icon-off"></i> Abmelden</a></li>
 							</ul>
 						</li>
 						{% endif %}
-						<li><a href="{% url hardware.views.listAll %}">Hardware</a></li>
-						{% if user.is_authenticated %}
-						{% if user.get_profile.mail_confirmed and user.email != "" %}
-							<li><a href="{% url hardware.views.hardwareEdit %}">add hardware</a></li>
-						{% else %}
-							<li><a href="#" style="color:#999"  rel="tooltip" title="You need a confirmed email adress.">add hardware</a></li>
-						{% endif %}
+						{% if not user.is_authenticated %}
+						<li>
+							<a href="{% url allauth.account.views.login %}">Anmelden</a>
+						</li>
 						{% endif %}
 					</ul>
-					<form class="navbar-form pull-right">
+					<!--form class="navbar-form pull-right">
 						<div class="input-append">
 							<input class="span2" id="appendedInputButtons" size="16" type="text"><button class="btn" type="button">Search</button>
 						</div>
-					</form>
+					</form-->
 				</div><!--/.nav-collapse -->
 			</div>
 		</div>
@@ -72,11 +76,11 @@
 		<p>{{hfadebug}}</p>
 	{% endif %}
 	</div> <!-- /container -->
-	<footer class="footer">
+	<!--footer class="footer">
 		<div class="container">
 			<p class="pull-right"><a href="#">Back to top</a></p>
 		</div>
-	</footer>
+	</footer-->
 	<!-- Le javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

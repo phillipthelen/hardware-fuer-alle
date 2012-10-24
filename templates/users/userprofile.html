@@ -4,21 +4,44 @@
 {% load i18n %}
 {% load thumbnail %}
 
+
 {% block heading %}
 {{userprofile.username}}
 {% endblock %}
 
 
 {% block content %}
-{% if user.get_profile.avatar != None %}
-{% thumbnail user.get_profile.avatar "200x200" as im %}
-    <img src="{{ im.url }}" class="pull-left img-rounded" style="margin-right:30px;">
-{% endthumbnail %}
-{% endif %}
-<h3>hardware</h3>
-<ul>
+
+	<div class="span3">
+		<p></p>
+		<p>{% if user.get_profile.avatar != None %}
+	    	<img src="http://placekitten.com/g/300/300" class="img-polaroid">
+		{% endif %}
+		{% thumbnail user.get_profile.avatar "100x100" crop="center" as im %}
+		    <img src="{{ im.url }}" class="img-rounded">
+		{% endthumbnail %}</p>
+
+		<h4>{{userprofile.username}} aus {{userprofile.get_profile.location.city}}</h4>
+
+		<p>	{{ map.map }}
+</p>
+
+	</div>
+<div class="span6">
+	<h3>Bedigungslos abzugebende Hardware</h3>
+<table class="table table-striped">
+		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
 {% for h in hardware %}
-	<li><a href="{% url hardware.views.displayHardware h.id h.name%}">{{h.name}}</a></li>
-{% endfor %}
-</ul>
+	<tr><td><a href="{% url hardware.views.displayHardware h.id h.name%}">{{h.name}}</a></td>
+		<td>{{h.category}}</td>
+		<td>{{h.condition}}</td>
+<td>{% if hardware.availability == true %}
+<span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
+{% else %}
+<span class="badge badge-important"><i class="icon-remove-sign icon-white"></i></span>
+{% endif %}</td>
+{% endfor %}</tr>
+</table>
+
+</div>
 {% endblock %}
