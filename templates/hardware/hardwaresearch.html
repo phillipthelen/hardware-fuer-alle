@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block heading %}
+{{userprofile.username}}
+{% endblock %}
+
+
+{% block content %}
+<h3>Hardware</h3>
+<ul>
+{% for h in hardware %}
+	<li><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
