@@ -7,10 +7,26 @@
 
 
 {% block content %}
-<h3>Hardware</h3>
-<ul>
+
+<div class="span6 offset3">
+		<form class="form-search">
+  		<div class="input-append">
+    		<p><input type="text" class="input-block-level search-query">
+    		<button type="submit" class="btn">Suchen</button></p>
+    	</div>
+</div>
+
+<div class="container">
+<table class="table table-bordered table-striped">
+	<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Besitzer</th><th>Ort</th></tr>
 {% for h in hardware %}
-	<li><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></li>
+	<tr><td><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></td>
+		<td>{{h.category}}</td>
+		<td>{{h.condition}}</td>
+		<td>{{h.owner}}</td>
+		<td>{{h.location}}</td></tr>
 {% endfor %}
-</ul>
+</table>
+</div>
+
 {% endblock %}

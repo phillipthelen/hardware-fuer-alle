@@ -43,11 +43,11 @@ Profil bearbeiten
 	<h3>Avatar</h3>
 		<form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
 		<p>{% if user.get_profile.avatar != None %}
-	    	<img src="http://placekitten.com/g/300/300" class="img-polaroid">
-		{% endif %}
-		{% thumbnail user.get_profile.avatar "100x100" crop="center" as im %}
-		    <img src="{{ im.url }}" class="img-rounded">
+			{% thumbnail user.get_profile.avatar "300x300" crop="center" as im %}
+		    <img src="{{ im.url }}" class="img-polaroid">
 		{% endthumbnail %}</p>
+		{% endif %}
+		
 		<p><input id="id_avatar" type="file" name="avatar" maxlength="100000">
 		<span class="help-inline">{{mform.avatar.errors}}</span></p>
 		<p><input type="hidden" name="type" value="main"><button type="submit" class="btn btn-primary">Hochladen</button></p>

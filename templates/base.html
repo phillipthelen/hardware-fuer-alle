@@ -15,7 +15,7 @@
 	{% block script %}{% endblock %}
 </head>
 <body>
-	<div class="navbar navbar-fixed-top">
+	<div class="navbar navbar-fixed-top navbar-inverse">
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -23,34 +23,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="{% url main.views.home %}">Hardware für Alle</a>
+				<a class="brand" href="{% url main.views.home %}">Hardware für Alle! (Beta)</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
 						<!--li class="active"><a href="{% url main.views.home %}">Home</a></li-->
-						<li><a href="{% url hardware.views.listAll %}"><i class="icon-list"></i> Liste</a></li>
-						<li><a href="{% url hardware.views.listAll %}"><i class="icon-search"></i> suchen</a></li>
-						{% if user.is_authenticated %}
-							<li><a href="{% url hardware.views.hardwareEdit %}"><i class="icon-edit"></i> hinzufügen</a></li>
-						{% endif %}
-					</ul>
-					<ul class="nav pull-right">
-						{% if user.is_authenticated %}
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								Angemeldet als {% user_display user %}
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="{% url users.views.profile user.id user.username %}"><i class="icon-user"></i> Profil</a></li>
-								<li><a href="{% url users.views.settings %}"><i class="icon-pencil"></i> Einstellungen</a></li>
-								<li><a href="{% url allauth.account.views.logout %}"><i class="icon-off"></i> Abmelden</a></li>
-							</ul>
-						</li>
-						{% endif %}
-						{% if not user.is_authenticated %}
-						<li>
-							<a href="{% url allauth.account.views.login %}">Anmelden</a>
-						</li>
+						<li><a href="{% url hardware.views.searchHardware %}"><i class="icon-search icon-white"></i> Suche</a></li>
+						<li class="divider-vertical"></li>
+						<li><a href="{% url hardware.views.listAll %}"><i class="icon-list icon-white"></i> Liste</a></li>
+						{% if user.is_authenticated %}<li class="divider-vertical"></li>
+						<li><a href="{% url hardware.views.hardwareEdit %}"><i class="icon-edit icon-white"></i> hinzufügen</a></li>
 						{% endif %}
 					</ul>
 					<!--form class="navbar-form pull-right">
@@ -59,10 +40,30 @@
 						</div>
 					</form-->
 				</div><!--/.nav-collapse -->
+
+<div class="btn-group pull-right">
+{% if user.is_authenticated %}
+  <a href="{% url users.views.profile user.id user.username %}"><button class="btn">{% user_display user %}</button></a>
+  <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+	<li><a href="{% url users.views.profile user.id user.username %}"><i class="icon-user"></i> Profil</a></li>
+	<li><a href="{% url users.views.settings %}"><i class="icon-pencil"></i> Einstellungen</a></li>
+    <li class="divider"></li>
+	<li><a href="{% url allauth.account.views.logout %}"><i class="icon-off"></i> Abmelden</a></li>
+  </ul>
+{% endif %}
+{% if not user.is_authenticated %}
+  	<a href="{% url allauth.account.views.login %}"><button class="btn">Anmelden</button></a>
+{% endif %}
+</div>
+
+
+
 			</div>
 		</div>
 	</div>
-
 	<div class="container">
 	{% for errormessage in hfaerrors %}
 		<div class="alert alert-error">
@@ -76,11 +77,16 @@
 		<p>{{hfadebug}}</p>
 	{% endif %}
 	</div> <!-- /container -->
-	<!--footer class="footer">
-		<div class="container">
-			<p class="pull-right"><a href="#">Back to top</a></p>
-		</div>
-	</footer-->
+
+	<hr>
+
+	<footer>
+      <div class="container">
+      	<p class="pull-right"><a href="https://twitter.com/hardwarefuralle.de">Twitter</a> &middot; <a href="https://fb.com/hardwarefueralle">Facebook</a></p>
+      	<p><a href="mailto:kontakt@hardware-fuer-alle.de">Kontakt</a> &middot; <a href="">Nutzungsbedingungen</a> &middot; <a href="http://blog.hardware-fuer-alle.de">Blog</a> &middot; <a href="https://github.com/vIiRuS/hardware-fuer-alle">GitHub</a></p>
+      </div>
+	</footer>
+
 	<!-- Le javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

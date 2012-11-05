@@ -7,37 +7,26 @@
 
 
 {% block content %}
-		<h2>Wonach suchst du?</h2>
-		<form class="form-search">
-  		<div class="input-append">
-    		<p><input type="text" class="span2 input-xlarge search-query">
-    		<button type="submit" class="btn">Suchen</button></p>
-    	</div>
 
-<h3>Hardware</h3>
+<div class="span6 offset3">
+    <form class="form-search">
+      <div class="input-append">
+        <p><input type="text" class="input-block-level search-query">
+        <button type="submit" class="btn">Suchen</button></p>
+      </div>
+</div>
+
+<div class="container">
 <table class="table table-bordered table-striped">
-	<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Besitzer</th><th>Ort</th></tr>
+  <tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Besitzer</th><th>Ort</th></tr>
 {% for h in hardware %}
-	<tr><td><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></td>
-		<td>{{h.category}}</td>
-		<td>{{h.condition}}</td>
-		<td>{{h.owner}}</td>
-		<td>{{h.location}}</td></tr>
+  <tr><td><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></td>
+    <td>{{h.category}}</td>
+    <td>{{h.condition}}</td>
+    <td>{{h.owner}}</td>
+    <td>{{h.location}}</td></tr>
 {% endfor %}
 </table>
-
-<ul class="thumbnails">
-{% for h in hardware %}
-  <li class="span3">
-    <div class="thumbnail">
-      <img src="http://placehold.it/300x200" alt="">
-         <b><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></b>
-      <p>{{h.description}}</p>
-    </div>
-  </li>
-{% endfor %}
-</ul>
-
-
+</div>
 
 {% endblock %}

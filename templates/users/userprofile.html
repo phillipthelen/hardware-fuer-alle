@@ -13,13 +13,11 @@
 {% block content %}
 
 	<div class="span3">
-		<p></p>
-		<p>{% if user.get_profile.avatar != None %}
-	    	<img src="http://placekitten.com/g/300/300" class="img-polaroid">
-		{% endif %}
-		{% thumbnail user.get_profile.avatar "100x100" crop="center" as im %}
-		    <img src="{{ im.url }}" class="img-rounded">
+		{% if user.get_profile.avatar != None %}<p>
+	    	{% thumbnail user.get_profile.avatar "300x300" crop="center" as im %}
+		    <img src="{{ im.url }}" class="img-polaroid">
 		{% endthumbnail %}</p>
+		{% endif %}
 
 		<h4>{{userprofile.username}} aus {{userprofile.get_profile.location.city}}</h4>
 
