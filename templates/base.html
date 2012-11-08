@@ -39,26 +39,25 @@
 							<input class="span2" id="appendedInputButtons" size="16" type="text"><button class="btn" type="button">Search</button>
 						</div>
 					</form-->
-				</div><!--/.nav-collapse -->
+				
 
-<div class="btn-group pull-right">
+<ul class="nav pull-right">
 {% if user.is_authenticated %}
-  <a href="{% url users.views.profile user.id user.username %}"><button class="btn">{% user_display user %}</button></a>
-  <button class="btn dropdown-toggle" data-toggle="dropdown">
-    <span class="caret"></span>
-  </button>
+  <li><a href="{% url users.views.profile user.id user.username %}"></a></li>
+  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">{% user_display user %}<b class="caret"></b></a>
   <ul class="dropdown-menu">
 	<li><a href="{% url users.views.profile user.id user.username %}"><i class="icon-user"></i> Profil</a></li>
 	<li><a href="{% url users.views.settings %}"><i class="icon-pencil"></i> Einstellungen</a></li>
     <li class="divider"></li>
 	<li><a href="{% url allauth.account.views.logout %}"><i class="icon-off"></i> Abmelden</a></li>
   </ul>
+</li>
 {% endif %}
 {% if not user.is_authenticated %}
-  	<a href="{% url allauth.account.views.login %}"><button class="btn">Anmelden</button></a>
+  	<a href="{% url allauth.account.views.login %}"><button class="btn btn-primary">Anmelden</button></a>
 {% endif %}
-</div>
-
+</ul>
+</div><!--/.nav-collapse -->
 
 
 			</div>
