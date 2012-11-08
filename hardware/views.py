@@ -13,8 +13,27 @@ from main.views import home
 from main.models import Location
 from geopy import geocoders
 import urllib
-from hardware.forms import SendmailForm, HardwareForm
+from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm
 from django.core.mail import EmailMessage
+
+def create_pagelist(pagenumber, maxitem):
+	pagelist = []
+	
+	if pagenumber <= 4: 
+		for i in range(1, pagenumber):
+			pagelist.append(i)
+	else:
+		pagelist.append(1)
+		for i in range(pagenumber-3, pagenumber):
+			pagelist.append(i)
+	if (maxitem - pagenumber) <= 4: 
+		for i in range(pagenumber, maxitem+1):
+			pagelist.append(i)
+	else:
+		for i in range(pagenumber, pagenumber+4):
+			pagelist.append(i)
+		pagelist.append(maxitem)
+	return pagelist
 
 def displayHardware(request, id, name):
 	"""Display a hardware"""
@@ -42,28 +61,10 @@ def listAll(request, page=None):
 		hardware = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		return redirect(reverse(listAll))
-	if page == None:
-		pagenumber = 1
+	if page != None:
+		pagelist = create_pagelist(hardware.number, paginator.num_pages)
 	else:
-		pagenumber = hardware.number
-	pagelist = []
-	
-	if pagenumber <= 4: 
-		for i in range(1, pagenumber):
-			pagelist.append(i)
-	else:
-		pagelist.append(1)
-		for i in range(pagenumber-3, pagenumber):
-			pagelist.append(i)
-	print paginator.num_pages
-	if (paginator.num_pages - pagenumber) <= 4: 
-		for i in range(pagenumber, paginator.num_pages+1):
-			pagelist.append(i)
-	else:
-		for i in range(pagenumber, pagenumber+4):
-			pagelist.append(i)
-		pagelist.append(paginator.num_pages)
-
+		pagelist = create_pagelist(1, paginator.num_pages)
 	context = {'hardware':hardware, 'pagelist':pagelist}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
@@ -85,7 +86,6 @@ def hardwareEdit(request, id=None):
 			if request.method == 'POST': # If the form has been submitted...
 				form = HardwareForm(request.POST) # A form bound to the POST data
 				if form.is_valid(): # All validation rules pass
-					print "valid"
 					h = Hardware()
 					h.name = form.cleaned_data['name']
 					h.description = form.cleaned_data['description']
@@ -186,13 +186,28 @@ def searchHardware(request, page=None):
 		page = int(hfa.util.stripSlash(page))
 	except:
 		page = 1
-	hardware = Hardware.objects.all()
+	context = {}
+	if request.method == "POST":
+		form = SimpleSearchForm(request.POST)
+		if form.is_valid():
+			searchquery = form.cleaned_data["searchquery"]
+			context["searchquery"] = searchquery
+			hardware = Hardware.objects.filter(name__icontains=searchquery)
+	else:
+		form = SimpleSearchForm()
+		hardware = Hardware.objects.all()
 	paginator = Paginator(hardware, 15)
 	try:
 		hardware = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		return redirect(reverse(listAll))
 
+	if page != None:
+		pagelist = create_pagelist(hardware.number, paginator.num_pages)
+	else:
+		pagelist = create_pagelist(1, paginator.num_pages)
 
-	context = {'hardware':hardware, }
+	context['hardware'] = hardware
+	context["searchform"] = form
+	context["pagelist"] = pagelist
 	return render_to_response('hardware/hardwaresearch.html', context, RequestContext(request))

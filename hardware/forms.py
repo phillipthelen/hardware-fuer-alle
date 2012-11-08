@@ -70,3 +70,6 @@ class HardwareForm(forms.Form):
 
 class SendmailForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea)
+
+class SimpleSearchForm(forms.Form):
+	searchquery = forms.CharField()
