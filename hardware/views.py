@@ -37,14 +37,34 @@ def listAll(request, page=None):
 	except:
 		page = 1
 	hardware = Hardware.objects.all()
-	paginator = Paginator(hardware, 15)
+	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		return redirect(reverse(listAll))
+	if page == None:
+		pagenumber = 1
+	else:
+		pagenumber = hardware.number
+	pagelist = []
+	
+	if pagenumber <= 4: 
+		for i in range(1, pagenumber):
+			pagelist.append(i)
+	else:
+		pagelist.append(1)
+		for i in range(pagenumber-3, pagenumber):
+			pagelist.append(i)
+	print paginator.num_pages
+	if (paginator.num_pages - pagenumber) <= 4: 
+		for i in range(pagenumber, paginator.num_pages+1):
+			pagelist.append(i)
+	else:
+		for i in range(pagenumber, pagenumber+4):
+			pagelist.append(i)
+		pagelist.append(paginator.num_pages)
 
-
-	context = {'hardware':hardware, }
+	context = {'hardware':hardware, 'pagelist':pagelist}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
 @login_required

@@ -27,6 +27,27 @@
     <td>{{h.location}}</td></tr>
 {% endfor %}
 </table>
+<div class="pagination">
+  <ul>
+        {% if hardware.has_previous %}
+            <li><a href="{% url hardware.views.listAll hardware.previous_page_number %}">«</a></li>
+        {% else %}
+          <li class="disabled"><a href="#">«</a></li>
+        {% endif %}
+                {% for i in pagelist %}
+                {% ifequal i hardware.number %}
+                    <li class="active"><a href="#" >{{i}}</a></li>
+                {% else %}
+                    <li><a href="{% url hardware.views.listAll i %}">{{i}}</a></li>
+                {% endifequal %}
+            {% endfor %}
+        {% if hardware.has_next %}
+            <li><a href="{% url hardware.views.listAll hardware.next_page_number %}">»</a></li>
+            {% else %}
+          <li class="disabled"><a href="#">»</a></li>
+        {% endif %}
+  </ul>
+</div>
 </div>
 
 {% endblock %}
