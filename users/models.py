@@ -15,8 +15,8 @@ class UserProfile(models.Model):
 
 	avatar = ImageField(upload_to=get_afile_name, null=True, blank=True)
 
-	confirmation_key = models.CharField(max_length=40)
-	key_expires = models.DateTimeField()
+	confirmation_key = models.CharField(max_length=40, blank=True, null=True)
+	key_expires = models.DateTimeField(blank=True, null=True)
 	mail_confirmed = models.BooleanField(default=False)
 
 	def delete(self, *args, **kwargs):
