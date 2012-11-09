@@ -15,7 +15,6 @@
 	<div class="span3">
 		{% if user.get_profile.avatar != None %}<p>
 	    	{% thumbnail user.get_profile.avatar "300x300" crop="center" as im %}
-		    
 	    		    <a data-toggle="lightbox" href="#demoLightbox"><img src="{{ im.url }}" class="img-polaroid"></a>
 	    		    {% endthumbnail %}
 			    <div class="lightbox fade" id="demoLightbox" style="display: none;">
@@ -23,7 +22,6 @@
 			    <img src="/images/{{ user.get_profile.avatar }}" class="img-polaroid">
 			    </div>
 			    </div>
-		    
 		</p>
 		{% endif %}
 		{% if userprofile.get_profile.displaylocation %}

@@ -43,9 +43,14 @@ Profil bearbeiten
 	<h3>Avatar</h3>
 		<form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
 		<p>{% if user.get_profile.avatar != None %}
-			{% thumbnail user.get_profile.avatar "300x300" crop="center" as im %}
-		    <img src="{{ im.url }}" class="img-polaroid">
-		{% endthumbnail %}</p>
+			{% thumbnail user.get_profile.avatar "200x200" crop="center" as im %}
+				<a data-toggle="lightbox" href="#demoLightbox"><img src="{{ im.url }}" class="img-polaroid"></a>
+	    		    {% endthumbnail %}
+			    <div class="lightbox fade" id="demoLightbox" style="display: none;">
+			    <div class='lightbox-content'>
+			    <img src="/images/{{ user.get_profile.avatar }}" class="img-polaroid">
+			    </div>
+			    </div></p>
 		{% endif %}
 		
 		<p><input id="id_avatar" type="file" name="avatar" maxlength="100000">
