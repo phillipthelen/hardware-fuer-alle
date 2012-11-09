@@ -18,10 +18,11 @@
 		    <img src="{{ im.url }}" class="img-polaroid">
 		{% endthumbnail %}</p>
 		{% endif %}
-
+		{% if userprofile.get_profile.displaylocation %}
 		<h4>{{userprofile.username}} aus {{userprofile.get_profile.location.city}}</h4>
 
 		<p>	{{ map.map }}
+		{% endif %}
 </p>
 
 	</div>
