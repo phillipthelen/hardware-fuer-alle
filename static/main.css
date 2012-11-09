@@ -84,3 +84,21 @@
     float: none;
   }
 }
+
+    div.description{  
+        position:absolute; /* absolute position (so we can position it where we want)*/  
+        bottom:0px; /* position will be on bottom */  
+        left:0px;  
+        width:100%;  
+        /* styling bellow */  
+        background-color:black;  
+        font-size:15px;  
+        font-weight:bold;
+        color:white;  
+        opacity:0.7; /* transparency */  
+        filter:alpha(opacity=70); /* IE transparency */  
+    }  
+    p.description_content{  
+        padding:10px;  
+        margin:0px;  
+    }  

@@ -1,8 +1,4 @@
-{% load socialaccount %}
-{% load account %}
-{% load i18n %}
-{% load dajaxice_templatetags %}
-<!DOCTYPE html>
+{% load socialaccount %}{% load account %}{% load i18n %}{% load dajaxice_templatetags %}<!DOCTYPE html>
 <html lang="de">
 <head>
 	<meta charset="utf-8" />
@@ -17,7 +13,9 @@
 	{% dajaxice_js_import %}
 
     <script type="text/javascript" src="/static/dajax/jquery.dajax.core.js"></script>
-	{% block script %}{% endblock %}
+<script type="text/javascript">
+{% block script %}{% endblock %}
+</script>
 </head>
 <body>
 	<div class="navbar navbar-fixed-top navbar-inverse">
