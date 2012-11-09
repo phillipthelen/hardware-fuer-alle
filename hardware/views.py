@@ -32,7 +32,7 @@ def create_pagelist(pagenumber, maxitem):
 		for i in range(pagenumber-3, pagenumber):
 			pagelist.append(i)
 	if (maxitem - pagenumber) <= 4: 
-		for i in range(pagenumber, maxitem):
+		for i in range(pagenumber, maxitem+1):
 			pagelist.append(i)
 	else:
 		for i in range(pagenumber, pagenumber+4):
