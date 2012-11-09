@@ -13,6 +13,8 @@ class UserProfile(models.Model):
 	location = models.ForeignKey(Location, null=True)
 	displayLocation = models.BooleanField(_('display location'), default=False)
 
+	displayname = models.CharField(max_length=50, blank=False)
+
 	avatar = ImageField(upload_to=get_afile_name, null=True, blank=True)
 
 	confirmation_key = models.CharField(max_length=40, blank=True, null=True)
@@ -30,7 +32,8 @@ class UserProfile(models.Model):
 
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
-		UserProfile.objects.create(user=instance)
+		UserProfile.objects.create(user=instance, displayname=instance.username)
+
 
 
 

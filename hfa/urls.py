@@ -11,7 +11,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', home, name='home'),
-    url(r'^users/(?P<id>.*)/(?P<username>.*)$', profile, name='profile'),
+    url(r'^users/(?P<username>.*)$', profile, name='profile'),
     url(r'^settings/$', settings, name='settings'),
     url(r'^hardware/view/(?P<id>.*)/(?P<name>.*)$', displayHardware, name="display hardware"),
     url(r'^hardware/new/$', hardwareEdit),
