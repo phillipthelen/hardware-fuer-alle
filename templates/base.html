@@ -1,6 +1,7 @@
 {% load socialaccount %}
 {% load account %}
 {% load i18n %}
+{% load dajaxice_templatetags %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -12,6 +13,9 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="/static/bootstrap/js/jquery.js"></script>
+	{% dajaxice_js_import %}
+
+    <script type="text/javascript" src="/static/dajax/jquery.dajax.core.js"></script>
 	{% block script %}{% endblock %}
 </head>
 <body>
@@ -75,6 +79,7 @@
 	{% if hfadebug != none %}
 		<p>{{hfadebug}}</p>
 	{% endif %}
+</script>
 	</div> <!-- /container -->
 
 	<hr>

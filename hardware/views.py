@@ -19,6 +19,11 @@ from django.core.mail import EmailMessage
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
 	
+	if maxitem < 5:
+		for i in range(1, maxitem+1):
+			pagelist.append(i)
+		return pagelist
+
 	if pagenumber <= 4: 
 		for i in range(1, pagenumber):
 			pagelist.append(i)
@@ -27,7 +32,7 @@ def create_pagelist(pagenumber, maxitem):
 		for i in range(pagenumber-3, pagenumber):
 			pagelist.append(i)
 	if (maxitem - pagenumber) <= 4: 
-		for i in range(pagenumber, maxitem+1):
+		for i in range(pagenumber, maxitem):
 			pagelist.append(i)
 	else:
 		for i in range(pagenumber, pagenumber+4):
@@ -49,23 +54,25 @@ def displayHardware(request, id, name):
 	context["showmap"] = showmap
 	return render_to_response('hardware/hardwareview.html', context, RequestContext(request))
 
-def listAll(request, page=None):
-	"""list all available hardware"""
-	try:
-		page = int(hfa.util.stripSlash(page))
-	except:
-		page = 1
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+
+def get_list_page(page=1):
 	hardware = Hardware.objects.all()
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
 	except (EmptyPage, InvalidPage):
-		return redirect(reverse(listAll))
+		hardware = paginator.page(1)
 	if page != None:
 		pagelist = create_pagelist(hardware.number, paginator.num_pages)
 	else:
 		pagelist = create_pagelist(1, paginator.num_pages)
-	context = {'hardware':hardware, 'pagelist':pagelist}
+	return hardware, pagelist, paginator.count
+
+def listAll(request, page=1):
+	"""list all available hardware"""
+	hardware, pagelist, itemcount = get_list_page(page)
+	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
 @login_required
@@ -169,7 +176,7 @@ def sendMail(request, hardwareid):
 He/She wrote the following text:
 {1}""".format(user.username, form.cleaned_data["text"])
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
-					                   headers=headers).send()
+									   headers=headers).send()
 			else:
 				form = SendmailForm()
 			context = {"form":form, "hardware":hardware}
@@ -180,7 +187,17 @@ He/She wrote the following text:
 	else:
 		return render_to_response('hardware/sendmail.html', {"ownhardware":True} , RequestContext(request))
 
-def searchHardware(request, page=None):
+def get_search_page(page=1, searchquery=""):
+	hardware = Hardware.objects.filter(name__icontains=searchquery)
+	paginator = Paginator(hardware, 20)
+	try:
+		hardware = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		hardware = paginator.page(1)
+	pagelist = create_pagelist(page, paginator.num_pages)
+	return hardware, pagelist, paginator.count
+
+def searchHardware(request, page=1):
 	"""list all available hardware"""
 	try:
 		page = int(hfa.util.stripSlash(page))
@@ -196,18 +213,16 @@ def searchHardware(request, page=None):
 	else:
 		form = SimpleSearchForm()
 		hardware = Hardware.objects.all()
-	paginator = Paginator(hardware, 15)
+	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		return redirect(reverse(listAll))
 
-	if page != None:
-		pagelist = create_pagelist(hardware.number, paginator.num_pages)
-	else:
-		pagelist = create_pagelist(1, paginator.num_pages)
+	pagelist = create_pagelist(page, paginator.num_pages)
 
 	context['hardware'] = hardware
 	context["searchform"] = form
 	context["pagelist"] = pagelist
+	context["itemcount"] = paginator.count
 	return render_to_response('hardware/hardwaresearch.html', context, RequestContext(request))

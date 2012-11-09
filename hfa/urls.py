@@ -5,7 +5,8 @@ from users.views import error, login, profile, settings, confirmEmail, newEmail
 from django.contrib import admin
 from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware
 from hfa.settings import DEBUG, MEDIA_ROOT
-
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+dajaxice_autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -24,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^accounts/confirm/(?P<confirmation_key>.*)$', confirmEmail),
     url(r'^accounts/newmail$', newEmail),
     url(r'^accounts/', include('allauth.urls')),
-    
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
 
 if DEBUG:
