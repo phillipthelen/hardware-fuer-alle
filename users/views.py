@@ -57,9 +57,9 @@ def login(request):
 	return render_to_response('users/login.html', {},
 		RequestContext(request))
 
-def profile(request, id, username):
+def profile(request, username):
 	"""displays a user profile"""
-	user = get_object_or_404(User, id = id)
+	user = get_object_or_404(User, username = username)
 	hardware =Hardware.objects.filter(owner=user)
 	context = {'userprofile':user, 'hardware':hardware}
 	return render_to_response('users/userprofile.html', context, RequestContext(request))
@@ -113,12 +113,14 @@ def settings(request):
 					print "file saved"
 				if mform.cleaned_data['email'] != user.email:
 					set_mail(user, mform.cleaned_data['email'])
+				if mform.cleaned_data['displayname'] != profile.displayname:
+					profile.displayname = mform.cleaned_data['displayname'] 
+					profile.save()
 				user.save()
 	else:
 		lform = LocationForm()
 		mform = UserSettingsForm()
 	if not profile.mail_confirmed:
-		print "confirm", profile.mail_confirmed
 		context["mailconfirm"] = "We sent you a confirmation link. Please check your mail."
 	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform})
 	map, showmap = create_map(profile.location)

@@ -6,7 +6,7 @@
 
 
 {% block heading %}
-{{userprofile.username}}
+{{userprofile.get_profile.displayname}}
 {% endblock %}
 
 
@@ -25,16 +25,17 @@
 		</p>
 		{% endif %}
 		{% if userprofile.get_profile.displaylocation %}
-		<h4>{{userprofile.username}} aus {{userprofile.get_profile.location.city}}</h4>
+		<h4>{{userprofile.get_profile.displayname}} aus {{userprofile.get_profile.location.city}}</h4>
 
 		<p>	{{ map.map }}
 		{% endif %}
 </p>
 
 	</div>
-<div class="span6">
+<div class="span7">
+	{% if user.get_profile.displayname != user.username %}<b>Benutzername: {{user.username}}</b>{% endif %}
 	<h3>Bedigungslos abzugebende Hardware</h3>
-<table class="table table-striped">
+<table class="table  table-bordered table-striped">
 		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
 {% for h in hardware %}
 	<tr><td><a href="{% url hardware.views.displayHardware h.id h.name%}">{{h.name}}</a></td>

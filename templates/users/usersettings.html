@@ -27,13 +27,26 @@ Profil bearbeiten
 		</p>
 	{% endfor %}
 
+	<h3>Benutzername</h3>
+	<form action="{% url users.views.settings %}" method="post" class="form-inline">{% csrf_token %}
+		<div class="control-group {{mform.displayname.css_classes}}">
+		<label class="control-label" for="id_displayname">Anzeigename</label>
+		<div class="controls">
+			<input id="id_displayname" type="text" name="displayname" maxlength="200" value="{{ profile.displayname }}"/>
+			<span class="help-inline">{{mform.displayname.errors}}</span>
+		</div>
+		</div>
+
 	<h3>Mail</h3>
 	<p>Trage eine Mail-Adresse ein, damit du Benachrichtigungen über Leihanfragen erhalten kannst.</p>
-	<form enctype="multipart/form-data" action="{% url users.views.settings %}" method="post" class="form-horizontal">{% csrf_token %}
-		<p><input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}"/>
+		<div class="control-group {{mform.email.css_classes}}">
+		<div class="controls">
+			<input id="id_email" type="text" name="email" maxlength="200" value="{{user.email}}"/>
 		<span class="help-inline">{{mform.email.errors}}</span>
 		<span>{{mailconfirm}}</span>
-		<input type="hidden" name="type" value="main"></p>
+		</div>
+		</div>
+		<input type="hidden" name="type" value="main">
 		<p><button type="submit" class="btn btn-primary">Speichern</button></p>
 	</form>
 
@@ -63,28 +76,28 @@ Profil bearbeiten
 
 	<h3>Standort</h3>
 <form action="{% url users.views.settings %}" method="post" class="form-inline">{% csrf_token %}
-	<div class="control-group">
+	<div class="control-group {{lform.city.css_classes}}">
 		<label class="control-label" for="id_city">Stadt</label>
 		<div class="controls">
 			<input id="id_city" type="text" name="city" maxlength="200" value="{{ profile.location.city }}"/>
 			<span class="help-inline">{{lform.city.errors}}</span>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="control-group {{lform.postcode.css_classes}}">
 		<label class="control-label" for="id_postcode">Postleitzahl</label>
 		<div class="controls">
 			<input id="id_postcode" type="text" name="postcode" maxlength="5" value="{{ profile.location.postcode }}"/>
 			<span class="help-inline">{{lform.postcode.errors}}</span>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="control-group {{lform.street.css_classes}}">
 		<label class="control-label" for="id_street">Straße</label>
 		<div class="controls">
 			<input id="id_street" type="text" name="street" maxlength="200" value="{{ profile.location.street }}"/>
 			<span class="help-inline">{{lform.street.errors}}</span>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="control-group {{lform.displaylocation.css_classes}}">
 
 		<div class="controls">
 			{% if profile.displayLocation %}
