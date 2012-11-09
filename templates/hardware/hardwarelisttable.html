@@ -10,7 +10,7 @@
 {% endfor %}
 </table>
 {% if searchquery == None %}
-{% include "hardware/pagination.html" %}
+	{% include "hardware/pagination.html" %}
 {% else %}
-{% include "hardware/searchpagination.html" %}
+	{% include "hardware/searchpagination.html" %}
 {% endif %}
