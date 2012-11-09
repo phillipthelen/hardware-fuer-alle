@@ -74,7 +74,21 @@
 		{% endthumbnail %}</p>
 		{% endif %}
 	<p><a class="btn btn-primary btn-block" href="{% url hardware.views.hardwareEdit hardware.id %}"><i class="icon-edit icon-white"></i> Eintrag bearbeiten</a></p>
-	<p><a class="btn btn-danger btn-block" href="{% url hardware.views.deleteHardware hardware.id %}"><i class="icon-trash icon-white"></i> Eintrag löschen</a></p>
+	<p><a href="#deleteModal" role="button" class="btn btn-danger btn-block" data-toggle="modal"><i class="icon-trash icon-white"></i> Eintrag löschen</a></p>
+<!-- Modal -->
+<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Wirklich löschen?</h3>
+</div>
+<div class="modal-body">
+<p>Möchtest du die Hardware wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.</p>
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Abbrechen</a>
+    <a class="btn btn-danger" href="{% url hardware.views.deleteHardware hardware.id %}">Löschen</a>
+</div>
+</div>
 	{% endif %}
 {% endif %}
 </div>
