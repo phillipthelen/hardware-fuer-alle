@@ -5,8 +5,7 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 from geopy import distance
 
-class MapForm(forms.Form):
-	map = forms.Field(widget=GoogleMap(attrs={'width':250, 'height':250}))
+
 
 def stripSlash(string):
 	if string[-1:] != '/':
@@ -27,7 +26,11 @@ def get_hfile_name(instance, old_filename):
 def get_afile_name(instance, old_filename):
 	return "avatars/"+get_file_name(old_filename)
 
-def create_map(location):
+def create_map(location, size=(250, 250)):
+
+	class MapForm(forms.Form):
+		map = forms.Field(widget=GoogleMap(attrs={'width':size[0], 'height':size[1]}))
+
 	if location != None and location.latitude != None and location.longitude != None:
 		gmap = maps.Map(opts = {
 			'center': maps.LatLng(location.latitude, location.longitude),
