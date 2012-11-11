@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block heading %}Hardware verleihen{% endblock %}
+
+{% block content %}
+<form action="{% url hardware.views.giveaway %}" method="post" class="form-inline">{% csrf_token %}
+	<p>Gib bitte den Benutzernamen des/der Benutzers/Benutzerin an, an den/die du den Eintrag verleihen möchtest. Falls die Person dir bereits eine Kontaktmail geschickt hat, taucht der Name im Autocomplete auf.</p>
+		<div class="control-group {{form.username.css_classes}}">
+		<div class="controls">
+			<input id="id_username" type="text" name="username" maxlength="200"  class="typeahead" data-provide="typeahead" data-source="['test', 'test2']"/>
+		<span class="help-inline">{{form.username.errors}}</span>
+		</div>
+		</div>
+<input type="hidden" name="hardware" value="{{hardwareid}}">
+    <button type="submit" class="btn btn-primary">Verleihen</button>
+</form>
+{% endblock %}
