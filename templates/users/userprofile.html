@@ -41,7 +41,7 @@
 	<tr><td><a href="{% url hardware.views.displayHardware h.id h.name%}">{{h.name}}</a></td>
 		<td>{{h.category}}</td>
 		<td>{{h.condition}}</td>
-<td>{% if hardware.availability == true %}
+<td>{% if h.availability %}
 <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
 {% else %}
 <span class="badge badge-important"><i class="icon-remove-sign icon-white"></i></span>

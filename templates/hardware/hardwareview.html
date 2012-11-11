@@ -55,7 +55,11 @@ function openlightbox (url) {
 			<tr><th>Zustand</th><td>{{hardware.condition}}</td><tr>
 			<tr><th>Art</th><td>{{hardware.state}}</td><tr>
 			<tr><th>Gerätetyp</th><td>{{hardware.category}}</td><tr>
-			<tr><th>Verfügbarkeit</th><td>{{hardware.availability}}</td></tr>
+			<tr><th>Verfügbarkeit</th><td>{% if hardware.availability %}
+<span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
+{% else %}
+<span class="badge badge-important"><i class="icon-remove-sign icon-white"></i></span>
+{% endif %}</td></tr>
 			<tr><th>Verliehen an</th><td>{{hardware.lent_to}}</td><tr>
 			{% if distance %}
 			<tr><th>Entfernung</th><td>{{distance}}</td><tr>
