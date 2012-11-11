@@ -89,7 +89,7 @@ function openlightbox (url) {
 	<h4>Eintrag von <a href="{% url users.views.profile hardware.owner %}">{{hardware.owner.get_profile.displayname }}</a></h4>
 	{% if hardware.owner.get_profile.avatar != None %}<p>
 	    	{% thumbnail hardware.owner.get_profile.avatar "200x200" crop="center" as im %}
-		    <img src="{{ im.url }}" class="img-polaroid">
+		   <a href="javascript:openlightbox('/images/{{hardware.owner.get_profile.avatar}}')" class="lightboxbutton"><img src="{{im.url}}" class="img img-polaroid">
 		{% endthumbnail %}</p>
 	{% endif %}
 	<a class="btn btn-success btn-block" href="{% url hardware.views.sendMail hardware.id %}"><i class="icon-envelope icon-white"></i> Kontakt aufnehmen</a>
@@ -98,7 +98,7 @@ function openlightbox (url) {
 	<h4>Ohai, it's you :)</h4>
 	{% if user.get_profile.avatar != None %}
 	    	{% thumbnail user.get_profile.avatar "200x200" crop="center" as im %}
-		    <img src="{{ im.url }}" class="img-polaroid">
+		    <a href="javascript:openlightbox('/images/{{hardware.owner.get_profile.avatar}}')" class="lightboxbutton"><img src="{{im.url}}" class="img img-polaroid">
 		{% endthumbnail %}
 	{% endif %}
 	<div style="padding-top:10px;">
