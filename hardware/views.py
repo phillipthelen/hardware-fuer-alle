@@ -13,7 +13,7 @@ from main.views import home
 from main.models import Location
 from geopy import geocoders
 import urllib
-from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm
+from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm, LendForm
 from django.core.mail import EmailMessage
 
 def create_pagelist(pagenumber, maxitem):
@@ -226,3 +226,36 @@ def searchHardware(request, page=1):
 	context["pagelist"] = pagelist
 	context["itemcount"] = paginator.count
 	return render_to_response('hardware/hardwaresearch.html', context, RequestContext(request))
+
+@login_required
+def giveaway(request):
+	if request.POST:
+		owner = request.user
+		hardwareid = request.POST["hardware"]
+		hardware = get_object_or_404(Hardware, id=hardwareid)
+		if hardware.owner == owner:
+			form = LendForm(request.POST)
+			if form.is_valid():
+				username = form.cleaned_data["username"]
+				hardware.lent_to = get_object_or_404(User, username=username)
+				hardware.availability = False
+				hardware.save()
+				return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
+			else:
+				return render_to_response('hardware/giveaway', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
+		else:
+			return render_to_response('error.html', {"messages":["Du kannst nur deine eigene hardware weg geben."]}, RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse(home))
+
+@login_required
+def takeback(request, hardwareid):
+	owner = request.user
+	hardware = get_object_or_404(Hardware, id=hardwareid)
+	if hardware.owner == owner:
+		hardware.lent_to = None
+		hardware.availability = True
+		hardware.save()
+		return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
+	else:
+		return render_to_response('error.html', {"messages":["Nicht deine Hardware"]}, RequestContext(request))

@@ -15,7 +15,7 @@ class Command(BaseCommand):
 		lines = f.readlines()
 		f.close()
 		length = len(lines)
-		"""print "Generating 10 States"
+		print "Generating 10 States"
 		for i in range(10):
 			s = State()
 			s.name = lines[randrange(1, length)-1]
@@ -30,10 +30,10 @@ class Command(BaseCommand):
 		for i in range(10):
 			c = Condition()
 			c.name = lines[randrange(1, length)-1]
-			c.save()"""
+			c.save()
 
-		print "Generating 1000 Hardwares"
-		for i in range(1000):
+		print "Generating 4000 Hardwares"
+		for i in range(4000):
 			h = Hardware()
 			h.name = lines[randrange(1, length)-1]
 			h.state = choice(State.objects.all())

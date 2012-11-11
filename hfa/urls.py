@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from main.views import home
 from users.views import error, login, profile, settings, confirmEmail, newEmail
 from django.contrib import admin
-from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware
+from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware, giveaway, takeback
 from hfa.settings import DEBUG, MEDIA_ROOT
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     url(r'^users/(?P<username>.*)$', profile, name='profile'),
     url(r'^settings/$', settings, name='settings'),
     url(r'^hardware/view/(?P<id>.*)/(?P<name>.*)$', displayHardware, name="display hardware"),
+    url(r'^hardware/giveaway/$', giveaway),
+    url(r'^hardware/takeback/(?P<hardwareid>.*)', takeback),
     url(r'^hardware/new/$', hardwareEdit),
     url(r'^hardware/edit/(?P<id>.*)$', hardwareEdit),
     url(r'^hardware/delete/(?P<id>.*)$', deleteHardware),

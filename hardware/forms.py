@@ -73,3 +73,6 @@ class SendmailForm(forms.Form):
 
 class SimpleSearchForm(forms.Form):
 	searchquery = forms.CharField()
+
+class LendForm(forms.Form):
+	username = forms.CharField()

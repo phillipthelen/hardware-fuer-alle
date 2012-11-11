@@ -16,7 +16,7 @@ class Command(BaseCommand):
 		f.close()
 		length = len(lines)
 		print "Generating  200 User"
-		for i in range(200):
+		for i in range(400):
 			u = User.objects.create_user(lines[randint(0, length-1)].strip()+str(randint(1,100))+str(randint(1,100)))
 			u.save()
 			profile = u.get_profile()
