@@ -61,7 +61,11 @@ def profile(request, username):
 	"""displays a user profile"""
 	user = get_object_or_404(User, username = username)
 	hardware =Hardware.objects.filter(owner=user)
-	context = {'userprofile':user, 'hardware':hardware}
+	if user.get_profile().displayLocation:
+		map, showmap = create_map(user.get_profile().location)
+	else:
+		map = None
+	context = {'userprofile':user, 'hardware':hardware, 'map':map}
 	return render_to_response('users/userprofile.html', context, RequestContext(request))
 
 @login_required

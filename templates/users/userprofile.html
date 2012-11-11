@@ -13,8 +13,8 @@
 {% block content %}
 
 	<div class="span3">
-		{% if user.get_profile.avatar != None %}<p>
-	    	{% thumbnail user.get_profile.avatar "300x300" crop="center" as im %}
+		{% if userprofile.get_profile.avatar != None %}<p>
+	    	{% thumbnail userprofile.get_profile.avatar "300x300" crop="center" as im %}
 	    		    <a data-toggle="lightbox" href="#demoLightbox"><img src="{{ im.url }}" class="img-polaroid"></a>
 	    		    {% endthumbnail %}
 			    <div class="lightbox fade" id="demoLightbox" style="display: none;">
@@ -24,7 +24,7 @@
 			    </div>
 		</p>
 		{% endif %}
-		{% if userprofile.get_profile.displaylocation %}
+		{% if userprofile.get_profile.displayLocation %}
 		<h4>{{userprofile.get_profile.displayname}} aus {{userprofile.get_profile.location.city}}</h4>
 
 		<p>	{{ map.map }}
@@ -33,7 +33,7 @@
 
 	</div>
 <div class="span7">
-	{% if user.get_profile.displayname != user.username %}<b>Benutzername: {{user.username}}</b>{% endif %}
+	{% if userprofile.get_profile.displayname != userprofile.username %}<b>Benutzername: {{userprofile.username}}</b>{% endif %}
 	<h3>Bedigungslos abzugebende Hardware</h3>
 <table class="table  table-bordered table-striped">
 		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
