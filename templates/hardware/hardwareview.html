@@ -49,7 +49,7 @@ function openlightbox (url) {
 <div class="span6">
   <p class="well" style="font-size: 15px;font-weight: 200;line-height: 20px;">{{hardware.description}}</p>
 	<div class="row">
-	  <div class="span3">
+	  <div class="span5">
 	  	<h4>Details</h4>
 		<table class="table table-condensed">
 			<tr><th>Zustand</th><td>{{hardware.condition}}</td><tr>
@@ -66,10 +66,14 @@ function openlightbox (url) {
 			<!--p>Postcode: {{hardware.location.postcode}}</p-->
 			<!--p>Street: {{hardware.location.street}}</p-->
 		</div>
-		<div class="span3">
+		
+	</div>
+	<div class="row">
+		<div class="span5">
 			{% if showmap %}
 				<h4>Karte</h4>
-				<p>{{ map.map }}</p>
+				{{ map.map }}
+				{{ map.media.js }}
 			{% endif %}
 		</div>
 	</div>
@@ -78,7 +82,7 @@ function openlightbox (url) {
 {% if user.is_authenticated %}
 <div class="span2">
 	{% if user != hardware.owner %}
-	<h4>Eintrag von {{hardware.owner}}</h4>
+	<h4>Eintrag von <a href="{% url users.views.profile hardware.owner %}">{{hardware.owner.get_profile.displayname }}</a></h4>
 	{% if hardware.owner.get_profile.avatar != None %}<p>
 	    	{% thumbnail hardware.owner.get_profile.avatar "200x200" crop="center" as im %}
 		    <img src="{{ im.url }}" class="img-polaroid">

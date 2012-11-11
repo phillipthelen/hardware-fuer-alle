@@ -49,9 +49,10 @@ def displayHardware(request, id, name):
 			ownerlocation = hardware.owner.get_profile().location
 			userlocation = request.user.get_profile().location
 			context["distance"] = hfa.util.get_distance_string(ownerlocation, userlocation)
-	map, showmap = hfa.util.create_map(hardware.location)
-	context["map"] = map
-	context["showmap"] = showmap
+	if hardware.owner.get_profile().displayLocation:
+		map, showmap = hfa.util.create_map(hardware.location, (500, 300))
+		context["map"] = map
+		context["showmap"] = showmap
 	return render_to_response('hardware/hardwareview.html', context, RequestContext(request))
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -118,7 +119,7 @@ def hardwareEdit(request, id=None):
 						h.location = location
 					else:
 						h.location = profile.location
-					if h.state.temporary:
+					if h.state.temporary and form.cleaned_data['lendlength'] != None:
 						h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
 					h.save()
 
