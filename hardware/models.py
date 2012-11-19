@@ -17,7 +17,7 @@ class Condition(models.Model):
 
 class Category(models.Model):
 	"""Categories such as 'smartphone', 'laptop', ..."""
-	name = models.CharField(_('name'), max_length=200)"
+	name = models.CharField(_('name'), max_length=200)
 	icon = models.ImageField(upload_to=get_cfile_name)
 
 	def __unicode__(self):
