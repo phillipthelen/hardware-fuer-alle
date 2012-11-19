@@ -54,7 +54,7 @@ function openlightbox (url) {
 		<table class="table table-condensed">
 			<tr><th>Zustand</th><td>{{hardware.condition}}</td><tr>
 			<tr><th>Art</th><td>{{hardware.state}}</td><tr>
-			<tr><th>Gerätetyp</th><td>{{hardware.category}}</td><tr>
+            <tr><th>Gerätetyp</th><td><img src="{{hardware.category.icon}}" />{{hardware.category}}</td><tr>
 			<tr><th>Verfügbarkeit</th><td>{% if hardware.availability %}
 <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
 {% else %}

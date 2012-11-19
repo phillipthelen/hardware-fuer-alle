@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from main.models import Location
-from hfa.util import get_hfile_name
+from hfa.util import get_hfile_name, get_cfile_name
 class Condition(models.Model):
 	"""Different conditions such as 'damaged', 'new', 'slightly used'"""
 	name = models.CharField(_('name'), max_length=200)
@@ -17,7 +17,8 @@ class Condition(models.Model):
 
 class Category(models.Model):
 	"""Categories such as 'smartphone', 'laptop', ..."""
-	name = models.CharField(_('name'), max_length=200)
+	name = models.CharField(_('name'), max_length=200)"
+	icon = models.ImageField(upload_to=get_cfile_name)
 
 	def __unicode__(self):
 		return self.name

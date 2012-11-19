@@ -26,6 +26,9 @@ def get_hfile_name(instance, old_filename):
 def get_afile_name(instance, old_filename):
 	return "avatars/"+get_file_name(old_filename)
 
+def get_cfile_name(instance, old_filename):
+	return "categories/"+get_file_name(old_filename)
+
 def create_map(location, size=(250, 250)):
 
 	class MapForm(forms.Form):
