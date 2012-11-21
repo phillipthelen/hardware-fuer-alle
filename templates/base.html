@@ -66,10 +66,10 @@
 		</div>
 	</div>
 	<div class="container">
-	{% for errormessage in hfaerrors %}
-		<div class="alert alert-error">
+	{% for hfaerror in hfaerrors %}
+		<div class="alert {{hfaerror.etype}}">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-			{{errormessage|safe }}
+			{{hfaerror.message|safe }}
 		</div>
 	{% endfor %}
 	<h1>{% block heading %}{% endblock %}</h1>

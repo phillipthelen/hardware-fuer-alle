@@ -5,6 +5,10 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 from geopy import distance
 
+HFAERROR_WARNING = ""
+HFAERROR_ERROR = "alert-error"
+HFAERROR_SUCCESS = "alert-success"
+HFAERROR_INFO = "alert-info"
 
 
 def stripSlash(string):
@@ -50,11 +54,17 @@ def create_map(location, size=(250, 250)):
 		return None, False
 
 def get_distance(location1, location2):
-    pos1 = (location1.latitude, location1.longitude)
-    pos2 = (location2.latitude, location2.longitude)
-    dist = distance.distance(pos1, pos2).km
-    return dist
+	pos1 = (location1.latitude, location1.longitude)
+	pos2 = (location2.latitude, location2.longitude)
+	dist = distance.distance(pos1, pos2).km
+	return dist
 
 def get_distance_string(location1, location2):
 	dist = get_distance(location1, location2)
 	return "{0:.2f}km".format(dist)
+
+class HfaError():
+	def __init__(message="", urgent=False, etype=HFAERROR_ERROR):
+		self.message = message
+		self.urgent = urgent
+		self.etype = etype

@@ -1,6 +1,6 @@
 from users.views import newEmail
 from django.core.urlresolvers import reverse
-
+from hfa.util import HfaError
 def email(request):
 	user = request.user
 	if "hfaerrors" in request:
@@ -10,9 +10,11 @@ def email(request):
 	if user.is_authenticated():
 		print user.email
 		if user.email == None or user.email == "":
-			errors.append("You haven't set a email adress. Please do so <a href='{0}'>here</a>".format(reverse(newEmail)),)
+			error = HfaError(message="You haven't set a email adress. Please do so <a href='{0}'>here</a>".format(reverse(newEmail)))
+			errors.append(error)
 		elif not user.get_profile().mail_confirmed:
-			errors.append("You still have to confirm your email adress. Please check your mail.")
+			error = HfaError(message="You still have to confirm your email adress. Please check your mail.")
+			errors.append(error)
 	if errors != []:
 		return {"hfaerrors":errors}
 	else:
