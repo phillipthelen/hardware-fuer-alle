@@ -3,7 +3,7 @@
 {% load socialaccount %}
 {% load i18n %}
 {% load thumbnail %}
-
+{% load gravatar %}
 
 {% block heading %}
 {{userprofile.get_profile.displayname}}
@@ -13,18 +13,12 @@
 {% block content %}
 
 	<div class="span3">
-		{% if userprofile.get_profile.avatar != None %}<p>
-	    	{% thumbnail userprofile.get_profile.avatar "300x300" crop="center" as im %}
-	    		    <a data-toggle="lightbox" href="#demoLightbox"><img src="{{ im.url }}" class="img-polaroid"></a>
-	    		    {% endthumbnail %}
-			    <div class="lightbox fade" id="demoLightbox" style="display: none;">
-			    <div class='lightbox-content'>
-			    <img src="/images/{{ user.get_profile.avatar }}" class="img-polaroid">
-			    </div>
-			    </div>
-		</p>
-		{% endif %}
 		{% if userprofile.get_profile.displayLocation %}
+		{% if userprofile.get_profile.mail_confirmed %}
+	    	<img src="{% gravatar_url user.email 250 %}" class="img-polaroid">
+	    	{% else %}
+	    	<img src="{% gravatar_url "" 250 %}" class="img-polaroid">
+	    	{% endif %}
 		<h4>{{userprofile.get_profile.displayname}} aus {{userprofile.get_profile.location.city}}</h4>
 
 		<p>	{{ map.map }}

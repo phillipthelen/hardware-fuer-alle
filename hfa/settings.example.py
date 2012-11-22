@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'dajaxice',
     'dajax',
+    'django_gravatar',
     )
 
 LOGIN_REDIRECT_URL = '/'
@@ -158,6 +159,7 @@ EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = '{0}/mails'.format(os.getcwd())
 
+GRAVATAR_DEFAULT_IMAGE = 'retro'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
