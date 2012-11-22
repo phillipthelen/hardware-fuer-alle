@@ -64,7 +64,7 @@ def get_distance_string(location1, location2):
 	return "{0:.2f}km".format(dist)
 
 class HfaError():
-	def __init__(message="", urgent=False, etype=HFAERROR_ERROR):
-		self.message = message
-		self.urgent = urgent
-		self.etype = etype
+	def __init__(self, *args, **kwargs):
+		self.message = kwargs.pop('message', None)
+		self.urgent = kwargs.pop('urgent', False)
+		self.etype = kwargs.pop('etype', HFAERROR_ERROR)
