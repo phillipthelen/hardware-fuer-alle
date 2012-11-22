@@ -3,6 +3,7 @@
   <script type="text/javascript">
 Path.map("/hardware/list/:page").to(function(){
     Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page']})
+    $.scrollTo( $('#pagination'), 500, {offset:-10} );
 });
 
         $(document).ready(function(){
