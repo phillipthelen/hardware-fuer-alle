@@ -13,12 +13,12 @@
 {% block content %}
 
 	<div class="span3">
-		{% if userprofile.get_profile.displayLocation %}
 		{% if userprofile.get_profile.mail_confirmed %}
 	    	<img src="{% gravatar_url user.email 250 %}" class="img-polaroid">
 	    	{% else %}
 	    	<img src="{% gravatar_url "" 250 %}" class="img-polaroid">
 	    	{% endif %}
+		{% if userprofile.get_profile.displayLocation or user.is_staff %}
 		<h4>{{userprofile.get_profile.displayname}} aus {{userprofile.get_profile.location.city}}</h4>
 
 		<p>	{{ map.map }}

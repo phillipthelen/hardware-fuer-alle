@@ -45,11 +45,11 @@ def displayHardware(request, id, name):
 	hardware = get_object_or_404(Hardware, id=id)
 	context = {'hardware':hardware}
 	if request.user.is_authenticated():
-		if hardware.owner != request.user and hardware.owner.get_profile().location != None and request.user.get_profile().location != None:
-			ownerlocation = hardware.owner.get_profile().location
+		if hardware.owner != request.user and hardware.location != None and request.user.get_profile().location != None:
+			hardwarelocation = hardware.location
 			userlocation = request.user.get_profile().location
-			context["distance"] = hfa.util.get_distance_string(ownerlocation, userlocation)
-	if hardware.owner.get_profile().displayLocation:
+			context["distance"] = hfa.util.get_distance_string(hardwarelocation, userlocation)
+	if hardware.owner.get_profile().displayLocation  or request.user.is_staff:
 		map, showmap = hfa.util.create_map(hardware.location, (500, 300))
 		context["map"] = map
 		context["showmap"] = showmap
