@@ -97,20 +97,19 @@ function openlightbox (url) {
 	<a class="btn btn-success btn-block" href="{% url hardware.views.sendMail hardware.id %}" style="margin:4px"><i class="icon-envelope icon-white"></i> Kontakt aufnehmen</a>
 	<a class="btn btn-danger btn-block" href="{% url hardware.views.sendMail hardware.id %}" style="margin:4px"><i class="icon-ban-circle icon-white"></i> Problem melden</a>
 	{% else %}
-	<h4>Ohai, it's you :)</h4>
+	<h4 style="margin-left:4px">Ohai, it's you :)</h4>
 	{% if userprofile.get_profile.mail_confirmed %}
-	    	<img src="{% gravatar_url user.email 200 %}" class="img-polaroid">
+	    	<img src="{% gravatar_url user.email 200 %}" class="img-polaroid"style="margin-bottom:6px">
 	    	{% else %}
-	    	<img src="{% gravatar_url "" 200 %}" class="img-polaroid">
+	    	<img src="{% gravatar_url "" 200 %}" class="img-polaroid"style="margin-bottom:6px">
 	    	{% endif %}
-	<div style="padding-top:10px;">
-	<a class="btn btn-primary btn-block" href="{% url hardware.views.hardwareEdit hardware.id %}"><i class="icon-edit icon-white"></i> Eintrag bearbeiten</a>
+	<a class="btn btn-primary btn-block" href="{% url hardware.views.hardwareEdit hardware.id %}" style="margin:4px"><i class="icon-edit icon-white"></i> Eintrag bearbeiten</a>
 	{% if hardware.state.temporary and hardware.availability %}
-	<a class="btn btn-block" href="#lendModal" role="button" data-toggle="modal"><i class="icon-ok"></i> Eintrag verleihen</a>
+	<a class="btn btn-block" href="#lendModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Eintrag verleihen</a>
 	{% elif hardware.state.temporary %}
-	<a class="btn btn-block" href="#takebackModal" role="button" data-toggle="modal"><i class="icon-ok"></i> Eintrag zurücknehmen</a>
+	<a class="btn btn-block" href="#takebackModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Eintrag zurücknehmen</a>
 	{% endif %}
-	<a href="#deleteModal" role="button" class="btn btn-danger btn-block" data-toggle="modal"><i class="icon-trash icon-white"></i> Eintrag löschen</a></div>
+	<a href="#deleteModal" role="button" class="btn btn-danger btn-block" data-toggle="modal" style="margin:4px"><i class="icon-trash icon-white"></i> Eintrag löschen</a>
 <!-- Modal -->
 <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 <div class="modal-header">
