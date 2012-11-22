@@ -29,35 +29,35 @@ Add/Edit Hardware
 			</div>
 		</div>
 		<div class="control-group {{form.description.css_classes}}">
-			<label class="control-label" for="id_description">Description</label>
+			<label class="control-label" for="id_description">Beschreibung</label>
 			<div class="controls">
 				{{form.description}}
 				<span class="help-inline">{{form.description.errors}}</span>
 			</div>
 		</div>
 		<div class="control-group {{form.condition.css_classes}}">
-			<label class="control-label" for="id_condition">Condition</label>
+			<label class="control-label" for="id_condition">Zustand</label>
 			<div class="controls">
 				{{form.condition}}
 				<span class="help-inline">{{form.condition.errors}}</span>
 			</div>
 		</div>
 		<div class="control-group {{form.category.css_classes}}">
-			<label class="control-label" for="id_category">Category</label>
+			<label class="control-label" for="id_category">Kategorie</label>
 			<div class="controls">
 				{{form.category}}
 				<span class="help-inline">{{form.category.errors}}</span>
 			</div>
 		</div>
 		<div class="control-group {{form.state.css_classes}}">
-			<label class="control-label" for="id_state">State</label>
+			<label class="control-label" for="id_state">Art</label>
 			<div class="controls">
 				{{form.state}}
 				<span class="help-inline">{{form.state.errors}}</span>
 			</div>
 		</div>
 		<div class="control-group {{form.lendlength.css_classes}}" id="lendlength_tag">
-			<label class="control-label" for="id_lendlength">Lend Length</label>
+			<label class="control-label" for="id_lendlength">Leihdauer</label>
 			<div class="controls">
 				{{form.lendlength}} {{form.lendlengthtype}}
 				<span class="help-inline">{{form.lendlength.errors}}</span>
@@ -65,34 +65,36 @@ Add/Edit Hardware
 			</div>
 		</div>
 		<div class="control-group {{form.ownlocation.css_classes}}">
-			<label class="control-label" for="id_ownlocation">Own Location</label>
+			<label class="control-label" for="id_ownlocation">Eigener Ort</label>
 			<div class="controls">
 				{{form.ownlocation}}
 				<span class="help-inline">{{form.ownlocation.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group location {{form.city.css_classes}}" style="display:none">
-			<label class="control-label" for="id_city">City</label>
+		<div id="locationform" style="display:none">
+		<div class="control-group location {{form.city.css_classes}}">
+			<label class="control-label" for="id_city">Stadt</label>
 			<div class="controls">
 				{{form.city}}
 				<span class="help-inline">{{form.city.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group location {{form.postcode.css_classes}}" style="display:none">
-			<label class="control-label" for="id_postcode">Postcode</label>
+		<div class="control-group location {{form.postcode.css_classes}}">
+			<label class="control-label" for="id_postcode">PPostleitzahl</label>
 			<div class="controls">
 				{{form.postcode}}
 				<span class="help-inline">{{form.postcode.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group location {{form.street.css_classes}}" style="display:none">
-			<label class="control-label" for="id_street">Street</label>
+		<div class="control-group location {{form.street.css_classes}}">
+			<label class="control-label" for="id_street">Straße</label>
 			<div class="controls">
 				{{form.street}}
 				<span class="help-inline">{{form.street.errors}}</span>
 			</div>
 		</div>
-		<div class="control-group {{form.image1.css_classes}}">
+		</div>
+		<div class="control-group {{form.image1.css_classes}}" style="float:clear;">
 			<label class="control-label" for="id_image1">Image 1</label>
 			<div class="controls">
 				{{form.image1}}
@@ -134,25 +136,34 @@ Add/Edit Hardware
 				<span class="help-inline">{{form.caption3.errors}}</span>
 			</div>
 		</div>
-	<input type="submit" value="Submit" class="btn btn-primary" />
+	<input type="submit" value="Einstellen" class="btn btn-primary" />
 	</form>
 	<script type="text/javascript">
 	function toggleLendlength() {
-		if($("#id_state").find("option:selected").attr("title") == "temporary") {
+		if($("#id_state").find("option:selected").attr("title") == "True") {
 			$("#lendlength_tag").slideDown("fast");
 		} else {
 			$("#lendlength_tag").slideUp("fast");
 		}
 	}
 
-	toggleDuedate();
+	function toggleLocation() {
+		if($("#id_ownlocation").attr('checked')) {
+			$("#locationform").slideDown("fast");
+		} else {
+			$("#locationform").slideUp("fast");
+		}
+	}
+
+	toggleLendlength();
+	toggleLocation();
 
 	$("#id_state").change(function() {
 		toggleLendlength();
 	});
 
 	$("#id_ownlocation").change(function() {
-		$(".location").slideToggle("fast");
+		toggleLocation();
 	});
 	</script>
 {% endif %}
