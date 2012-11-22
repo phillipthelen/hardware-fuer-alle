@@ -95,7 +95,7 @@ function openlightbox (url) {
 	    	<img src="{% gravatar_url "" 200 %}" class="img-polaroid" style="margin-bottom:6px">
 	    	{% endif %}
 	<a class="btn btn-success btn-block" href="{% url hardware.views.sendMail hardware.id %}" style="margin:4px"><i class="icon-envelope icon-white"></i> Kontakt aufnehmen</a>
-	<a class="btn btn-danger btn-block" href="{% url hardware.views.sendMail hardware.id %}" style="margin:4px"><i class="icon-ban-circle icon-white"></i> Problem melden</a>
+	<a class="btn btn-danger btn-block" href="#abuseModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ban-circle icon-white"></i> Missbrauch melden</a>
 	{% else %}
 	<h4 style="margin-left:4px">Ohai, it's you :)</h4>
 	{% if userprofile.get_profile.mail_confirmed %}
@@ -169,7 +169,32 @@ $("#id_username").keypress( function() {
 </div>
 </div>
 
+
+
 	{% endif %}
+<div id="abuseModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="abuseModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="abuseModalLabel">Missbrauch melden</h3>
+</div>
+<form action="{% url main.views.hardwareAbuse %}" method="post" class="form-inline">{% csrf_token %}
+<div class="modal-body">
+	<p>Gib bitte eine Begründung an, warum du einen Missbrauch vermutest.</p>
+		<div class="control-group">
+			<label class="control-label" for="id_caption3">Beschreibung</label>
+			<div class="controls">
+				<textarea rows="3" id="id_description" name="description"></textarea>
+			</div>
+		</div>
+</div>
+<div class="modal-footer">
+<input type="hidden" name="object" value="{{hardware.id}}">
+    <a href="#" class="btn" data-dismiss="modal">Abbrechen</a>
+    <button type="submit" class="btn btn-primary">Abschicken</button>
+</div>
+</form>
+</div>
+
 {% endif %}
 </div>
 {% endblock %}

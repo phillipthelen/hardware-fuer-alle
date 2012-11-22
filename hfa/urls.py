@@ -1,6 +1,6 @@
 # coding: utf-8 f
 from django.conf.urls import patterns, include, url
-from main.views import home
+from main.views import home, hardwareAbuse
 from users.views import error, login, profile, settings, confirmEmail, newEmail
 from django.contrib import admin
 from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware, giveaway, takeback
@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^hardware/search/(?P<page>.*)$', searchHardware),
     url(r'^hardware/list/$', listAll),
     url(r'^hardware/list/(?P<page>\d*)$', listAll),
+    url(r'^hardware/abuse/$', hardwareAbuse),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/confirm/(?P<confirmation_key>.*)$', confirmEmail),
     url(r'^accounts/newmail$', newEmail),
