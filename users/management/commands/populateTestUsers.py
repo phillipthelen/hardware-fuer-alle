@@ -25,4 +25,5 @@ class Command(BaseCommand):
 			l.longitude = uniform(47.5, 53.8)
 			l.save()
 			profile.location = l
+			profile.displayLocation = choice([True, False])
 			profile.save()
