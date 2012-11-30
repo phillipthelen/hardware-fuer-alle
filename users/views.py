@@ -61,11 +61,15 @@ def profile(request, username):
 	"""displays a user profile"""
 	user = get_object_or_404(User, username = username)
 	hardware =Hardware.objects.filter(owner=user)
+	accounts = SocialAccount.objects.filter(user=user)
+	accountlist = []
+	for account in accounts:
+		accountlist.append(account)
 	if user.get_profile().displayLocation:
 		map, showmap = create_map(user.get_profile().location)
 	else:
 		map = None
-	context = {'userprofile':user, 'hardware':hardware, 'map':map}
+	context = {'userprofile':user, 'hardware':hardware, 'map':map, 'accountlist':accountlist}
 	return render_to_response('users/userprofile.html', context, RequestContext(request))
 
 @login_required
