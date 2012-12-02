@@ -9,6 +9,14 @@ Welcome
 
 
 {% block content %}
+Dies ist die Beta für Hardware für alle. Wenn du das sehen kannst, hast du die wunderbare Ehre Testingsklave zu sein. Wenn dir ein Fehler auffällt oder du sonst einen Kommentar hast, suche dir einen der folgenden Kommunikationskanäle aus:
+<ul>
+	<li><a href="https://github.com/vIiRuS/hardware-fuer-alle/issues">Github Issues</a></li>
+	<li>Email/Jabber an viirus@pherth.net</li>
+	<li>auf Twitter @viirus42 anschreiben</li>
+	<li>IRC "viirus" anschreiben. (z.B. Freenode)</li>
+</ul>
+Danke
 {% if not user.is_authenticated %}
 	<p>Why don't you <a href="{% url allauth.account.views.login %}">log in</a> 
 {% endif %}
