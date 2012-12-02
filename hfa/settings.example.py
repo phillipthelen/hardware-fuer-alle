@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'dajaxice',
     'dajax',
     'django_gravatar',
+    'fileupload'
     )
 
 LOGIN_REDIRECT_URL = '/'
