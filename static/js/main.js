@@ -34,7 +34,6 @@ $(function () {
         return false;
     }
     data.formData = inputs.serializeArray();
-    alert()
     data.formData.push({name: 'hardwareid', value: $("#hardwareid").val()});
 });
         // Load existing files:
