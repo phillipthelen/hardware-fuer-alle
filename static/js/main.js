@@ -40,12 +40,12 @@ $(function () {
         // Load existing files:
         $('#fileupload').each(function () {
             var that = this;
-            $.getJSON(this.action, function (result) {
+            Dajaxice.fileupload.get_images(function (result) {
                 if (result && result.length) {
                     $(that).fileupload('option', 'done')
                         .call(that, null, {result: result});
                 }
-            });
+            }, {'hardwareid': $("#hardwareid").val()});
         });
 
 });
