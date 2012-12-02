@@ -15,6 +15,7 @@ from geopy import geocoders
 import urllib
 from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm, LendForm
 from django.core.mail import EmailMessage
+from fileupload.models import MultiuploaderImage
 
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
@@ -53,6 +54,8 @@ def displayHardware(request, id, name):
 		map, showmap = hfa.util.create_map(hardware.location, (500, 300))
 		context["map"] = map
 		context["showmap"] = showmap
+	images = MultiuploaderImage.objects.filter(hardware=hardware.id)
+	context["images"] = images
 	return render_to_response('hardware/hardwareview.html', context, RequestContext(request))
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -91,6 +94,7 @@ def hardwareEdit(request, id=None):
 	profile = user.get_profile()
 	if user.email != "" and profile.mail_confirmed:
 		if id==None:
+			#Create new hardware
 			if request.method == 'POST': # If the form has been submitted...
 				form = HardwareForm(request.POST) # A form bound to the POST data
 				if form.is_valid(): # All validation rules pass
@@ -121,6 +125,7 @@ def hardwareEdit(request, id=None):
 						h.location = profile.location
 					if h.state.temporary and form.cleaned_data['lendlength'] != None:
 						h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
+
 					h.save()
 
 					return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST
@@ -130,6 +135,7 @@ def hardwareEdit(request, id=None):
 			context = {'form':form, 'edit':False}
 			return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
 		else:
+			#edit existing hardware
 			hardware = get_object_or_404(Hardware, id=id)
 			if user == hardware.owner:
 				if request.method == 'POST':
@@ -152,8 +158,8 @@ def hardwareEdit(request, id=None):
 					form.initial["condition"] = hardware.condition
 					form.initial["category"] = hardware.category
 					form.initial["state"] = hardware.state
-
-					context = {'form':form, 'hardware':hardware, 'edit':True}
+					images = MultiuploaderImage.objects.filter(hardware=hardware.id)
+					context = {'form':form, 'hardware':hardware, 'edit':True, 'images':images}
 					return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
 			else:
 				return HttpResponseForbidden(loader.get_template("403.html").render(RequestContext({})))

@@ -10,6 +10,7 @@ dajaxice_autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',
+ url(r'^upload/', include('fileupload.urls')),
     url(r'^$', home, name='home'),
     url(r'^users/(?P<username>.*)$', profile, name='profile'),
     url(r'^settings/$', settings, name='settings'),
@@ -29,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^accounts/confirm/(?P<confirmation_key>.*)$', confirmEmail),
     url(r'^accounts/newmail$', newEmail),
     url(r'^accounts/', include('allauth.urls')),
+
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
 

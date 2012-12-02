@@ -63,3 +63,15 @@ class Image(models.Model):
 	image = models.ImageField(upload_to=get_hfile_name)
 	caption = models.TextField(max_length=400)
 	hardware = models.ForeignKey(Hardware)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('upload-new', )
+
+	def save(self, *args, **kwargs):
+		self.slug = self.file.namer
+		super(Image, self).save(*args, **kwargs)
+
+	def delete(self, *args, **kwargs):
+		self.image.delete(False)
+		super(Image, self).delete(*args, **kwargs)

@@ -20,22 +20,19 @@ function openlightbox (url) {
 
 <div class="span3">
 
-<div id="myCarousel" class="carousel slide">
+<div id="myCarousel" class="carousel slide" data-interval="20000">
   <!-- Carousel items -->
   <div class="carousel-inner">
-    <div class="active item"><div class="wrapper"><a  href="javascript:openlightbox('http://placekitten.com/g/300/400')"class="lightboxbutton"><img src="http://placekitten.com/g/300/400" class="img">
-			    
+{% for image in images %}
+{% thumbnail image.image "300x400" crop="center"  as im %}
+    <div class="item"><div class="wrapper"><a  href="javascript:openlightbox('/images/hardware/{{image.filename}}')"class="lightboxbutton"><img src="{{ im.url }}" class="img">
+	{% endthumbnail %}		    
     <div class='description'>  
         <!-- description content -->  
-        <p class='description_content'>Bildunterschrift 1</p>  
+        <p class='description_content'>{{image.caption}}</p>  
         <!-- end description content -->  
     </div></a></div></div>
-    <div class="item"><div class="wrapper"><a href="javascript:openlightbox('http://placekitten.com/300/400')" class="lightboxbutton"><img src="http://placekitten.com/300/400" class="img">
-    	<div class='description'>  
-        <!-- description content -->  
-        <p class='description_content'>Bildunterschrift 2</p>  
-        <!-- end description content -->  
-    </div></a></div> </div>
+{% endfor %}
   </div>
 
   <!-- Carousel nav -->
