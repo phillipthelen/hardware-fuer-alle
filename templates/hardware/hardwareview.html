@@ -25,7 +25,7 @@ function openlightbox (url) {
   <div class="carousel-inner">
 {% for image in images %}
 {% thumbnail image.image "300x400" crop="center"  as im %}
-    <div class="item"><div class="wrapper"><a  href="javascript:openlightbox('/images/hardware/{{image.filename}}')"class="lightboxbutton"><img src="{{ im.url }}" class="img">
+    <div class="{% if forloop.first %}active {% endif %}item"><div class="wrapper"><a  href="javascript:openlightbox('/images/hardware/{{image.filename}}')"class="lightboxbutton"><img src="{{ im.url }}" class="img">
 	{% endthumbnail %}		    
     <div class='description'>  
         <!-- description content -->  
