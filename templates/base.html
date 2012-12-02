@@ -56,6 +56,9 @@
 	<li><a href="{% url users.views.profile user.username %}"><i class="icon-user"></i> Profil</a></li>
 	<li><a href="{% url users.views.settings %}"><i class="icon-pencil"></i> Einstellungen</a></li>
     <li class="divider"></li>
+    	{% if user.is_staff %}
+    	<li><a href="{% url admin:index %}"><i class="icon-lock"></i> Admin</a></li>
+    	{% endif %}
 	<li><a href="{% url allauth.account.views.logout %}"><i class="icon-off"></i> Abmelden</a></li>
   </ul>
 </li>
