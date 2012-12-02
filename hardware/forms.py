@@ -28,10 +28,10 @@ class ChoiceFieldWithTitles(forms.ChoiceField):
 
 class HardwareForm(forms.Form):
 	lendlengthtypes = (
-		('1', 'day(s)'),
-		('7', 'weeks'),
-		('30', 'month(s)'),
-		('356', 'year(s)')
+		('1', 'Tag(e)'),
+		('7', 'Woche(n)'),
+		('30', 'Monat(e)'),
+		('356', 'Jahr(e)')
 	)
 	error_css_class = 'error'
 	name = forms.CharField(max_length=200)
@@ -48,17 +48,6 @@ class HardwareForm(forms.Form):
 	street = forms.CharField(max_length=200, required=False)
 
 
-	image1 = forms.ImageField(max_length=2000, required=False)
-	caption1 = forms.CharField(max_length=400, required=False)
-
-	image2 = forms.ImageField(max_length=2000, required=False)
-	caption2 = forms.CharField(max_length=400, required=False)
-
-	image3 = forms.ImageField(max_length=2000, required=False)
-	caption3 = forms.CharField(max_length=400, required=False)
-
-
-
 	def __init__(self, *args, **kwargs):
 		super(HardwareForm, self).__init__(*args, **kwargs)   
 
@@ -73,6 +62,16 @@ class SendmailForm(forms.Form):
 
 class SimpleSearchForm(forms.Form):
 	searchquery = forms.CharField()
+
+class SearchForm(SimpleSearchForm):
+	error_css_class = 'error'
+
+	choicewidget = forms.Select(attrs={"class":"input-medium",})
+
+	condition = forms.ModelChoiceField(queryset=Condition.objects.all(), empty_label="Zustand", required=False, widget=forms.Select(attrs={"class":"input-medium",}))
+	category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Kategorie", required=False, widget=forms.Select(attrs={"class":"input-medium",}))
+	state = forms.ModelChoiceField(queryset=State.objects.all(), empty_label="Art", required=False, widget=forms.Select(attrs={"class":"input-medium",}))
+
 
 class LendForm(forms.Form):
 	username = forms.CharField()

@@ -1,6 +1,8 @@
+{% if hardware %}
 <span>Ergebnisse {{hardware.start_index}} bis {{ hardware.end_index}} von {{itemcount}}</span>
 <table class="table table-bordered table-striped">
-  <tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Besitzer</th><th>Ort</th></tr>
+  <tr><th>Name</th><th>Kategorie</th><th>Zustand</th><th>Besitzer</th><th>Ort</th></tr>
+
 {% for h in hardware %}
   <tr><td><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></td>
      <td><img src="/images/{{h.category.icon}}" />{{h.category}}</td>
@@ -13,4 +15,7 @@
 	{% include "hardware/pagination.html" %}
 {% else %}
 	{% include "hardware/searchpagination.html" %}
+{% endif %}
+{% else %}
+<p>Es konnten keine Ergebnisse gefunden werden.</p>
 {% endif %}

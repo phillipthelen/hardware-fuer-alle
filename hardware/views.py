@@ -50,9 +50,9 @@ def displayHardware(request, id, name):
 		if hardware.owner != request.user and hardware.location != None and request.user.get_profile().location != None:
 			hardwarelocation = hardware.location
 			userlocation = request.user.get_profile().location
-			context["distance"] = hfa.util.get_distance_string(hardwarelocation, userlocation)
+			context["distance"] = util.get_distance_string(hardwarelocation, userlocation)
 	if hardware.owner.get_profile().displayLocation  or request.user.is_staff:
-		map, showmap = hfa.util.create_map(hardware.location, (500, 300))
+		map, showmap = util.create_map(hardware.location, (500, 300))
 		context["map"] = map
 		context["showmap"] = showmap
 	images = MultiuploaderImage.objects.filter(hardware=hardware.id)
@@ -227,31 +227,40 @@ def get_search_page(page=1, searchquery=""):
 def searchHardware(request, page=1):
 	"""list all available hardware"""
 	try:
-		page = int(hfa.util.stripSlash(page))
+		page = int(util.stripSlash(page))
 	except:
 		page = 1
 	context = {}
 	if request.method == "POST":
-		form = SimpleSearchForm(request.POST)
+		form = SearchForm(request.POST)
 		if form.is_valid():
 			searchquery = form.cleaned_data["searchquery"]
+			searchstate = form.cleaned_data["state"]
+			searchcategory = form.cleaned_data["category"]
+			searchcondition = form.cleaned_data["condition"]
+			print searchstate, searchcategory, searchcondition
 			context["searchquery"] = searchquery
 			hardware = Hardware.objects.filter(name__icontains=searchquery)
+			if searchstate != None:
+				hardware = hardware.filter(state=searchstate)
+			if searchcategory != None:
+				hardware = hardware.filter(category=searchcategory)
+			if searchcondition != None:
+				hardware = hardware.filter(condition=searchcondition)
+			paginator = Paginator(hardware, 20)
+			try:
+				hardware = paginator.page(page)
+			except (EmptyPage, InvalidPage):
+				return redirect(reverse(listAll))
+
+			pagelist = create_pagelist(page, paginator.num_pages)
+			context['hardware'] = hardware
+			context["pagelist"] = pagelist
+			context["itemcount"] = paginator.count
+
 	else:
-		form = SimpleSearchForm()
-		hardware = Hardware.objects.all()
-	paginator = Paginator(hardware, 20)
-	try:
-		hardware = paginator.page(page)
-	except (EmptyPage, InvalidPage):
-		return redirect(reverse(listAll))
-
-	pagelist = create_pagelist(page, paginator.num_pages)
-
-	context['hardware'] = hardware
+		form = SearchForm()
 	context["searchform"] = form
-	context["pagelist"] = pagelist
-	context["itemcount"] = paginator.count
 	return render_to_response('hardware/hardwaresearch.html', context, RequestContext(request))
 
 @login_required

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {% block heading %}
 {% if searchquery != None %}
 	Suchergebnisse für "{{searchquery}}"
@@ -12,15 +11,7 @@
 
 {% block content %}
 
-<div class="span6 offset3">
-		<form class="form-search" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}
-  		<div class="input-append">
-    		<p><input type="text" class="input-block-level search-query" name="searchquery" value="{{searchquery}}">
-    		<button type="submit" class="btn">Suchen</button>
-    		<span class="help-inline">{{searchform.searchquery.errors}}</span>
-    		</p>
-    	</div>
-</div>
+{% include "hardware/search.html" %}
 {% if searchquery != None %}
 <div class="container" id="pagination">
 {% include "hardware/hardwarelisttable.html" %}

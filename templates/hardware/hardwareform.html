@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load upload_tags %}
 {% block heading %}
-Add/Edit Hardware
+{% if edit %}<b id="hardwarename">{{hardware.name}}</b> bearbeiten{% else %}Neue Hardware hinzufügen{% endif %}
 {% endblock %}
 
 
@@ -95,7 +95,7 @@ Add/Edit Hardware
 		</div>
 		</div>
 
-	<input type="submit" value="Einstellen" class="btn btn-primary" />
+	<input type="submit" value="{% if edit %}Bearbeiten{% else %}Einstellen{% endif %}" class="btn btn-primary" />
 	</form>
 	<script type="text/javascript">
 	function toggleLendlength() {
@@ -123,6 +123,10 @@ Add/Edit Hardware
 
 	$("#id_ownlocation").change(function() {
 		toggleLocation();
+	});
+
+	$("#id_name").keyup(function(event) {
+		$("#hardwarename").html($("#id_name").val());
 	});
 	</script>
 	<div class="container">
