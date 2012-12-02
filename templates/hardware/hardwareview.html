@@ -86,8 +86,8 @@ function openlightbox (url) {
 <div class="span2">
 	{% if user != hardware.owner %}
 	<h4 style="margin-left:4px">Eintrag von <a href="{% url users.views.profile hardware.owner %}">{{hardware.owner.get_profile.displayname }}</a></h4>
-	{% if userprofile.get_profile.mail_confirmed %}
-	    	<img src="{% gravatar_url user.email 200 %}" class="img-polaroid"style="margin-bottom:6px">
+	{% if hardware.owner.get_profile.mail_confirmed %}
+	    	<img src="{% gravatar_url hardware.owner.email 200 %}" class="img-polaroid"style="margin-bottom:6px">
 	    	{% else %}
 	    	<img src="{% gravatar_url "" 200 %}" class="img-polaroid" style="margin-bottom:6px">
 	    	{% endif %}
@@ -95,11 +95,11 @@ function openlightbox (url) {
 	<a class="btn btn-danger btn-block" href="#abuseModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ban-circle icon-white"></i> Missbrauch melden</a>
 	{% else %}
 	<h4 style="margin-left:4px">Ohai, it's you :)</h4>
-	{% if userprofile.get_profile.mail_confirmed %}
-	    	<img src="{% gravatar_url user.email 200 %}" class="img-polaroid"style="margin-bottom:6px">
-	    	{% else %}
+	{% if hardware.owner.get_profile.mail_confirmed %}
+	    	<img src="{% gravatar_url hardware.owner.email 200 %}" class="img-polaroid"style="margin-bottom:6px">
+	{% else %}
 	    	<img src="{% gravatar_url "" 200 %}" class="img-polaroid"style="margin-bottom:6px">
-	    	{% endif %}
+	{% endif %}
 	<a class="btn btn-primary btn-block" href="{% url hardware.views.hardwareEdit hardware.id %}" style="margin:4px"><i class="icon-edit icon-white"></i> Eintrag bearbeiten</a>
 	{% if hardware.state.temporary and hardware.availability %}
 	<a class="btn btn-block" href="#lendModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Eintrag verleihen</a>
