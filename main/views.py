@@ -26,7 +26,7 @@ def hardwareAbuse(request):
 Es geht um: {1}
 Beschreibung:
 {2}""".format(request.user.username, hardware, form.cleaned_data["description"])
-			EmailMessage(subject, body, from_email, [hardware.owner.email],
+			EmailMessage(subject, body, from_email, ["abuse@hardware-fuer-alle.de"],
 									   headers=headers).send()
 			return render_to_response('report.html', {'success':True}, RequestContext(request))
 		else:
