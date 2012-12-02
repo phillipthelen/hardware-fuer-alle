@@ -7,15 +7,16 @@ from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
 from hardware.models import Hardware, Category, Condition, State
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-import hfa.util
+import hfa.util as util
 from django.core.urlresolvers import reverse
 from main.views import home
 from main.models import Location
 from geopy import geocoders
 import urllib
-from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm, LendForm
+from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm, SearchForm, LendForm
 from django.core.mail import EmailMessage
 from fileupload.models import MultiuploaderImage
+from django.contrib import messages
 
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
@@ -127,7 +128,7 @@ def hardwareEdit(request, id=None):
 						h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
 
 					h.save()
-
+					messages.add_message(request, message.SUCCESS, "Hardware wurde erfolgreich angelegt!")
 					return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST
 			else:
 				form = HardwareForm()
@@ -167,6 +168,7 @@ def hardwareEdit(request, id=None):
 							hardware.location = profile.location
 						hardware.save()
 						print hardware.id
+						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
 				else:
 					form = HardwareForm()

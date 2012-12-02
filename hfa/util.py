@@ -5,12 +5,6 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 from geopy import distance
 
-HFAERROR_WARNING = ""
-HFAERROR_ERROR = "alert-error"
-HFAERROR_SUCCESS = "alert-success"
-HFAERROR_INFO = "alert-info"
-
-
 def stripSlash(string):
 	if string[-1:] != '/':
 		return string
@@ -62,9 +56,3 @@ def get_distance(location1, location2):
 def get_distance_string(location1, location2):
 	dist = get_distance(location1, location2)
 	return "{0:.2f}km".format(dist)
-
-class HfaError():
-	def __init__(self, *args, **kwargs):
-		self.message = kwargs.pop('message', None)
-		self.urgent = kwargs.pop('urgent', False)
-		self.etype = kwargs.pop('etype', HFAERROR_ERROR)

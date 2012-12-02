@@ -71,12 +71,14 @@
 		</div>
 	</div>
 	<div class="container">
-	{% for hfaerror in hfaerrors %}
-		<div class="alert {{hfaerror.etype}}">
+	{% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{message.tags}}{% endif %}">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-			{{hfaerror.message|safe }}
+			{{message|safe }}
 		</div>
-	{% endfor %}
+    {% endfor %}
+{% endif %}
 	<h1>{% block heading %}{% endblock %}</h1>
 	{% block content %}{% endblock %}
 	{% if hfadebug != none %}
