@@ -145,7 +145,7 @@ def hardwareEdit(request, id=None):
 						hardware.description = form.cleaned_data['description']
 						hardware.condition = form.cleaned_data['condition']
 						hardware.category = form.cleaned_data['category']
-						hardware.state = form.cleaned_data['state']
+						hardware.state = get_object_or_404(State, id=form.cleaned_data['state'])
 						hardware.owner = user
 						hardware.save()
 						print hardware.id
@@ -157,7 +157,7 @@ def hardwareEdit(request, id=None):
 					form.initial["description"] = hardware.description
 					form.initial["condition"] = hardware.condition
 					form.initial["category"] = hardware.category
-					form.initial["state"] = hardware.state
+					form.initial["state"] = hardware.state.id
 					images = MultiuploaderImage.objects.filter(hardware=hardware.id)
 					context = {'form':form, 'hardware':hardware, 'edit':True, 'images':images}
 					return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
