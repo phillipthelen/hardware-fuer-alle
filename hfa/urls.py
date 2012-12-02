@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from main.views import home, hardwareAbuse
 from users.views import error, login, profile, settings, confirmEmail, newEmail
 from django.contrib import admin
-from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware, giveaway, takeback
+from hardware.views import displayHardware, listAll, hardwareEdit, deleteHardware, sendMail, searchHardware, giveaway, takeback, new_images
 from hfa.settings import DEBUG, MEDIA_ROOT
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^hardware/giveaway/$', giveaway),
     url(r'^hardware/takeback/(?P<hardwareid>.*)', takeback),
     url(r'^hardware/new/$', hardwareEdit),
+    url(r'^hardware/newimages/(?P<hardwareid>.*)$', new_images),
     url(r'^hardware/edit/(?P<id>.*)$', hardwareEdit),
     url(r'^hardware/delete/(?P<id>.*)$', deleteHardware),
     url(r'^hardware/contact/(?P<hardwareid>.*)$', sendMail),

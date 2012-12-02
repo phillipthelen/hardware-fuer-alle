@@ -1,7 +1,8 @@
+ # -*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext, loader, Context
+from django.template import RequestContext, loader, Context, Template
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
@@ -17,6 +18,7 @@ from hardware.forms import SendmailForm, HardwareForm, SimpleSearchForm, SearchF
 from django.core.mail import EmailMessage
 from fileupload.models import MultiuploaderImage
 from django.contrib import messages
+from allauth.socialaccount.models import SocialAccount, SocialApp
 
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
@@ -128,8 +130,9 @@ def hardwareEdit(request, id=None):
 						h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
 
 					h.save()
-					messages.add_message(request, message.SUCCESS, "Hardware wurde erfolgreich angelegt!")
-					return HttpResponseRedirect(reverse(displayHardware, args=[h.id, h.name])) # Redirect after POST
+					messages.add_message(request, messages.SUCCESS, u"Deine Hardware wurde erfolgreich angelegt. Bitte füge noch ein paar Bilder hinzu.")
+					context = {'form':form, 'hardware':h}
+					return render_to_response('hardware/imageform.html', context, RequestContext(request))
 			else:
 				form = HardwareForm()
 
@@ -185,6 +188,23 @@ def hardwareEdit(request, id=None):
 				return HttpResponseForbidden(loader.get_template("403.html").render(RequestContext({})))
 	else:
 		return render_to_response('hardware/hardwareform.html', {"invalidmail":True} , RequestContext(request))
+
+@login_required
+def new_images(request, hardwareid):
+	hardware = get_object_or_404(Hardware, id=hardwareid)
+	accounts = SocialAccount.objects.filter(user=request.user)
+	accountlist = []
+	for account in accounts:
+		accountlist.append(account.provider)
+	t = Template("""<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><script src="https://apis.google.com/js/plusone.js"></script>
+Danke das du deine Hardware anderen zur verfügung stellen möchtest!<br />
+Willst du anderen mitteilen das deine Hardware nun hier verfügbar ist?<br />
+{% if 'facebook' in accountlist %}<a href='http://www.facebook.com/sharer.php' class="btn" target="blank">Auf Facebook teilen</a>{% endif %}
+{% if 'twitter' in accountlist %}<a href='https://twitter.com/intent/tweet' class="btn">Auf Twitter teilen</a>{% endif %}
+{% if 'google' in accountlist %}<a href='' class="btn">Auf Google+ teilen</a>{% endif %} """)
+	c = Context({'accountlist':accountlist})
+	messages.add_message(request, messages.SUCCESS, t.render(c))
+	return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name]))
 
 @login_required
 def sendMail(request, hardwareid):
