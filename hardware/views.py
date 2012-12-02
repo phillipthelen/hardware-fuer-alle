@@ -217,7 +217,7 @@ def sendMail(request, hardwareid):
 				form = SendmailForm(request.POST)
 				if form.is_valid():
 					headers = {'Reply-To':user.email}  # From-header
-					from_email = 'noreply@hardware-fuer-alle.de'          # Return-Path header
+					from_email = 'support@hardware-fuer-alle.de'          # Return-Path header
 					subject = "Somebody is interested in your hardware!"
 					body = """The user {0} is interested in your hardware.
 He/She wrote the following text:

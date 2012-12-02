@@ -20,7 +20,7 @@ def hardwareAbuse(request):
 		form = HardwareReportForm(request.POST)
 		if form.is_valid():
 			headers = {'Reply-To':request.user.email}  # From-header
-			from_email = 'noreply@hardware-fuer-alle.de'          # Return-Path header
+			from_email = 'support@hardware-fuer-alle.de'          # Return-Path header
 			subject = "Es wurde ein Missbrauch gemeldet"
 			body = """Der Benutzer {0} hat einen Missbrauch gemeldet.
 Es geht um: {1}
@@ -33,4 +33,4 @@ Beschreibung:
 			return render_to_response('report.html', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
 	else:
 		form = HardwareReportForm()
-		return render_to_response('repport.html', {'form':form}, RequestContext(request))
+		return render_to_response('report.html', {'form':form}, RequestContext(request))

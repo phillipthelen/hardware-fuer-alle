@@ -39,12 +39,12 @@ def set_mail(user, email):
 			email_subject = 'Your new hardware-fuer-alle.de email confirmation'
 			email_body = """Hello, %s, and thanks for signing up for an
 		example.com account!\n\nTo activate your account, click this link within 48
-		hours:\n\nhttp://127.0.0.1:8000/accounts/confirm/%s""" % (
+		hours:\n\nhttp://hardware-fuer-alle.de/beta/accounts/confirm/%s""" % (
 				user.username,
 				profile.confirmation_key)
 			send_mail(email_subject,
 					email_body,
-					'noreply@hardware-fuer-alle.de',
+					'support@hardware-fuer-alle.de',
 					[user.email])
 
 def error(request):
