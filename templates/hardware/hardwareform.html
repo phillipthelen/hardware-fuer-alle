@@ -131,7 +131,7 @@
 	</script>
 	<div class="container">
 {% if edit %}
-    <form id="fileupload" method="post" action="/upload/upload/" enctype="multipart/form-data">{% csrf_token %}
+    <form id="fileupload" method="post" action="{% url fileupload.views.multiuploader %}" enctype="multipart/form-data">{% csrf_token %}
     	<input type="hidden" name="hardwareid" value="{{hardware.id}}" id="hardwareid">
         <div class="row fileupload-buttonbar">
             <div class="span7">
