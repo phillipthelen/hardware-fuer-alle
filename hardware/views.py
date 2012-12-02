@@ -147,6 +147,24 @@ def hardwareEdit(request, id=None):
 						hardware.category = form.cleaned_data['category']
 						hardware.state = get_object_or_404(State, id=form.cleaned_data['state'])
 						hardware.owner = user
+						if form.cleaned_data['ownlocation']:
+							location = Location()
+							location.city = form.cleaned_data['city']
+							location.street = form.cleaned_data['street']
+							location.postcode = form.cleaned_data['postcode']
+							g = geocoders.Google()
+							if location.city!= "" or location.street!="" or location.street!="":
+								searchstring = location.street + ", " + location.postcode + " " + form.cleaned_data['city']
+								places = g.geocode(urllib.quote(searchstring), exactly_one=False)
+								location.latitude = places[0][1][0]
+								location.longitude = places[0][1][1]
+							else:
+								location.latitude = None
+								location.longitude = None
+							location.save()
+							hardware.location = location
+						else:
+							hardware.location = profile.location
 						hardware.save()
 						print hardware.id
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST

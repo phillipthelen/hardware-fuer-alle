@@ -19,7 +19,7 @@
 	    	<img src="{% gravatar_url "" 250 %}" class="img-polaroid">
 	    	{% endif %}
 		{% if userprofile.get_profile.displayLocation or user.is_staff %}
-		<h4>{{userprofile.get_profile.displayname}} aus {{userprofile.get_profile.location.city}}</h4>
+		<h4>Aus: {{userprofile.get_profile.location.city}}</h4>
 
 		<p>	{{ map.map }}
 		{% endif %}
