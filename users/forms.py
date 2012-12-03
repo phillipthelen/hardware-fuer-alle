@@ -19,7 +19,6 @@ class LocationForm(forms.Form):
 class UserSettingsForm(forms.Form):
 	displayname = forms.CharField(max_length=50, required=True)
 	email = forms.EmailField(required=False)
-	avatar = forms.ImageField(required=False)
 	error_css_class = 'error'
 
 """

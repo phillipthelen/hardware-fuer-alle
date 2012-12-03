@@ -115,11 +115,6 @@ def settings(request):
 			lform = LocationForm()
 			mform = UserSettingsForm(request.POST, request.FILES)
 			if mform.is_valid():
-				print "valid"
-				if 'avatar' in request.FILES:
-					profile.avatar = request.FILES["avatar"]
-					profile.save()
-					print "file saved"
 				if mform.cleaned_data['email'] != user.email:
 					set_mail(user, mform.cleaned_data['email'])
 				if mform.cleaned_data['displayname'] != profile.displayname:
