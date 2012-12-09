@@ -7,8 +7,8 @@
   <tr><td><a href="{% url hardware.views.displayHardware h.id h.name %}">{{h.name}}</a></td>
      <td><img src="/images/{{h.category.icon}}" />{{h.category}}</td>
     <td>{{h.condition}}</td>
-    <td>{{h.owner}}</td>
-     <td>{{h.location.city}}</td></tr>
+    <td><a href="{% url users.views.profile h.owner.id %}">{{h.owner.get_profile.displayname}}</a></td>
+     <td>{{h.location.city}}</td><td>{{h.location.city}}</td></tr>
 {% endfor %}
 </table>
 {% if searchquery == None %}
