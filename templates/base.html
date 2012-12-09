@@ -53,7 +53,7 @@
 {% if user.is_authenticated %}
   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">{{ user.get_profile.displayname }}<b class="caret"></b></a>
   <ul class="dropdown-menu">
-	<li><a href="{% url users.views.profile user.username %}"><i class="icon-user"></i> Profil</a></li>
+	<li><a href="{% url users.views.profile user.id %}"><i class="icon-user"></i> Profil</a></li>
 	<li><a href="{% url users.views.settings %}"><i class="icon-pencil"></i> Einstellungen</a></li>
     <li class="divider"></li>
     	{% if user.is_staff %}

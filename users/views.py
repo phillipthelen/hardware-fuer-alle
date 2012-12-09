@@ -58,9 +58,9 @@ def login(request):
 	return render_to_response('users/login.html', {},
 		RequestContext(request))
 
-def profile(request, username):
+def profile(request, userid):
 	"""displays a user profile"""
-	user = get_object_or_404(User, username = username)
+	user = get_object_or_404(User, id = userid)
 	hardware =Hardware.objects.filter(owner=user)
 	accounts = SocialAccount.objects.filter(user=user)
 	accountlist = []
@@ -118,7 +118,7 @@ def settings(request):
 				if mform.cleaned_data['email'] != user.email:
 					set_mail(user, mform.cleaned_data['email'])
 				if mform.cleaned_data['displayname'] != profile.displayname:
-					profile.displayname = mform.cleaned_data['displayname'] 
+					profile.displayname = mform.cleaned_data['displayname']
 					profile.save()
 				user.save()
 	else:
