@@ -4,12 +4,12 @@ from django.template.loader import render_to_string
 from hardware.views import get_list_page, create_pagelist, get_search_page
 
 @dajaxice_register
-def listPagination(request, p):
+def listPagination(request, p, ready_to_use):
 	print "pagination"
-	items, pagelist, itemcount = get_list_page(p)
+	items, pagelist, itemcount = get_list_page(ready_to_use, p)
 	print items
 	
-	render = render_to_string('hardware/hardwarelisttable.html', {'hardware': items, 'pagelist':pagelist, 'itemcount':itemcount})
+	render = render_to_string('hardware/hardwarelisttable.html', {'hardware': items, 'pagelist':pagelist, 'itemcount':itemcount, 'ready_to_use':ready_to_use})
 	dajax = Dajax()
 	dajax.assign('#pagination', 'innerHTML', render)
 	return dajax.json()

@@ -63,8 +63,8 @@ def displayHardware(request, id, name):
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-def get_list_page(page=1):
-	hardware = Hardware.objects.all()
+def get_list_page(ready_to_use, page=1):
+	hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use)
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
@@ -76,10 +76,16 @@ def get_list_page(page=1):
 		pagelist = create_pagelist(1, paginator.num_pages)
 	return hardware, pagelist, paginator.count
 
-def listAll(request, page=1):
+def listHardware(request, page=1):
 	"""list all available hardware"""
-	hardware, pagelist, itemcount = get_list_page(page)
-	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount}
+	hardware, pagelist, itemcount = get_list_page(True, page)
+	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, "ready_to_use":True}
+	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
+
+def listComponents(request, page=1):
+	"""list all available hardware"""
+	hardware, pagelist, itemcount = get_list_page(False, page)
+	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, "ready_to_use":False}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
 @login_required

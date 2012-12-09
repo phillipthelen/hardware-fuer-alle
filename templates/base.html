@@ -37,7 +37,8 @@
 						<!--li class="active"><a href="{% url main.views.home %}">Home</a></li-->
 						<li><a href="{% url hardware.views.searchHardware %}"><i class="icon-search icon-white"></i> Suche</a></li>
 						<li class="divider-vertical"></li>
-						<li><a href="{% url hardware.views.listAll %}"><i class="icon-list icon-white"></i> Liste</a></li>
+						<li><a href="{% url hardware.views.listHardware %}"><i class="icon-list icon-white"></i> Hardware</a></li>
+						<li><a href="{% url hardware.views.listComponents %}"><i class="icon-list icon-white"></i> Einzelteile</a></li>
 						{% if user.is_authenticated %}<li class="divider-vertical"></li>
 						<li><a href="{% url hardware.views.hardwareEdit %}"><i class="icon-edit icon-white"></i> hinzufügen</a></li>
 						{% endif %}

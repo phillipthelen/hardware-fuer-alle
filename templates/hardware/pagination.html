@@ -1,24 +1,11 @@
 <div class="pagination" id="pagination">
-  <script src="/static/js/path.min.js" type="text/javascript"></script>
-  <script type="text/javascript">
-Path.map("/hardware/list/:page").to(function(){
-    Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page']})
-    $.scrollTo( $('#pagination'), 500, {offset:-10} );
-});
-
-        $(document).ready(function(){
-            Path.history.listen();
-
-            $(".paginationlink").click(function(event){
-                event.preventDefault();
-                Path.history.pushState({}, "", $(this).attr("href"));
-            });
-        });
-    
-    </script>
   <ul>
         {% if hardware.has_previous %}
-            <li><a href="{% url hardware.views.listAll hardware.previous_page_number  %}" class="paginationlink">«</a></li>
+        {% if ready_to_use %}
+            <li><a href="{% url hardware.views.listHardware hardware.previous_page_number  %}" class="paginationlink">«</a></li>
+            {% else %}
+            <li><a href="{% url hardware.views.listComponents hardware.previous_page_number  %}" class="paginationlink">«</a></li>
+            {% endif %}
         {% else %}
           <li class="disabled"><a href="#">«</a></li>
         {% endif %}
@@ -26,11 +13,19 @@ Path.map("/hardware/list/:page").to(function(){
                 {% ifequal i hardware.number %}
                     <li class="active"><a href="#" >{{i}}</a></li>
                 {% else %}
-                    <li><a href="{% url hardware.views.listAll i  %}" class="paginationlink">{{i}}</a></li>
+                {% if ready_to_use %}
+                    <li><a href="{% url hardware.views.listHardware i  %}" class="paginationlink">{{i}}</a></li>
+                    {% else %}
+                      <li><a href="{% url hardware.views.listComponents i  %}" class="paginationlink">{{i}}</a></li>
+                    {% endif %}
                 {% endifequal %}
             {% endfor %}
         {% if hardware.has_next %}
-            <li><a href="{% url hardware.views.listAll hardware.next_page_number  %}" class="paginationlink">»</a></li>
+        {% if ready_to_use %}
+            <li><a href="{% url hardware.views.listHardware hardware.next_page_number  %}" class="paginationlink">»</a></li>
+            {% else %}
+             <li><a href="{% url hardware.views.listComponents hardware.next_page_number  %}" class="paginationlink">»</a></li>
+           {% endif %}
             {% else %}
           <li class="disabled"><a href="#">»</a></li>
         {% endif %}

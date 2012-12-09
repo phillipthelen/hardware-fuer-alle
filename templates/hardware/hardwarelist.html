@@ -2,12 +2,38 @@
 
 
 {% block heading %}
-{{userprofile.username}}
+{% if ready_to_use %}
+Internetfähige Hardware
+{% else %}
+Einzelteile
+{% endif %}
 {% endblock %}
 
 
 {% block content %}
+  <script src="/static/js/path.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
 
+{% if ready_to_use %}
+Path.map("/hardware/list/:page").to(function(){
+    Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page'], 'ready_to_use':true})
+{% else %}
+Path.map("/hardware/list/components/:page").to(function(){
+    Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page'], 'ready_to_use':false})
+{% endif %}
+    $.scrollTo( $('#pagination'), 500, {offset:-60} );
+});
+
+        $(document).ready(function(){
+            Path.history.listen();
+
+            $(".paginationlink").click(function(event){
+                event.preventDefault();
+                Path.history.pushState({}, "", $(this).attr("href"));
+            });
+        });
+    
+    </script>
 <div class="span6 offset3">
     <form class="form-search" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}
       <div class="input-append">

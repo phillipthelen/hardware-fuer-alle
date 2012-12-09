@@ -8,7 +8,7 @@
      <td><img src="/images/{{h.category.icon}}" />{{h.category}}</td>
     <td>{{h.condition}}</td>
     <td><a href="{% url users.views.profile h.owner.id %}">{{h.owner.get_profile.displayname}}</a></td>
-     <td>{{h.location.city}}</td><td>{{h.location.city}}</td></tr>
+     <td>{{h.location.city}}</td></tr>
 {% endfor %}
 </table>
 {% if hardware.has_other_pages %}

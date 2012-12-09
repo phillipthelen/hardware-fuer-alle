@@ -21,7 +21,7 @@ class Category(models.Model):
 	"""Categories such as 'smartphone', 'laptop', ..."""
 	name = models.CharField(_('name'), max_length=200)
 	icon = models.ImageField(upload_to=get_cfile_name)
-
+	ready_to_use = models.BooleanField()
 	def __unicode__(self):
 		return self.name
 
