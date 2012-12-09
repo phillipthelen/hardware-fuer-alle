@@ -102,9 +102,12 @@ def settings(request):
 				profile.displayLocation = lform.cleaned_data['displayLocation']
 				g = geocoders.Google()
 				if location.city!= "" or location.street!="" or location.street!="":
-					places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
-					location.latitude = places[0][1][0]
-					location.longitude = places[0][1][1]
+					try:
+						places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
+						location.latitude = places[0][1][0]
+						location.longitude = places[0][1][1]
+					except Exception, e:
+						None
 				else:
 					location.latitude = None
 					location.longitude = None
