@@ -3,7 +3,9 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from main.models import Location
+from django.template.defaultfilters import slugify
 from hfa.util import get_hfile_name, get_cfile_name
+
 class Condition(models.Model):
 	"""Different conditions such as 'damaged', 'new', 'slightly used'"""
 	name = models.CharField(_('name'), max_length=200)
@@ -61,7 +63,7 @@ class Hardware(models.Model):
 		verbose_name_plural = _('hardware')
 
 	def save(self):
-		slug = name
+		self.slug = slugify(self.name)
 		super(Hardware, self).save()
 
 class Image(models.Model):

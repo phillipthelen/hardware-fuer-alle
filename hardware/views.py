@@ -172,7 +172,7 @@ def hardwareEdit(request, id=None):
 						hardware.save()
 						print hardware.id
 						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
-						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
+						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug])) # Redirect after POST
 				else:
 					form = HardwareForm()
 
@@ -204,7 +204,7 @@ Willst du anderen mitteilen das deine Hardware nun hier verfügbar ist?<br />
 {% if 'google' in accountlist %}<a href='' class="btn">Auf Google+ teilen</a>{% endif %} """)
 	c = Context({'accountlist':accountlist})
 	messages.add_message(request, messages.SUCCESS, t.render(c))
-	return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name]))
+	return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
 
 @login_required
 def sendMail(request, hardwareid):
