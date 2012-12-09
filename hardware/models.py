@@ -42,6 +42,7 @@ class State(models.Model):
 class Hardware(models.Model):
 	"""The hardware itself"""
 	name = models.CharField(_('name'), max_length=200)
+	slug = models.SlugField(max_length=200)
 	condition = models.ForeignKey(Condition, verbose_name = _('condition'), blank=False)
 	category = models.ForeignKey(Category, verbose_name = _('category'), blank=False)
 	description = models.TextField(_('description'))
@@ -58,6 +59,10 @@ class Hardware(models.Model):
 	class Meta:
 		verbose_name = _('hardware')
 		verbose_name_plural = _('hardware')
+
+	def save(self):
+		slug = name
+		super(Hardware, self).save()
 
 class Image(models.Model):
 	image = models.ImageField(upload_to=get_hfile_name)
