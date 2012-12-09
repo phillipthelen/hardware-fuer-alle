@@ -1,3 +1,4 @@
+<div class="span12">
 <form class="form-inline" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}
 	<div class="input-append">
 	    	<input type="text" name="searchquery" value="{{searchquery}}">{% csrf_token %}
@@ -11,4 +12,5 @@
 		{{searchform.condition}}
 	</div>
 </form>
+</div>
 {{searchform.errors}}

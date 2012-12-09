@@ -21,18 +21,17 @@
 		{% if userprofile.get_profile.displayLocation or user.is_staff %}
 		<h4>Aus: {{userprofile.get_profile.location.city}}</h4>
 
-		<p>	{{ map.map }}
+		{{ map.map }}
 		{% endif %}
-</p>
+		
 
 	</div>
-<div class="span7">
-	{% if userprofile.get_profile.displayname != userprofile.username %}<b>Benutzername: {{userprofile.username}}</b>{% endif %}
+<div class="span9">
 	<div class="pull-right">
 	{% for acc in accountlist %}
 	<span style="padding-left:10px;"><img src="/static/images/16px/{{acc.get_provider.name}}.png"><a style="padding-left:4px" href="{{acc.get_profile_url}}">{{acc.uid}}</a></span>
 	{% endfor %}
-</div>
+	</div>
 	<h3>Bedigungslos abzugebende Hardware</h3>
 <table class="table  table-bordered table-striped">
 		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>

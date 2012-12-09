@@ -15,18 +15,13 @@ function openlightbox (url) {
 {% endblock %}
 
 {% block content %}
-
-<hr>
-
-<div class="span3">
+<div class="span4">
 
 <div id="myCarousel" class="carousel slide" data-interval="20000">
   <!-- Carousel items -->
   <div class="carousel-inner">
 {% for image in images %}
-{% thumbnail image.image "300x400" crop="center"  as im %}
-    <div class="{% if forloop.first %}active {% endif %}item"><div class="wrapper"><a  href="javascript:openlightbox('/images/hardware/{{image.filename}}')"class="lightboxbutton"><img src="{{ im.url }}" class="img">
-	{% endthumbnail %}		    
+    <div class="{% if forloop.first %}active {% endif %}item"><div class="wrapper"><a  href="javascript:openlightbox('/images/hardware/{{image.filename}}')"class="lightboxbutton"><img src="/images/hardware/{{image.filename}}" class="img">	    
     <div class='description'>  
         <!-- description content -->  
         <p class='description_content'>{{image.caption}}</p>  
@@ -85,7 +80,7 @@ function openlightbox (url) {
 {% if user.is_authenticated %}
 <div class="span2">
 	{% if user != hardware.owner %}
-	<h4 style="margin-left:4px">Eintrag von <a href="{% url users.views.profile hardware.owner %}">{{hardware.owner.get_profile.displayname }}</a></h4>
+	<h4 style="margin-left:4px">Eintrag von <a href="{% url users.views.profile hardware.owner.id %}">{{hardware.owner.get_profile.displayname }}</a></h4>
 	{% if hardware.owner.get_profile.mail_confirmed %}
 	    	<img src="{% gravatar_url hardware.owner.email 200 %}" class="img-polaroid"style="margin-bottom:6px">
 	    	{% else %}
