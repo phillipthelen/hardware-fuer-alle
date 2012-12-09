@@ -113,7 +113,7 @@ Parses data from jQuery plugin and makes database changes.
 			file_url = settings.MULTI_IMAGE_URL+'/'+image.key_data+'/'
 		except AttributeError:
 			file_delete_url = '/upload/delete/'
-			file_url = 'multi_image/'+image.key_data+'/'
+			file_url = '/image/'+str(image.image)
 
 		#generating json response array
 		result = []
@@ -122,7 +122,7 @@ Parses data from jQuery plugin and makes database changes.
 					   "size":file_size,
 					   "url":file_url,
 					   "thumbnail_url":thumb_url,
-					   "delete_url":file_delete_url+str(image.pk)+'/',
+					   "delete_url":file_delete_url+str(image.pk),
 					   "delete_type":"POST",})
 		response_data = simplejson.dumps(result)
 		
