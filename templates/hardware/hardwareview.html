@@ -42,8 +42,6 @@ function openlightbox (url) {
 </div>
 <div class="span6">
   <p class="well" style="font-size: 15px;font-weight: 200;line-height: 20px;">{{hardware.description}}</p>
-	<div class="row">
-	  <div class="span5">
 	  	<h4>Details</h4>
 		<table class="table table-condensed">
 			<tr><th>Zustand</th><td>{{hardware.condition}}</td><tr>
@@ -63,18 +61,12 @@ function openlightbox (url) {
 			<!--p>City: {{hardware.location.city}}</p-->
 			<!--p>Postcode: {{hardware.location.postcode}}</p-->
 			<!--p>Street: {{hardware.location.street}}</p-->
-		</div>
 		
-	</div>
-	<div class="row">
-		<div class="span5">
 			{% if showmap %}
 				<h4>Karte</h4>
 				{{ map.map }}
 				{{ map.media.js }}
 			{% endif %}
-		</div>
-	</div>
 </div>
 
 {% if user.is_authenticated %}
