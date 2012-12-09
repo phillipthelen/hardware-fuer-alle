@@ -11,10 +11,12 @@
      <td>{{h.location.city}}</td><td>{{h.location.city}}</td></tr>
 {% endfor %}
 </table>
-{% if searchquery == None %}
-	{% include "hardware/pagination.html" %}
-{% else %}
+{% if hardware.has_other_pages %}
+{% if search %}
 	{% include "hardware/searchpagination.html" %}
+{% else %}
+	{% include "hardware/pagination.html" %}
+{% endif %}
 {% endif %}
 {% else %}
 <p>Es konnten keine Ergebnisse gefunden werden.</p>

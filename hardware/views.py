@@ -258,7 +258,6 @@ def searchHardware(request, page=1):
 			searchstate = form.cleaned_data["state"]
 			searchcategory = form.cleaned_data["category"]
 			searchcondition = form.cleaned_data["condition"]
-			print searchstate, searchcategory, searchcondition
 			context["searchquery"] = searchquery
 			hardware = Hardware.objects.filter(name__icontains=searchquery)
 			if searchstate != None:
@@ -281,6 +280,7 @@ def searchHardware(request, page=1):
 	else:
 		form = SearchForm()
 	context["searchform"] = form
+	context["search"] = True
 	return render_to_response('hardware/hardwaresearch.html', context, RequestContext(request))
 
 @login_required

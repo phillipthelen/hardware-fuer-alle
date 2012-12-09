@@ -20,7 +20,7 @@ def searchPagination(request, p, searchquery):
 	items, pagelist, itemcount = get_search_page(p, searchquery)
 	print items
 	
-	render = render_to_string('hardware/hardwarelisttable.html', {'hardware': items, 'pagelist':pagelist, 'searchquery':searchquery, 'itemcount':itemcount})
+	render = render_to_string('hardware/hardwarelisttable.html', {'hardware': items, 'pagelist':pagelist, 'searchquery':searchquery, 'itemcount':itemcount, 'search':True})
 	dajax = Dajax()
 	dajax.assign('#pagination', 'innerHTML', render)
 	return dajax.json()
