@@ -24,7 +24,7 @@ Profil bearbeiten
 		</p>
 	{% endfor %}
 
-	<h3>Benutzername</h3>
+	<h3>Profil</h3>
 	<form action="{% url users.views.settings %}" method="post" class="form-inline">{% csrf_token %}
 		<div class="control-group {{mform.displayname.css_classes}}">
 		<label class="control-label" for="id_displayname">Anzeigename</label>
