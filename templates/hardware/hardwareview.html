@@ -2,17 +2,56 @@
 
 {% load thumbnail %}
 {% load gravatar %}
+{% load l10n %}
 
 {% block heading %}
 {{hardware.name}}
 {% endblock %}
 
+{% if userprofile.get_profile.displayLocation or user.is_staff %}
+{% block scriptimport %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="/static/js/gmaps.js"></script>
+{% endblock %}
+
 {% block script %}
+{% localize off %}
 function openlightbox (url) {
 	$('#lightboximage').attr("src", url)
 	$('#Lightbox').lightbox();
 }
+var map;
+$(document).ready(function(){
+	map = new GMaps({
+		div: '#map',
+		lat: {{hardware.location.latitude}},
+		lng: {{hardware.location.longitude}},
+		mapTypeControl: false,
+		streetViewControl: false,
+		overviewMapControl: false,
+		height: 300
+
+	});
+
+	map.addMarker({
+		lat: {{hardware.location.latitude}},
+		lng: {{hardware.location.longitude}}
+	});
+});
+ {% endlocalize %}
 {% endblock %}
+{% else %}
+{% block script %}
+{% localize off %}
+function openlightbox (url) {
+	$('#lightboximage').attr("src", url)
+	$('#Lightbox').lightbox();
+}
+ {% endlocalize %}
+{% endblock %}
+
+{% endif %}
 
 {% block content %}
 <div class="span4">
@@ -64,8 +103,10 @@ function openlightbox (url) {
 		
 			{% if showmap %}
 				<h4>Karte</h4>
-				{{ map.map }}
-				{{ map.media.js }}
+				<div id="map" style="height: 300px"></div>
+				 <script type="text/javascript">
+
+  </script>
 			{% endif %}
 </div>
 

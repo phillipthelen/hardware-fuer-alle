@@ -4,6 +4,37 @@
 {% load i18n %}
 {% load thumbnail %}
 {% load gravatar %}
+{% load l10n %}
+
+{% if userprofile.get_profile.displayLocation or user.is_staff %}
+{% block scriptimport %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="/static/js/gmaps.js"></script>
+{% endblock %}
+
+{% block script %}
+{% localize off %}
+var map;
+$(document).ready(function(){
+	map = new GMaps({
+		div: '#map',
+		lat: {{userprofile.get_profile.location.latitude}},
+		lng: {{userprofile.get_profile.location.longitude}},
+		mapTypeControl: false,
+		streetViewControl: false,
+		overviewMapControl: false
+
+	});
+
+	map.addMarker({
+		lat: {{userprofile.get_profile.location.latitude}},
+		lng: {{userprofile.get_profile.location.longitude}}
+	});
+});
+{% endlocalize %}
+{% endblock %}
+{% endif %}
 
 {% block heading %}
 {{userprofile.get_profile.displayname}}
@@ -21,7 +52,15 @@
 		{% if userprofile.get_profile.displayLocation or user.is_staff %}
 		<h4>Aus: {{userprofile.get_profile.location.city}}</h4>
 
-		{{ map.map }}
+		<a data-toggle="lightbox" href="#mapbox" id="mapbutton">{{ map.map }}</a>
+			<div id="mapbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+    <div class='lightbox-header'>
+        <button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
+    </div>
+    <div class='lightbox-content'>
+        <div id="map" style="height:400px;width:700px"></div>
+    </div>
+</div>
 		{% endif %}
 		
 
