@@ -14,13 +14,14 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="/static/js/gmaps.js"></script>
 {% endblock %}
-
+{% endif %}
 {% block script %}
 {% localize off %}
 function openlightbox (url) {
 	$('#lightboximage').attr("src", url)
 	$('#Lightbox').lightbox();
 }
+{% if userprofile.get_profile.displayLocation or user.is_staff %}
 var map;
 $(document).ready(function(){
 	map = new GMaps({
@@ -39,11 +40,7 @@ $(document).ready(function(){
 		lng: {{hardware.location.longitude}}
 	});
 });
- {% endlocalize %}
-{% endblock %}
-{% else %}
-{% block script %}
-{% localize off %}
+{% endif %}
 function openlightbox (url) {
 	$('#lightboximage').attr("src", url)
 	$('#Lightbox').lightbox();
@@ -51,7 +48,7 @@ function openlightbox (url) {
  {% endlocalize %}
 {% endblock %}
 
-{% endif %}
+
 
 {% block content %}
 <div class="span4">
