@@ -61,17 +61,23 @@ class SendmailForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea)
 
 class SimpleSearchForm(forms.Form):
-	searchquery = forms.CharField()
+	searchquery = forms.CharField(required=False)
 
 class SearchForm(SimpleSearchForm):
+	SORT_BY_CHOICES = (
+		("", "Sortiere nach"),
+		("name", "Name"),
+		("owner", "Besitzer"),
+		("condition", "Zustand"),
+		("category", "Kategorie"),
+		("state", "Art")
+	)
 	error_css_class = 'error'
-
-	choicewidget = forms.Select(attrs={"class":"input-medium",})
 
 	condition = forms.ModelChoiceField(queryset=Condition.objects.all(), empty_label="Zustand", required=False, widget=forms.Select(attrs={"class":"input-medium",}))
 	category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Kategorie", required=False, widget=forms.Select(attrs={"class":"input-medium",}))
 	state = forms.ModelChoiceField(queryset=State.objects.all(), empty_label="Art", required=False, widget=forms.Select(attrs={"class":"input-medium",}))
-
+	sortby = forms.ChoiceField(choices=SORT_BY_CHOICES, required=False, widget=forms.Select(attrs={"class":"input-medium",}))
 
 class LendForm(forms.Form):
 	username = forms.CharField()

@@ -272,6 +272,8 @@ def searchHardware(request, page=1):
 				hardware = hardware.filter(category=searchcategory)
 			if searchcondition != None:
 				hardware = hardware.filter(condition=searchcondition)
+			if form.cleaned_data ["sortby"] != "":
+				hardware = hardware.extra(order_by=[form.cleaned_data["sortby"],])
 			paginator = Paginator(hardware, 20)
 			try:
 				hardware = paginator.page(page)
