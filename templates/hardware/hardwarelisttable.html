@@ -1,14 +1,21 @@
+{% load locationtags %}
+
 {% if hardware %}
 <span>Ergebnisse {{hardware.start_index}} bis {{ hardware.end_index}} von {{itemcount}}</span>
 <table class="table table-bordered table-striped">
-  <tr><th>Name</th><th>Kategorie</th><th>Zustand</th><th>Besitzer</th><th>Ort</th></tr>
+  <tr><th>Name</th><th>Kategorie</th><th>Zustand</th><th>Besitzer</th><th>Ort</th><th>Entfernung</th></tr>
 
 {% for h in hardware %}
   <tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
      <td><img src="/images/{{h.category.icon}}" />{{h.category}}</td>
     <td>{{h.condition}}</td>
     <td><a href="{% url users.views.profile h.owner.id %}">{{h.owner.get_profile.displayname}}</a></td>
-     <td>{{h.location.city}}</td></tr>
+     {% if h.owner.get_profile.displayLocation %}<td>{{h.location.city}}</td>
+     <td>{% get_distance h.location user.get_profile.location %}</td>
+     {% else %}
+     <td>-</td><td>-</td>
+     {% endif %}
+ </tr>
 {% endfor %}
 </table>
 {% if hardware.has_other_pages %}
