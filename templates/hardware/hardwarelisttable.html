@@ -10,7 +10,7 @@
      <td><img src="/images/{{h.category.icon}}" />{{h.category}}</td>
     <td>{{h.condition}}</td>
     <td><a href="{% url users.views.profile h.owner.id %}">{{h.owner.get_profile.displayname}}</a></td>
-     {% if h.owner.get_profile.displayLocation %}<td>{{h.location.city}}</td>
+     {% if user.is_authenticated and h.owner.get_profile.displayLocation%}<td>{{h.location.city}}</td>
      <td>{% get_distance h.location user.get_profile.location %}</td>
      {% else %}
      <td>-</td><td>-</td>

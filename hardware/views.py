@@ -240,8 +240,19 @@ He/She wrote the following text:
 	else:
 		return render_to_response('hardware/sendmail.html', {"ownhardware":True} , RequestContext(request))
 
-def get_search_page(page=1, searchquery=""):
+def get_search_page(page=1, searchquery="", searchstate="", searchcategory="", searchcondition="", searchsort=""):
 	hardware = Hardware.objects.filter(name__icontains=searchquery)
+	if searchstate != "":
+		hardware = hardware.filter(state_id=searchstate)
+	if searchcategory != "":
+		print searchcategory, type(searchcategory)
+		hardware = hardware.filter(category_id=searchcategory)
+		print "test"
+	if searchcondition != "":
+		hardware = hardware.filter(condition_id=searchcondition)
+	if searchsort != "":
+		hardware = hardware.extra(order_by=[searchsort,])
+	print hardware
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
@@ -264,16 +275,31 @@ def searchHardware(request, page=1):
 			searchstate = form.cleaned_data["state"]
 			searchcategory = form.cleaned_data["category"]
 			searchcondition = form.cleaned_data["condition"]
-			context["searchquery"] = searchquery
+			
+			
+			if searchquery != None:
+				context["searchquery"] = searchquery.strip()
 			hardware = Hardware.objects.filter(name__icontains=searchquery)
 			if searchstate != None:
+				context["searchstate"] = str(searchstate.id).strip()
 				hardware = hardware.filter(state=searchstate)
+			else:
+				context["searchstate"] = ""
 			if searchcategory != None:
-				hardware = hardware.filter(category=searchcategory)
+				context["searchcategory"] = str(searchcategory.id).strip()
+				hardware = hardware.filter(category_id=2)
+			else:
+				context["searchcategory"] = ""
 			if searchcondition != None:
+				context["searchcondition"] = str(searchcondition.id).strip()
 				hardware = hardware.filter(condition=searchcondition)
+			else:
+				context["searchcondition"] = ""
 			if form.cleaned_data ["sortby"] != "":
+				context["searchsort"] = str(form.cleaned_data["sortby"]).strip()
 				hardware = hardware.extra(order_by=[form.cleaned_data["sortby"],])
+			else:
+				context["searchsort"] = ""
 			paginator = Paginator(hardware, 20)
 			try:
 				hardware = paginator.page(page)

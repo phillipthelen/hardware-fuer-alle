@@ -70,7 +70,8 @@ class SearchForm(SimpleSearchForm):
 		("owner", "Besitzer"),
 		("condition", "Zustand"),
 		("category", "Kategorie"),
-		("state", "Art")
+		("state", "Art"),
+		("distance", "Entfernung")
 	)
 	error_css_class = 'error'
 
