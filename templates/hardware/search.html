@@ -1,9 +1,6 @@
 <div class="span12">
 <form class="form-inline" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}
-	<div class="input-append">
-	    	<input type="text" name="searchquery" value="{{searchquery}}">{% csrf_token %}
-		<button type="submit" class="btn">Suchen</button>
-	</div>
+	<input type="text" name="searchquery" value="{{searchquery}}" placeholder="Suchbegriff">{% csrf_token %}
 		
 		
 	<div class="pull-right">
@@ -11,6 +8,7 @@
 		{{searchform.category}}
 		{{searchform.condition}}
 		{{searchform.sortby}}
+		<button type="submit" class="btn btn-primary" style="margin-left:15px">Suchen</button>
 	</div>
 </form>
 </div>
