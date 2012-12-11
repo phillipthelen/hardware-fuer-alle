@@ -245,9 +245,7 @@ def get_search_page(page=1, searchquery="", searchstate="", searchcategory="", s
 	if searchstate != "":
 		hardware = hardware.filter(state_id=searchstate)
 	if searchcategory != "":
-		print searchcategory, type(searchcategory)
 		hardware = hardware.filter(category_id=searchcategory)
-		print "test"
 	if searchcondition != "":
 		hardware = hardware.filter(condition_id=searchcondition)
 	if searchsort != "":
