@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader, Context, Template
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404, render_to_string
 from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
 from hardware.models import Hardware, Category, Condition, State
@@ -207,11 +207,11 @@ def new_images(request, hardwareid):
 	for account in accounts:
 		accountlist.append(account.provider)
 	t = Template("""<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><script src="https://apis.google.com/js/plusone.js"></script>
-Danke das du deine Hardware anderen zur verfügung stellen möchtest!<br />
-Willst du anderen mitteilen das deine Hardware nun hier verfügbar ist?<br />
-{% if 'facebook' in accountlist %}<a href='http://www.facebook.com/sharer.php' class="btn" target="blank">Auf Facebook teilen</a>{% endif %}
-{% if 'twitter' in accountlist %}<a href='https://twitter.com/intent/tweet' class="btn">Auf Twitter teilen</a>{% endif %}
-{% if 'google' in accountlist %}<a href='' class="btn">Auf Google+ teilen</a>{% endif %} """)
+Danke das du deine Hardware anderen zur verfügung stellen möchtest!<br />""")
+#Willst du anderen mitteilen das deine Hardware nun hier verfügbar ist?<br />
+#{% if 'facebook' in accountlist %}<a href='http://www.facebook.com/sharer.php' class="btn" target="blank">Auf Facebook teilen</a>{% endif %}
+#{% if 'twitter' in accountlist %}<a href='https://twitter.com/intent/tweet' class="btn">Auf Twitter teilen</a>{% endif %}
+#{% if 'google' in accountlist %}<a href='' class="btn">Auf Google+ teilen</a>{% endif %} """)
 	c = Context({'accountlist':accountlist})
 	messages.add_message(request, messages.SUCCESS, t.render(c))
 	return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
@@ -228,10 +228,13 @@ def sendMail(request, hardwareid):
 				if form.is_valid():
 					headers = {'Reply-To':user.email}  # From-header
 					from_email = 'support@hardware-fuer-alle.de'          # Return-Path header
-					subject = "Somebody is interested in your hardware!"
-					body = """The user {0} is interested in your hardware.
-He/She wrote the following text:
-{1}""".format(user.username, form.cleaned_data["text"])
+					subject = "[hardware für alle] Hardwareanfrage eines Benutzers/einer Benutzerin"
+					accounts = SocialAccount.objects.filter(user=request.user)
+					accountlist = []
+					for account in accounts:
+						accountlist.append(account.provider)
+					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "accountlist":accountlist})
+					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
 									   headers=headers).send()
 			else:
