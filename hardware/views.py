@@ -3,7 +3,8 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader, Context, Template
-from django.shortcuts import render_to_response, redirect, get_object_or_404, render_to_string
+from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
 from hardware.models import Hardware, Category, Condition, State
