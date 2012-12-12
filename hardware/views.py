@@ -122,13 +122,17 @@ def hardwareEdit(request, id=None):
 						g = geocoders.Google()
 						if location.city!= "" or location.street!="" or location.street!="":
 							searchstring = location.street + ", " + location.postcode + " " + form.cleaned_data['city']
-							places = g.geocode(urllib.quote(searchstring), exactly_one=False)
-							location.latitude = places[0][1][0]
-							location.longitude = places[0][1][1]
+							try:
+								places = g.geocode(urllib.quote(searchstring), exactly_one=False)
+								location.latitude = places[0][1][0]
+								location.longitude = places[0][1][1]
+								location.save()
+							except geocoders.google.GQueryError, e:
+								messages.add_message(request, messages.ERROR, u"Es konnte kein Ort gefunden werden, der deiner Eingabe entspricht. Hast du dich vielleicht vertippt?")
 						else:
 							location.latitude = None
 							location.longitude = None
-						location.save()
+							location.save()
 						h.location = location
 					else:
 						h.location = profile.location

@@ -17,6 +17,7 @@ from sorl.thumbnail import get_thumbnail
 from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
+from django.contrib import messages
 
 def set_mail(user, email):
 		if email != "":
@@ -104,16 +105,17 @@ def settings(request):
 				if location.city!= "" or location.street!="" or location.street!="":
 					try:
 						places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
+						print places
 						location.latitude = places[0][1][0]
 						location.longitude = places[0][1][1]
-					except Exception, e:
-						None
+						location.save()
+					except geocoders.google.GQueryError, e:
+						messages.add_message(request, messages.ERROR, u"Es konnte kein Ort gefunden werden, der deiner Eingabe entspricht. Hast du dich vielleicht vertippt?")
 				else:
 					location.latitude = None
 					location.longitude = None
-				location.save()
+					location.save()
 				profile.save()
-				print profile.location.city
 		else:
 			lform = LocationForm()
 			mform = UserSettingsForm(request.POST, request.FILES)
