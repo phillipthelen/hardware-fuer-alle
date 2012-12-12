@@ -8,6 +8,61 @@
 Profil bearbeiten
 {% endblock %}
 
+{% block script %}
+function checkStreet() {
+	if ($("#id_city").val() || $("#id_postcode").val()) {
+		$("#id_street").prop('disabled', false);
+	} else {
+		$("#id_street").val("");
+		$("#id_street").prop('disabled', true);
+	}
+}
+
+
+checkStreet()
+$(function() {
+	$("#id_city").keypress(function() {checkStreet()});
+	$("#id_postcode").keypress(function() {checkStreet()});
+	$("#id_city").change(function() {checkStreet()});
+	$("#id_postcode").change(function() {checkStreet()});
+
+	$( "#id_city" ).autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "http://ws.geonames.org/searchJSON",
+				dataType: "jsonp",
+				data: {
+					featureClass: "P",
+					style: "full",
+					maxRows: 12,
+					country: "DE",
+					lang:"de",
+					name_startsWith: request.term
+				},
+				success: function( data ) {
+					response( $.map( data.geonames, function( item ) {
+						return {
+							label: item.name + (item.adminName1 ? ", " + item.adminName1 : ""),
+							value: item.name,
+							postcode: item.lat
+						}
+					}));
+				}
+			});
+		},
+		minLength: 2,
+		select: function( event, ui ) {
+			 checkStreet();
+		},
+		open: function() {
+			$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+		},
+		close: function() {
+			$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+		}
+	});
+});
+{% endblock %}
 
 {% block content %}
 	<div class="span6">
