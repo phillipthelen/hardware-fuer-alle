@@ -72,7 +72,7 @@ $(function() {
 	{% for app in apps %}
 		<p>
 		{% if app.provider in accountlist %}
-			<a href="" class="btn btn-danger">Entferne Verbindung zu {{app.provider}}</a>
+			<a href="{% url users.views.disconnect app.provider %}" class="btn btn-danger">Entferne Verbindung zu {{app.provider}}</a>
 		{% else %}
 			<a href="{% provider_login_url app.provider %}" class="btn btn-success">Verbinde dein Profil mit {{app.provider}}</a>
 		{% endif %}

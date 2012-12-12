@@ -163,3 +163,10 @@ def newEmail(request):
 		if not profile.mail_confirmed and user.email != "":
 			return render_to_response('users/newmail.html', {'unfinished': True}, RequestContext(request))
 	return render_to_response('users/newmail.html', {'form': form}, RequestContext(request))
+
+@login_required
+def disconnect(request, socialacc):
+	account = get_object_or_404(SocialAccount, user=request.user, provider=socialacc)
+	account.delete()
+	messages.add_message(request, messages.SUCCESS, u"Die Verknüpfung wurde aufgehoben.")
+	return HttpResponseRedirect(reverse(settings))

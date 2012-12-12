@@ -1,7 +1,7 @@
 # coding: utf-8 f
 from django.conf.urls import patterns, include, url
 from main.views import home, hardwareAbuse
-from users.views import error, login, profile, settings, confirmEmail, newEmail
+from users.views import error, login, profile, settings, confirmEmail, newEmail, disconnect
 from django.contrib import admin
 from hardware.views import displayHardware, listHardware, listComponents, hardwareEdit, deleteHardware, sendMail, searchHardware, giveaway, takeback, new_images
 from hfa.settings import DEBUG, MEDIA_ROOT
@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/confirm/(?P<confirmation_key>.*)$', confirmEmail),
     url(r'^accounts/newmail$', newEmail),
+    url(r'^accounts/disconnect/(?P<socialacc>.*)$', disconnect),
     url(r'^accounts/', include('allauth.urls')),
 
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
