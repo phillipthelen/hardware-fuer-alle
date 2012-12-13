@@ -10,6 +10,10 @@
 
 {% if userprofile.get_profile.displayLocation or user.is_staff %}
 {% block scriptimport %}
+<link rel="stylesheet" href="/static/css/bootstrap-image-gallery.min.css">
+<script src="/static/js/tmpl.min.js"></script>
+<script src="/static/js/load-image.min.js"></script>
+<script src="/static/js/bootstrap-image-gallery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="/static/js/gmaps.js"></script>
@@ -55,9 +59,9 @@ function openlightbox (url) {
 
 <div id="myCarousel" class="carousel slide" data-interval="20000">
   <!-- Carousel items -->
-  <div class="carousel-inner">
+  <div class="carousel-inner" data-toggle="modal-gallery" data-target="#modal-gallery">
 {% for image in images %}
-    <div class="{% if forloop.first %}active {% endif %}item"><div class="wrapper"><a  href="javascript:openlightbox('/images/hardware/{{image.filename}}')"class="lightboxbutton"><img src="/images/hardware/{{image.filename}}" class="img">	    
+    <div class="{% if forloop.first %}active {% endif %}item"><a href="/images/{{image.image}}" title="{{image.caption}}" rel="gallery"><div class="wrapper"><img src="/images/{{image.image}}"class="img" />	    
     <div class='description'>  
         <!-- description content -->  
         <p class='description_content'>{{image.caption}}</p>  
@@ -218,5 +222,31 @@ $("#id_username").keypress( function() {
 </div>
 
 {% endif %}
+
+<div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn modal-download" target="_blank">
+            <i class="icon-download"></i>
+            <span>Herunterladen</span>
+        </a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+            <i class="icon-play icon-white"></i>
+            <span>Slideshow</span>
+        </a>
+        <a class="btn btn-info modal-prev">
+            <i class="icon-arrow-left icon-white"></i>
+            <span>Vorheriges</span>
+        </a>
+        <a class="btn btn-primary modal-next">
+            <span>Nächstes</span>
+            <i class="icon-arrow-right icon-white"></i>
+        </a>
+    </div>
+</div>
 </div>
 {% endblock %}
