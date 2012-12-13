@@ -63,6 +63,11 @@ $(function() {
 		}
 	});
 });
+$(document).ready(function () {
+$('input').tooltip({trigger: 'focus', title:$('input').siblings(".tooltip").html(), placement:'right'});
+$('textarea').tooltip({trigger: 'focus', title:$('textarea').siblings(".tooltip").html(), placement:'right'});
+$('select').tooltip({trigger: 'focus', title:$('select').siblings(".tooltip").html(), placement:'right'});
+});
 {% endblock %}
 
 {% block content %}
@@ -79,6 +84,7 @@ $(function() {
 			<label class="control-label" for="id_name">Name</label>
 			<div class="controls">
 				{{ form.name}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.name.errors}}</span>
 			</div>
 		</div>
@@ -86,6 +92,7 @@ $(function() {
 			<label class="control-label" for="id_description">Beschreibung</label>
 			<div class="controls">
 				{{form.description}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.description.errors}}</span>
 			</div>
 		</div>
@@ -93,6 +100,7 @@ $(function() {
 			<label class="control-label" for="id_condition">Zustand</label>
 			<div class="controls">
 				{{form.condition}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.condition.errors}}</span>
 			</div>
 		</div>
@@ -100,6 +108,7 @@ $(function() {
 			<label class="control-label" for="id_category">Kategorie</label>
 			<div class="controls">
 				{{form.category}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.category.errors}}</span>
 			</div>
 		</div>
@@ -107,6 +116,7 @@ $(function() {
 			<label class="control-label" for="id_state">Art</label>
 			<div class="controls">
 				{{form.state}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.state.errors}}</span>
 			</div>
 		</div>
@@ -114,6 +124,7 @@ $(function() {
 			<label class="control-label" for="id_lendlength">Leihdauer</label>
 			<div class="controls">
 				{{form.lendlength}} {{form.lendlengthtype}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.lendlength.errors}}</span>
 				<span class="help-inline">{{form.lendlengthtype.errors}}</span>
 			</div>
@@ -122,6 +133,7 @@ $(function() {
 			<label class="control-label" for="id_ownlocation">Eigener Ort</label>
 			<div class="controls">
 				{{form.ownlocation}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.ownlocation.errors}}</span>
 			</div>
 		</div>
@@ -130,6 +142,7 @@ $(function() {
 			<label class="control-label" for="id_city">Stadt</label>
 			<div class="controls">
 				{{form.city}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.city.errors}}</span>
 			</div>
 		</div>
@@ -137,6 +150,7 @@ $(function() {
 			<label class="control-label" for="id_postcode">Postleitzahl</label>
 			<div class="controls">
 				{{form.postcode}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.postcode.errors}}</span>
 			</div>
 		</div>
@@ -144,6 +158,7 @@ $(function() {
 			<label class="control-label" for="id_street">Straße</label>
 			<div class="controls">
 				{{form.street}}
+				<span class="tooltip">Nothing</span>
 				<span class="help-inline">{{form.street.errors}}</span>
 			</div>
 		</div>
