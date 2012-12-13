@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response,  get_object_or_404
@@ -5,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from hardware.models import Hardware
 from main.forms import HardwareReportForm
 from django.core.mail import EmailMessage
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+
 # Create your views here.
 def home(request):
 	"""Home view, displays login mechanism"""
@@ -28,9 +32,11 @@ Beschreibung:
 {2}""".format(request.user.username, hardware, form.cleaned_data["description"])
 			EmailMessage(subject, body, from_email, ["abuse@hardware-fuer-alle.de"],
 									   headers=headers).send()
-			return render_to_response('report.html', {'success':True}, RequestContext(request))
+			messages.add_message(request, messages.SUCCESS, u"Die Email mit deiner Meldung wurde an uns verschickt. Wir werden uns so schnell wie möglich darum kümmern.")
+			from hardware.views import displayHardware
+			return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
 		else:
 			return render_to_response('report.html', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
 	else:
 		form = HardwareReportForm()
-		return render_to_response('report.html', {'form':form}, RequestContext(request))
+		return HttpResponseRedirect(reverse(home))
