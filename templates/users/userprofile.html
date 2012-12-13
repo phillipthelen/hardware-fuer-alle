@@ -42,7 +42,6 @@ $(document).ready(function(){
 
 
 {% block content %}
-
 	<div class="span3">
 		{% if userprofile.get_profile.mail_confirmed %}
 	    	<img src="{% gravatar_url user.email 250 %}" class="img-polaroid">
