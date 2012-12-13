@@ -9,6 +9,7 @@ Contact Owner
 
 
 {% block content %}
+<div class="span12">
 {% if invalidmail %}
 	<p>Please check your mail.</p>
 {% elif ownhardware %}
@@ -25,4 +26,5 @@ Contact Owner
 <input type="submit" value="Submit" class="btn btn-primary" />
 </form>
 {% endif %}
+</div>
 {% endblock %}

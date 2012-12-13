@@ -9,6 +9,7 @@ Set new mail
 
 
 {% block content %}
+<div class="span12">
 {% if set %}
 	<p>We sent you a mail with a confirmation link to {{user.email}}. Please follow the instructions in the mail in the next 48 hours to confirm your mail adress</p>
 {% elif unfinished %}
@@ -25,4 +26,5 @@ Set new mail
 		<button type="submit" class="btn btn-primary">Set email</button>
 </form>
 {% endif %}
+</div>
 {% endblock %}

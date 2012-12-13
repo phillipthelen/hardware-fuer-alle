@@ -66,6 +66,7 @@ $(function() {
 {% endblock %}
 
 {% block content %}
+<div class="span12">
 {% if invalidmail %}
 	<p>You need a confirmed email adress</p>
 {% else %}
@@ -266,4 +267,5 @@ $(function() {
 <script src="/static/js/csrf.js"></script>
 {% endif %}
 {% endif %}
+</div>
 {% endblock %}

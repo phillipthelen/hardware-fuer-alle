@@ -3,6 +3,7 @@
 {% block heading %}Missbrauch melden{% endblock %}
 
 {% block content %}
+<div class="span12">
 <form enctype="multipart/form-data" action="{% url main.views.hardwareAbuse %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group {{form.description.css_classes}}">
 			<label class="control-label" for="id_caption3">Beschreibung</label>
@@ -13,4 +14,5 @@
 		</div>
 	<input type="hidden" name="type" value="main"><button type="submit" class="btn btn-primary">Abschicken</button>
 </form>
+</div>
 {% endblock %}

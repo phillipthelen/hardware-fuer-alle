@@ -3,6 +3,7 @@
 {% block heading %}Hardware verleihen{% endblock %}
 
 {% block content %}
+<div class="span12">
 <form action="{% url hardware.views.giveaway %}" method="post" class="form-inline">{% csrf_token %}
 	<p>Gib bitte den Benutzernamen des/der Benutzers/Benutzerin an, an den/die du den Eintrag verleihen möchtest. Falls die Person dir bereits eine Kontaktmail geschickt hat, taucht der Name im Autocomplete auf.</p>
 		<div class="control-group {{form.username.css_classes}}">
@@ -14,4 +15,5 @@
 <input type="hidden" name="hardware" value="{{hardwareid}}">
     <button type="submit" class="btn btn-primary">Verleihen</button>
 </form>
+</div>
 {% endblock %}
