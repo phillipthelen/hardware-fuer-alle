@@ -6,6 +6,9 @@ from django.contrib import admin
 from hardware.views import displayHardware, listHardware, listComponents, hardwareEdit, deleteHardware, sendMail, searchHardware, giveaway, takeback, new_images
 from hfa.settings import DEBUG, MEDIA_ROOT
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+import allauth
+from django.utils import importlib
+
 dajaxice_autodiscover()
 admin.autodiscover()
 
@@ -30,13 +33,25 @@ urlpatterns = patterns('',
     url(r'^hardware/list/(?P<page>\d*)$', listHardware),
     url(r'^hardware/abuse/$', hardwareAbuse),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login$', login),
+    url(r'^account/login/cancelled/$', "allauth.socialaccount.views.login_cancelled", name='socialaccount_login_cancelled'),
+    url(r'^account/login/error/$', "allauth.socialaccount.views.login_error", name='socialaccount_login_error'),
+    url(r"^logout/$", "allauth.account.views.logout", name="account_logout"),
     url(r'^accounts/confirm/(?P<confirmation_key>.*)$', confirmEmail),
     url(r'^accounts/newmail$', newEmail),
     url(r'^accounts/disconnect/(?P<socialacc>.*)$', disconnect),
-    url(r'^accounts/', include('allauth.urls')),
 
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
+
+for provider in allauth.socialaccount.providers.registry.get_list():
+    try:
+        prov_mod = importlib.import_module(provider.package + '.urls')
+    except ImportError:
+        continue
+    prov_urlpatterns = getattr(prov_mod, 'urlpatterns', None)
+    if prov_urlpatterns:
+        urlpatterns += patterns('', url(r'^accounts/', include(prov_urlpatterns)))
 
 if DEBUG:
     # static files (images, css, javascript, etc.)
