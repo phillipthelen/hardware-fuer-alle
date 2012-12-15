@@ -7,7 +7,7 @@
 
 {% for h in hardware %}
   <tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
-     <td><img src="/images/{{h.category.icon}}" />{{h.category}}</td>
+     <td><img src="/images/{{h.category.icon}}" style="margin-right:8px" />{{h.category}}</td>
     <td>{{h.condition}}</td>
     <td><a href="{% url users.views.profile h.owner.id %}">{{h.owner.get_profile.displayname}}</a></td>
      {% if user.is_authenticated and h.owner.get_profile.displayLocation%}<td>{{h.location.city}}</td>
