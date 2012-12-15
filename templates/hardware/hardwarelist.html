@@ -32,7 +32,7 @@ Path.map("/hardware/list/components/:page").to(function(){
                 Path.history.pushState({}, "", $(this).attr("href"));
             });
         });
-    
+
     </script>
 <div class="span6 offset3">
     <form class="form-search" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}

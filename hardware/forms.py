@@ -49,7 +49,7 @@ class HardwareForm(forms.Form):
 
 
 	def __init__(self, *args, **kwargs):
-		super(HardwareForm, self).__init__(*args, **kwargs)   
+		super(HardwareForm, self).__init__(*args, **kwargs)
 
 		choices = []
 		for c in State.objects.all():

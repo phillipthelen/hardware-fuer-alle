@@ -5,7 +5,6 @@ from main.models import Location
 from random import randrange, choice, randint, uniform
 import os
 
-
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 		if len(args) > 0:

@@ -23,20 +23,20 @@ from allauth.socialaccount.models import SocialAccount, SocialApp
 
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
-	
+
 	if maxitem < 5:
 		for i in range(1, maxitem+1):
 			pagelist.append(i)
 		return pagelist
 
-	if pagenumber <= 4: 
+	if pagenumber <= 4:
 		for i in range(1, pagenumber):
 			pagelist.append(i)
 	else:
 		pagelist.append(1)
 		for i in range(pagenumber-3, pagenumber):
 			pagelist.append(i)
-	if (maxitem - pagenumber) <= 4: 
+	if (maxitem - pagenumber) <= 4:
 		for i in range(pagenumber, maxitem+1):
 			pagelist.append(i)
 	else:
@@ -281,8 +281,8 @@ def searchHardware(request, page=1):
 			searchstate = form.cleaned_data["state"]
 			searchcategory = form.cleaned_data["category"]
 			searchcondition = form.cleaned_data["condition"]
-			
-			
+
+
 			if searchquery != None:
 				context["searchquery"] = searchquery.strip()
 			hardware = Hardware.objects.filter(name__icontains=searchquery)

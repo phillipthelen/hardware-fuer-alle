@@ -1,8 +1,8 @@
 <div class="span12">
 <form class="form-inline" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}
 	<input type="text" name="searchquery" value="{{searchquery}}" placeholder="Suchbegriff">{% csrf_token %}
-		
-		
+
+
 	<div class="pull-right">
 		{{searchform.state}}
 		{{searchform.category}}

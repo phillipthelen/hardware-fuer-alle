@@ -1,6 +1,7 @@
 from users.views import newEmail
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+
 def email(request):
 	user = request.user
 	if user.is_authenticated():
