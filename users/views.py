@@ -20,33 +20,33 @@ from django.core.mail import send_mail
 from django.contrib import messages
 
 def set_mail(user, email):
-		if email != "":
-			profile = user.get_profile()
-			# Build the activation key for their account
-			salt = sha.new(str(random.random())).hexdigest()[:5]
-			confirmation_key = sha.new(salt+user.username).hexdigest()
-			key_expires = datetime.datetime.today() + datetime.timedelta(2)
+	if email != "":
+		profile = user.get_profile()
+		# Build the activation key for their account
+		salt = sha.new(str(random.random())).hexdigest()[:5]
+		confirmation_key = sha.new(salt+user.username).hexdigest()
+		key_expires = datetime.datetime.today() + datetime.timedelta(2)
 
 
 
-			profile.confirmation_key = confirmation_key
-			profile.key_expires = key_expires
-			profile.mail_confirmed = False
-			profile.save()
-			user.email = email
-			user.save()
-			# Send an email with the confirmation link
+		profile.confirmation_key = confirmation_key
+		profile.key_expires = key_expires
+		profile.mail_confirmed = False
+		profile.save()
+		user.email = email
+		user.save()
+		# Send an email with the confirmation link
 
-			email_subject = 'Your new hardware-fuer-alle.de email confirmation'
-			email_body = """Hello, %s, and thanks for signing up for an
-		example.com account!\n\nTo activate your account, click this link within 48
-		hours:\n\nhttp://hardware-fuer-alle.de/beta/accounts/confirm/%s""" % (
-				user.username,
-				profile.confirmation_key)
-			send_mail(email_subject,
-					email_body,
-					'support@hardware-fuer-alle.de',
-					[user.email])
+		email_subject = 'Your new hardware-fuer-alle.de email confirmation'
+		email_body = """Hello, %s, and thanks for signing up for an
+	example.com account!\n\nTo activate your account, click this link within 48
+	hours:\n\nhttp://hardware-fuer-alle.de/beta/accounts/confirm/%s""" % (
+			user.username,
+			profile.confirmation_key)
+		send_mail(email_subject,
+				email_body,
+				'support@hardware-fuer-alle.de',
+				[user.email])
 
 def error(request):
 	"""Error view"""
@@ -56,7 +56,7 @@ def error(request):
 
 def login(request):
 	"""Displays the login options"""
-	return render_to_response('users/login.html', {},
+	return render_to_response('users/login.html', {"apps":SocialApp.objects.all()},
 		RequestContext(request))
 
 def profile(request, userid):
@@ -118,7 +118,9 @@ def settings(request):
 				profile.save()
 		else:
 			lform = LocationForm()
-			mform = UserSettingsForm(request.POST, request.FILES)
+			print request.POST
+			mform = UserSettingsForm(request.POST)
+			mform.user = request.user
 			if mform.is_valid():
 				if mform.cleaned_data['email'] != user.email:
 					set_mail(user, mform.cleaned_data['email'])
@@ -129,8 +131,6 @@ def settings(request):
 	else:
 		lform = LocationForm()
 		mform = UserSettingsForm()
-	if not profile.mail_confirmed:
-		context["mailconfirm"] = "We sent you a confirmation link. Please check your mail."
 	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform})
 	map, showmap = create_map(profile.location)
 	context["map"] = map
@@ -155,6 +155,7 @@ def newEmail(request):
 	profile = user.get_profile()
 	if request.POST:
 		form = EmailForm(request.POST)
+		form.user = request.user
 		if form.is_valid():
 			set_mail(user, form.cleaned_data["email"])
 			return render_to_response('users/newmail.html', {'set': True}, RequestContext(request))

@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 from django import forms
 from django.core import validators
 from django.contrib.auth.models import User
@@ -18,23 +19,33 @@ class LocationForm(forms.Form):
 
 class UserSettingsForm(forms.Form):
 	displayname = forms.CharField(max_length=50, required=True)
-	email = forms.EmailField(required=False)
+	email = forms.EmailField(required=True)
 	error_css_class = 'error'
 
-"""
-	def __init__(self, user, *args, **kwargs):
-		super(UserSettingsForm, self).__init__(*args, **kwargs)
-		print user
-		self.user = user
-
 	def clean_email(self):
-		email = self.cleaned_data.get('email')
-		print form
-		username = form.user.username
-		if email and User.objects.filter(email=email).exclude(username=username).count():
-			raise forms.ValidationError(u'Email addresses must be unique.')
-		return email"""
+		value = self.cleaned_data["email"]
+		errors = {
+			"different_account": "Diese Adresse ist bereits mit einem anderen Benutzer verknüpft.",
+		}
+		emails = User.objects.filter(email__iexact=value)
+		if emails.exclude(username = self.user).exists():
+			raise forms.ValidationError(errors["different_account"])
+		return value
 
 class EmailForm(forms.Form):
 	email = forms.EmailField(required=True)
 	error_css_class = 'error'
+
+	def __init__(self, user=None, *args, **kwargs):
+		self.user = user
+		super(EmailForm, self).__init__(*args, **kwargs)
+		
+	def clean_email(self):
+		value = self.cleaned_data["email"]
+		errors = {
+			"different_account": "Diese Adresse ist bereits mit einem anderen Benutzer verknüpft.",
+		}
+		emails = User.objects.filter(email__iexact=value)
+		if emails.exclude(user=self.user).exists():
+			raise forms.ValidationError(errors["different_account"])
+		return value
