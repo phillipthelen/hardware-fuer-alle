@@ -293,7 +293,7 @@ def searchHardware(request, page=1):
 				context["searchstate"] = ""
 			if searchcategory != None:
 				context["searchcategory"] = str(searchcategory.id).strip()
-				hardware = hardware.filter(category_id=2)
+				hardware = hardware.filter(category_id=searchcategory)
 			else:
 				context["searchcategory"] = ""
 			if searchcondition != None:
