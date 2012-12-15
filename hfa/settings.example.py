@@ -164,7 +164,8 @@ EMAIL_FILE_PATH = '{0}/mails'.format(os.getcwd())
 
 GRAVATAR_DEFAULT_IMAGE = 'retro'
 
-ACCOUNT_EMAIL_VERIFICATION="none"
+ACCOUNT_EMAIL_REQUIRED=False
+ACCOUNT_EMAIL_VERIFICATION=None
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
