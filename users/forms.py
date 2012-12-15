@@ -35,10 +35,6 @@ class UserSettingsForm(forms.Form):
 class EmailForm(forms.Form):
 	email = forms.EmailField(required=True)
 	error_css_class = 'error'
-
-	def __init__(self, user=None, *args, **kwargs):
-		self.user = user
-		super(EmailForm, self).__init__(*args, **kwargs)
 		
 	def clean_email(self):
 		value = self.cleaned_data["email"]
