@@ -4,18 +4,18 @@
 {% load i18n %}
 
 {% block heading %}
-Email Confirmation
+Email-Bestätigung
 {% endblock %}
 
 
 {% block content %}
 <div class="span12">
 {% if success %}
-	<p>your email was successfully confirmed!</p>
+	<p>Deine Emailadresse wurde bestätigt!</p>
 {% elif expired %}
-	<p>Your confirmation code expired. Should we send you a new one or do you want to specify a different mail adress?</p>
+	<p>Dein Bestätigungscode ist abgelaufen... sollen wir dir einen Neuen senden oder möchtest du die Emailadresse ändern?</p>
 {% else %}
-	<p>Your confirmation code is invalid. Should we send you a new one or do you want to specify a different mail adress?</p>
+	<p>Dein Bestätigungscode ist ungültig. Sollen wir dir einen Neuen senden oder möchtest du deine Emailadresse ändern?</p>
 {% endif %}
 </div>
 {% endblock %}
