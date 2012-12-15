@@ -32,6 +32,7 @@ $(document).ready(function(){
 		div: '#map',
 		lat: {{hardware.location.latitude}},
 		lng: {{hardware.location.longitude}},
+		zoom: {% if hardware.location.street != "" %}13{% else %}10{% endif %},
 		mapTypeControl: false,
 		streetViewControl: false,
 		overviewMapControl: false,
