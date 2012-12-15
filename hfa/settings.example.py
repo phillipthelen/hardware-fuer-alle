@@ -164,6 +164,8 @@ EMAIL_FILE_PATH = '{0}/mails'.format(os.getcwd())
 
 GRAVATAR_DEFAULT_IMAGE = 'retro'
 
+ACCOUNT_EMAIL_VERIFICATION="none"
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
