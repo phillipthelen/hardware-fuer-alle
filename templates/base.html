@@ -67,7 +67,7 @@
 </li>
 {% endif %}
 {% if not user.is_authenticated %}
-  	<a href="{% url allauth.account.views.login %}"><button class="btn btn-primary">Anmelden</button></a>
+  	<a href="{% url users.views.login %}"><button class="btn btn-primary">Anmelden</button></a>
 {% endif %}
 </ul>
 </div><!--/.nav-collapse -->
