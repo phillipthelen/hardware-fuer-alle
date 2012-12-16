@@ -13,6 +13,8 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
 ## Installation
 
+_Wir gehen hier davon aus, dass ihr [Python](http://www.python.org) und das [setuptools Paket](http://pypi.python.org/pypi/setuptools) installiert habt._
+
 ### 1. Clone the Repo
 
     ```git clone https://github.com/vIiRuS/hardware-fuer-alle.git```
