@@ -58,11 +58,11 @@ function openlightbox (url) {
   <!-- Carousel items -->
   <div class="carousel-inner" data-toggle="modal-gallery" data-target="#modal-gallery">
 {% for image in images %}
-    <div class="{% if forloop.first %}active {% endif %}item"><a href="/images/{{image.image}}" title="{{image.caption}}" rel="gallery"><div class="wrapper"><img src="/images/{{image.image}}"class="img" />	    
-    <div class='description'>  
-        <!-- description content -->  
-        <p class='description_content'>{{image.caption}}</p>  
-        <!-- end description content -->  
+    <div class="{% if forloop.first %}active {% endif %}item"><a href="/images/{{image.image}}" title="{{image.caption}}" rel="gallery"><div class="wrapper"><img src="/images/{{image.image}}"class="img" />
+    <div class='description'>
+        <!-- description content -->
+        <p class='description_content'>{{image.caption}}</p>
+        <!-- end description content -->
     </div></a></div></div>
 {% endfor %}
   </div>
@@ -98,7 +98,7 @@ function openlightbox (url) {
 			<!--p>City: {{hardware.location.city}}</p-->
 			<!--p>Postcode: {{hardware.location.postcode}}</p-->
 			<!--p>Street: {{hardware.location.street}}</p-->
-		
+
 			{% if showmap %}
 				<h4>Karte</h4>
 				<div id="map" style="height: 300px"></div>

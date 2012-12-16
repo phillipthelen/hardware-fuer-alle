@@ -121,7 +121,7 @@ Parses data from jQuery plugin and makes database changes.
 					   "delete_url":file_delete_url+str(image.pk),
 					   "delete_type":"POST",})
 		response_data = simplejson.dumps(result)
-		
+
 		#checking for json data type
 		#big thanks to Guy Shapiro
 		if "application/json" in request.META['HTTP_ACCEPT_ENCODING']:

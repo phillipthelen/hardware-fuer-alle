@@ -35,7 +35,7 @@ class UserSettingsForm(forms.Form):
 class EmailForm(forms.Form):
 	email = forms.EmailField(required=True)
 	error_css_class = 'error'
-		
+
 	def clean_email(self):
 		value = self.cleaned_data["email"]
 		errors = {
