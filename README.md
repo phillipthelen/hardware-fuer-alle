@@ -17,7 +17,7 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
     ```git clone https://github.com/vIiRuS/hardware-fuer-alle.git```
 
-2. install the dependencies
+2. Install the dependencies
 
     ```easy_install django django-allauth geopy django-gmapi sorl-thumbnail django-dajaxice django-dajax django-gravatar2```
 
@@ -25,7 +25,7 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
     ```./manage.py syncdb``` _during this step the script will also create an admin user._
 
-4. _(optional)_ populate the project with test data
+4. _(optional)_ Populate the project with test data
 
     ```./manage.py populateTestUsers```
 
