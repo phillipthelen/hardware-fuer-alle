@@ -232,7 +232,7 @@ def sendMail(request, hardwareid):
 					accounts = SocialAccount.objects.filter(user=request.user)
 					accountlist = []
 					for account in accounts:
-						accountlist.append(account.provider)
+						accountlist.append(account)
 					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "accountlist":accountlist})
 					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
