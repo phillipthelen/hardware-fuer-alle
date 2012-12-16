@@ -104,7 +104,6 @@ def settings(request):
 				if location.city!= "" or location.street!="" or location.street!="":
 					try:
 						places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
-						print places
 						location.latitude = places[0][1][0]
 						location.longitude = places[0][1][1]
 						location.save()
@@ -117,7 +116,6 @@ def settings(request):
 				profile.save()
 		else:
 			lform = LocationForm()
-			print request.POST
 			mform = UserSettingsForm(request.POST)
 			mform.user = request.user
 			if mform.is_valid():

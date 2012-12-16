@@ -181,7 +181,6 @@ def hardwareEdit(request, id=None):
 						else:
 							hardware.location = profile.location
 						hardware.save()
-						print hardware.id
 						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug])) # Redirect after POST
 				else:
@@ -258,7 +257,6 @@ def get_search_page(page=1, searchquery="", searchstate="", searchcategory="", s
 		hardware = hardware.filter(condition_id=searchcondition)
 	if searchsort != "":
 		hardware = hardware.extra(order_by=[searchsort,])
-	print hardware
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)

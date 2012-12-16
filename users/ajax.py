@@ -11,5 +11,4 @@ def get_users_to_lend(request, query):
 	for user in userlist:
 		endlist.append(user.username)
 	dajax.assign('#id_username','data-source', endlist)
-	print dajax.json()
 	return dajax.json()
