@@ -1,5 +1,6 @@
-## Über
-Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedingungslos-gescheite-hardware-fuer-alle/)
+## About
+
+For more information about this project read the [blogpost from @sofakissen](http://raummaschine.de/blog/2012/09/16/bedingungslos-gescheite-hardware-fuer-alle/). _(it's written in german)_
 
 ## Dependencies
 * Django 1.4
