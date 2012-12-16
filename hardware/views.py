@@ -237,6 +237,8 @@ def sendMail(request, hardwareid):
 					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
 									   headers=headers).send()
+					messages.add_message(request, messages.SUCCESS, "E-Mail an den Besitzer wurde verschickt.")
+					return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
 			else:
 				form = SendmailForm()
 			context = {"form":form, "hardware":hardware}
