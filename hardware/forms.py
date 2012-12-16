@@ -20,7 +20,7 @@ class SelectWithTitles(forms.Select):
 			conditional_escape(force_unicode(option_label)))
 pty_label=None
 class ChoiceFieldWithTitles(forms.ChoiceField):
-	widget = SelectWithTitles(attrs={'title':"Brauchst du das Gerät irgendwann wieder oder hast du selbst gar keine Verwendung mehr dafür?"})
+	widget = SelectWithTitles(attrs={"class":"span2", 'title':"Brauchst du das Gerät irgendwann wieder oder hast du selbst gar keine Verwendung mehr dafür?"})
 
 	def __init__(self, choices=(), *args, **kwargs):
 		choice_pairs = [(c[0], c[1]) for c in choices]
@@ -35,18 +35,19 @@ class HardwareForm(forms.Form):
 		('356', 'Jahr(e)')
 	)
 	error_css_class = 'error'
-	namewidget=forms.TextInput(attrs={'title':"Gib den Namen deiner Hardware ein, am Besten einfach die Produktbezeichnung."})
+	namewidget=forms.TextInput(attrs={"class":"span3", 'title':"Gib den Namen deiner Hardware ein, am Besten einfach die Produktbezeichnung."})
 	name = forms.CharField(max_length=200, widget=namewidget)
-	descriptionwidget=forms.Textarea(attrs={'title':"Beschreibe deine Hardware: welche Macken und Eigenheiten erwarten einen neuen Besitzer eventuell? Was für Besonderheiten hat deine Hardware?"})
+	descriptionwidget=forms.Textarea(attrs={"class":"span5", 'title':"Beschreibe deine Hardware: welche Macken und Eigenheiten erwarten einen neuen Besitzer eventuell? Was für Besonderheiten hat deine Hardware?"})
 	description = forms.CharField(widget=descriptionwidget)
-	conditionwidget=forms.Select(attrs={'title':"Wähle den Zustand ehrlich aus; du musst nichts besser ausgeben als es ist."})
+	conditionwidget=forms.Select(attrs={"class":"span2", 'title':"Wähle den Zustand ehrlich aus; du musst nichts besser ausgeben als es ist."})
 	condition = forms.ModelChoiceField(queryset=Condition.objects.all(), empty_label=None, widget=conditionwidget)
-	categorywidget=forms.Select(attrs={'title':"Wähle aus um was für ein Gerät es sich handelt."})
+	categorywidget=forms.Select(attrs={"class":"span2", 'title':"Wähle aus um was für ein Gerät es sich handelt."})
 	category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None, widget=categorywidget)
 	state = ChoiceFieldWithTitles()
-	lendlengthwidget=forms.TextInput(attrs={'title':"Schätze ab, wann du das Gerät spätestens selbst wieder benötigen wirst."})
+	lendlengthwidget=forms.TextInput(attrs={"class":"span1", 'title':"Schätze ab, wann du das Gerät spätestens selbst wieder benötigen wirst."})
 	lendlength = forms.IntegerField(required=False, widget=lendlengthwidget)
-	lendlengthtype = forms.ChoiceField(choices=lendlengthtypes, required=False)
+	lendlengthtypewidget = forms.Select(attrs={"class":"span2"})
+	lendlengthtype = forms.ChoiceField(choices=lendlengthtypes, required=False, widget=lendlengthtypewidget)
 	locationwidget=forms.CheckboxInput(attrs={'title':"Wo kann das Gerät abgeholt werden? Wenn du keinen Haken setzt wird einfach der Ort verwendet, den du in deinem Profil angegeben hast."})
 	ownlocation = forms.BooleanField(required=False, widget=locationwidget)
 	city = forms.CharField(max_length=200, required=False)
