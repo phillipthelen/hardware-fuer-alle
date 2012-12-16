@@ -19,14 +19,14 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
 2. install the dependencies
 
-    * ```easy-install django```
-    * ```easy-install django-allauth```
-    * ```easy-install geopy```
-    * ```easy-install django-gmapi```
-    * ```easy-install sorl-thumbnail```
-    * ```easy-install django-dajaxice```
-    * ```easy-install django-dajax```
-    * ```easy-install django-gravatar2```
+    ```easy-install django```
+    ```easy-install django-allauth```
+    ```easy-install geopy```
+    ```easy-install django-gmapi```
+    ```easy-install sorl-thumbnail```
+    ```easy-install django-dajaxice```
+    ```easy-install django-dajax```
+    ```easy-install django-gravatar2```
 
 3. Create the Database
 
@@ -34,8 +34,8 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
 4. _(optional)_ populate the project with test data
 
-    * ```./manage.py populateTestUsers```
-    * ```./manage.py populateTestHardware```
+    ```./manage.py populateTestUsers```
+    ```./manage.py populateTestHardware```
 
 5. Run the test server
 
