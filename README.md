@@ -23,7 +23,7 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
 3. Create the Database
 
-    ```./manage.py syncdb``` _during this step the script will also create an admin user._
+    ```./manage.py syncdb``` _during this step the script will also create an admin user_
 
 4. _(optional)_ Populate the project with test data
 
