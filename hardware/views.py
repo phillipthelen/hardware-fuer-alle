@@ -181,7 +181,6 @@ def hardwareEdit(request, id=None):
 						else:
 							hardware.location = profile.location
 						hardware.save()
-						print hardware.id
 						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug])) # Redirect after POST
 				else:
@@ -238,6 +237,8 @@ def sendMail(request, hardwareid):
 					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
 									   headers=headers).send()
+					messages.add_message(request, messages.SUCCESS, "E-Mail an den Besitzer wurde verschickt.")
+					return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
 			else:
 				form = SendmailForm()
 			context = {"form":form, "hardware":hardware}
@@ -258,7 +259,6 @@ def get_search_page(page=1, searchquery="", searchstate="", searchcategory="", s
 		hardware = hardware.filter(condition_id=searchcondition)
 	if searchsort != "":
 		hardware = hardware.extra(order_by=[searchsort,])
-	print hardware
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)

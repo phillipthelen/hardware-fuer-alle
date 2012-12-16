@@ -4,8 +4,6 @@ register = template.Library()
 
 @register.simple_tag
 def get_distance(origin, destination):
-	print origin
-	print destination
 	if origin != None and destination != None:
 		return str(origin.get_distance_string(destination))
 	else:
