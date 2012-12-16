@@ -4,16 +4,16 @@
 {% load i18n %}
 
 {% block heading %}
-Contact Owner
+Besitzer kontaktieren
 {% endblock %}
 
 
 {% block content %}
 <div class="span12">
 {% if invalidmail %}
-	<p>Please check your mail.</p>
+	<p>Bitte überprüfe deine Emails.</p>
 {% elif ownhardware %}
-	<p>You can't contact yourself!</p>
+	<p>Du kannst dich nicht selbst kontaktieren!</p>
 {% else %}
 <form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">
