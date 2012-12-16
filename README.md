@@ -13,7 +13,7 @@ Siehe den [Blogpost von @sofakissen](http://raummaschine.de/blog/2012/09/16/bedi
 
 ## Installation
 
-_Wir gehen hier davon aus, dass ihr [Python](http://www.python.org) und das [setuptools Paket](http://pypi.python.org/pypi/setuptools) installiert habt._
+_We assume in the following you have [Python](http://www.python.org) and [setuptools](http://pypi.python.org/pypi/setuptools) installed. If python2 isn't your default Python version, you have to replace the easy\_install command with the approriate command (i.e. ```easy-install-2.7```)_
 
 ### 1. Clone the Repo
 
@@ -40,5 +40,3 @@ Copy and rename the ```hfa/settings.example.py``` and configure it to your local
 ### 6. Run the test server
 
 ```./manage.py runserver```
-
-_Note: If python2 isn't your default Python version, you have to replace the easy-install command with the approriate command (i.e. easy-install-2.7 )_
