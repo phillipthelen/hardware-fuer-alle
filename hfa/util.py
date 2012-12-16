@@ -32,7 +32,7 @@ def create_map(location, size=(250, 250)):
 	class MapForm(forms.Form):
 		map = forms.Field(widget=GoogleMap(attrs={'width':size[0], 'height':size[1]}))
 
-	
+
 
 	if location != None and location.latitude != None and location.longitude != None:
 		if location.street != "":

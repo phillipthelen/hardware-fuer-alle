@@ -11,7 +11,7 @@ class MultiuploaderImage(models.Model):
 	upload_date = models.DateTimeField(auto_now_add=True)
 	caption = models.CharField(max_length=200,blank=True, null=True)
 	hardware = models.ForeignKey(Hardware)
-	
+
 	@property
 	def key_generate(self):
 		"""returns a string based unique key with length 80 chars"""

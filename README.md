@@ -1,5 +1,6 @@
-## Über
-Siehe den Blogpost von @sofakissen: http://raummaschine.de/blog/2012/09/16/bedingungslos-gescheite-hardware-fuer-alle/
+## About
+
+For more information about this project read the [blogpost from @sofakissen](http://raummaschine.de/blog/2012/09/16/bedingungslos-gescheite-hardware-fuer-alle/). _(it's written in german)_
 
 ## Dependencies
 * Django 1.4
@@ -13,33 +14,30 @@ Siehe den Blogpost von @sofakissen: http://raummaschine.de/blog/2012/09/16/bedin
 
 ## Installation
 
-1. Clone the Repo
+_We assume in the following you have [Python](http://www.python.org) and [setuptools](http://pypi.python.org/pypi/setuptools) installed. If python2 isn't your default Python version, you have to replace the easy\_install command with the approriate command (i.e. ```easy-install-2.7```)_
 
-    >git clone https://github.com/vIiRuS/hardware-fuer-alle.git
+### 1. Clone the Repo
 
-2. install the dependencies
+```git clone https://github.com/vIiRuS/hardware-fuer-alle.git```
 
-    >easy-install django
-    >easy-install django-allauth
-    >easy-install geopy
-    >easy-install django-gmapi
-    >easy-install sorl-thumbnail
-    >easy-install django-dajaxice
-    >easy-install django-dajax
-    >easy-install django-gravatar2
+### 2. Install the dependencies
 
-3. Create the Database
+```easy_install django django-allauth geopy django-gmapi sorl-thumbnail django-dajaxice django-dajax django-gravatar2```
 
-    >./manage.py syncdb
-during this step the script will also create an admin user.
+### 3. Create ```hfa/settings.py```
 
-4. (optional) populate the project with test data
+Copy and rename the ```hfa/settings.example.py``` and configure it to your local needs.
 
-    >./manage.py populateTestUsers
-    >./manage.py populateTestHardware
+### 4. Create the Database
 
-5. Run the test server
+```./manage.py syncdb``` _during this step the script will also create an admin user_
 
-    >./manage.py runserver
+### 5. _(optional)_ Populate the project with test data
 
-Note: If python2 isn't your default Python version, you have to replace the easy-install command with the approriate command (i.e. easy-install-2.7 )
+```./manage.py populateTestUsers```
+
+```./manage.py populateTestHardware```
+
+### 6. Run the test server
+
+```./manage.py runserver```
