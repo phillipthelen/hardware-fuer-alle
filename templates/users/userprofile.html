@@ -21,9 +21,11 @@ $(document).ready(function(){
 		div: '#map',
 		lat: {{userprofile.get_profile.location.latitude}},
 		lng: {{userprofile.get_profile.location.longitude}},
+		zoom: {% if userprofile.get_profile.location.street != "" %}13{% else %}10{% endif %},
 		mapTypeControl: false,
 		streetViewControl: false,
-		overviewMapControl: false
+		overviewMapControl: false,
+		height: 250
 
 	});
 
@@ -50,18 +52,9 @@ $(document).ready(function(){
 	    	{% endif %}
 		{% if userprofile.get_profile.displayLocation or user.is_staff %}
 		<h4>Aus: {{userprofile.get_profile.location.city}}</h4>
-
-		<a data-toggle="lightbox" href="#mapbox" id="mapbutton">{{ map.map }}</a>
-			<div id="mapbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
-    <div class='lightbox-header'>
-        <button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
-    </div>
-    <div class='lightbox-content'>
-        <div id="map" style="height:400px;width:700px"></div>
-    </div>
-</div>
+		<div id="map" style="height: 250px"></div>
 		{% endif %}
-
+		
 
 	</div>
 <div class="span9">
