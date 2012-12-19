@@ -42,18 +42,14 @@ $(document).ready(function(){
 	});
 });
 {% endif %}
-function openlightbox (url) {
-	$('#lightboximage').attr("src", url)
-	$('#Lightbox').lightbox();
-}
- {% endlocalize %}
+{% endlocalize %}
 {% endblock %}
 
 
 
 {% block content %}
 <div class="span4">
-
+{% if images|length > 1 %}
 <div id="myCarousel" class="carousel slide" data-interval="20000">
   <!-- Carousel items -->
   <div class="carousel-inner" data-toggle="modal-gallery" data-target="#modal-gallery">
@@ -64,6 +60,7 @@ function openlightbox (url) {
         <p class='description_content'>{{image.caption}}</p>
         <!-- end description content -->
     </div></a></div></div>
+
 {% endfor %}
   </div>
 
@@ -71,11 +68,13 @@ function openlightbox (url) {
   <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
   <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 </div>
-<div class="lightbox fade" id="Lightbox" style="display: none;">
-			    <div class='lightbox-content'>
-			    <img class="img-polaroid" id="lightboximage">
-			    </div>
-			    </div>
+{% elif images|length == 1 %}
+ <a href="/images/{{images.0.image}}" title="{{images.0.caption}}" rel="gallery" toggle="modal-gallery" target="#modal-gallery"><img src="/images/{{images.0.image}}"class="img" />    </a>
+        <p>{{images.0.caption}}</p>
+{% else %}
+<p>Es wurden keine Bilder für diese Hardware hochgeladen</p>
+{% endif %}
+
 </div>
 <div class="span6">
   <p class="well" style="font-size: 15px;font-weight: 200;line-height: 20px;">{{hardware.description}}</p>
