@@ -65,7 +65,7 @@ class HardwareForm(forms.Form):
 
 
 class SendmailForm(forms.Form):
-	text = forms.CharField(widget=forms.Textarea)
+	text = forms.CharField(widget=forms.Textarea(attrs={"class":"span6"}))
 
 class SimpleSearchForm(forms.Form):
 	searchquery = forms.CharField(required=False)
