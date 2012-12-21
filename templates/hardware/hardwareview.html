@@ -89,6 +89,7 @@ $(document).ready(function(){
 		<table class="table table-condensed">
 			<tr><th>Zustand</th><td>{{hardware.condition}}</td><tr>
 			<tr><th>Art</th><td>{{hardware.state}}</td><tr>
+		{% if hardware.lendlength != None %}<tr><th>Verleihdauer</th><td>{{hardware.lendlength}} {{lendlengthtype}}</td><tr>{% endif %}
             <tr><th>Gerätetyp</th><td><img src="/images/{{hardware.category.icon}}" />{{hardware.category}}</td><tr>
 			<tr><th>Verfügbarkeit</th><td>{% if hardware.availability %}
 <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>

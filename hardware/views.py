@@ -146,7 +146,8 @@ def hardwareEdit(request, id=None):
 					else:
 						h.location = profile.location
 					if h.state.temporary and form.cleaned_data['lendlength'] != None:
-						h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
+						h.lendlength = form.cleaned_data['lendlength']
+						h.lendlengthtype = form.cleaned_data['lendlengthtype']
 
 					h.save()
 					messages.add_message(request, messages.SUCCESS, u"Deine Hardware wurde erfolgreich angelegt. Bitte füge noch ein paar Bilder hinzu.")
@@ -188,6 +189,9 @@ def hardwareEdit(request, id=None):
 							hardware.location = location
 						else:
 							hardware.location = profile.location
+						if hardware.state.temporary and form.cleaned_data['lendlength'] != None:
+							hardware.lendlength = form.cleaned_data['lendlength']
+							hardware.lendlengthtype = form.cleaned_data['lendlengthtype']
 						hardware.save()
 						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug])) # Redirect after POST
@@ -199,6 +203,8 @@ def hardwareEdit(request, id=None):
 					form.initial["condition"] = hardware.condition
 					form.initial["category"] = hardware.category
 					form.initial["state"] = hardware.state.id
+					form.initial["lendlength"] = hardware.lendlength
+					form.initial["lendlengthtype"] = hardware.lendlengthtype
 					images = MultiuploaderImage.objects.filter(hardware=hardware.id)
 					context = {'form':form, 'hardware':hardware, 'edit':True, 'images':images}
 					return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
