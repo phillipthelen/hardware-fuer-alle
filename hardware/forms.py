@@ -4,6 +4,13 @@ from hardware.models import Condition, Category, State
 from django.utils.html import conditional_escape, escape
 from django.utils.encoding import force_unicode
 
+lendlengthtypes = (
+		('1', 'Tag(e)'),
+		('7', 'Woche(n)'),
+		('30', 'Monat(e)'),
+		('356', 'Jahr(e)')
+)
+
 class SelectWithTitles(forms.Select):
 	def __init__(self, *args, **kwargs):
 		super(SelectWithTitles, self).__init__(*args, **kwargs)
@@ -28,12 +35,6 @@ class ChoiceFieldWithTitles(forms.ChoiceField):
 		self.widget.titles = dict([(c[1], c[2]) for c in choices])
 
 class HardwareForm(forms.Form):
-	lendlengthtypes = (
-		('1', 'Tag(e)'),
-		('7', 'Woche(n)'),
-		('30', 'Monat(e)'),
-		('356', 'Jahr(e)')
-	)
 	error_css_class = 'error'
 	namewidget=forms.TextInput(attrs={"class":"span3", 'title':"Gib den Namen deiner Hardware ein, am Besten einfach die Produktbezeichnung."})
 	name = forms.CharField(max_length=200, widget=namewidget)

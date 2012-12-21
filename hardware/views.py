@@ -60,6 +60,14 @@ def displayHardware(request, id, name):
 		context["showmap"] = showmap
 	images = MultiuploaderImage.objects.filter(hardware=hardware.id)
 	context["images"] = images
+	if hardware.lendlengthtype != None:
+		lendlengthtypes = {
+		'1':'Tag(e)',
+		'7':'Woche(n)',
+		'30':'Monat(e)',
+		'356':'Jahr(e)'
+		}
+		context["lendlengthtype"] = lendlengthtypes[str(hardware.lendlengthtype)]
 	return render_to_response('hardware/hardwareview.html', context, RequestContext(request))
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage

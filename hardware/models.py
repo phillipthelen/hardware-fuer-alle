@@ -6,6 +6,13 @@ from main.models import Location
 from django.template.defaultfilters import slugify
 from hfa.util import get_hfile_name, get_cfile_name
 
+lendlengthtypes = (
+		('1', 'Tag(e)'),
+		('7', 'Woche(n)'),
+		('30', 'Monat(e)'),
+		('356', 'Jahr(e)')
+)
+
 class Condition(models.Model):
 	"""Different conditions such as 'damaged', 'new', 'slightly used'"""
 	name = models.CharField(_('name'), max_length=200)
@@ -54,6 +61,7 @@ class Hardware(models.Model):
 	lent_to = models.ForeignKey(User, verbose_name = _('lent to'), related_name='hardware_lent_to', blank=True, null=True)
 	location = models.ForeignKey(Location, verbose_name = _('location'), null=True)
 	lendlength = models.IntegerField(null=True, blank=True)
+	lendlengthtype = models.IntegerField( null=True, blank=True)
 
 	def __unicode__(self):
 		return self.name
