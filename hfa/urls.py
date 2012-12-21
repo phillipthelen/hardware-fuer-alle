@@ -40,7 +40,7 @@ urlpatterns = patterns('',
     url(r'^accounts/confirm/(?P<confirmation_key>.*)$', confirmEmail),
     url(r'^accounts/newmail$', newEmail),
     url(r'^accounts/disconnect/(?P<socialacc>.*)$', disconnect),
-
+    url(r'^accounts/delete/$', disconnect),
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
 

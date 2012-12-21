@@ -12,6 +12,7 @@ from geopy import geocoders
 from users.forms import EmailForm, LocationForm, UserSettingsForm
 from django.core.urlresolvers import reverse
 from main.models import Location
+from main.views import home
 from users.models import UserProfile
 from sorl.thumbnail import get_thumbnail
 from hfa.util import create_map
@@ -163,8 +164,16 @@ def newEmail(request):
 	return render_to_response('users/newmail.html', {'form': form}, RequestContext(request))
 
 @login_required
-def disconnect(request, socialacc):
-	account = get_object_or_404(SocialAccount, user=request.user, provider=socialacc)
-	account.delete()
+def disconnect(request, socialacc=False):
+	accounts = SocialAccount.objects.filter(user=request.user)
+	if request.POST and socialacc == False:
+		request.user.get_profile().delete()
+		request.user.delete()
+		return HttpResponseRedirect(reverse(home))
+	if len(accounts) == 1:
+		return render_to_response('users/deleteaccount.html', {}, RequestContext(request))
+	account = accounts.filter(provider=socialacc)
+	account.delete()	
+	
 	messages.add_message(request, messages.SUCCESS, u"Die Verknüpfung wurde aufgehoben.")
 	return HttpResponseRedirect(reverse(settings))

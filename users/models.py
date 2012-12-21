@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from main.models import Location
 from sorl.thumbnail import ImageField
 from hfa.util import get_afile_name
+from hardware.models import Hardware
 
 class UserProfile(models.Model):
 	# This field is required.
@@ -15,19 +16,17 @@ class UserProfile(models.Model):
 
 	displayname = models.CharField(max_length=50, blank=False)
 
-	avatar = ImageField(upload_to=get_afile_name, null=True, blank=True)
-
 	confirmation_key = models.CharField(max_length=40, blank=True, null=True)
 	key_expires = models.DateTimeField(blank=True, null=True)
 	mail_confirmed = models.BooleanField(default=False)
 
 	def delete(self, *args, **kwargs):
-		# You have to prepare what you need before delete the model
-		storage, path = self.avatar.storage, self.avatar.path
+		hardware = Hardware.objects.filter(owner=self.user)
+		hardware.delete()
+		if self.location != None:
+			self.location.delete()
 		# Delete the model before the file
 		super(UserProfile, self).delete(*args, **kwargs)
-		# Delete the file after the model
-		storage.delete(path)
 
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
