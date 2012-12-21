@@ -155,7 +155,7 @@ $('select').tooltip({trigger: 'focus', placement:'right'});
 		</div>
 
 	{% if edit %}
-		<a href="{% url hardware.views.viewHardware hardware.id hardware.slug %}" class="btn">Abbrechen</a>
+		<a href="{% url hardware.views.displayHardware hardware.id hardware.slug %}" class="btn">Abbrechen</a>
 	{% else %}
 		<a href="{% url main.views.home %}"  class="btn btn-normal">Abbrechen</a>
 	{% endif %}
