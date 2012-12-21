@@ -95,7 +95,7 @@ $(document).ready(function(){
 {% else %}
 <span class="badge badge-important"><i class="icon-remove-sign icon-white"></i></span>
 {% endif %}</td></tr>
-			<tr><th>Verliehen an</th><td>{{hardware.lent_to}}</td><tr>
+			{% if not hardware.availability %}<tr><th>Verliehen an</th><td>{{hardware.lent_to}}</td><tr>{% endif %}
 			{% if distance %}
 			<tr><th>Entfernung</th><td>{{distance}}</td><tr>
 			{% endif%}
