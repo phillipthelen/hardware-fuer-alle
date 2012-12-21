@@ -180,6 +180,9 @@ def hardwareEdit(request, id=None):
 							hardware.location = location
 						else:
 							hardware.location = profile.location
+						if h.state.temporary and form.cleaned_data['lendlength'] != None:
+							h.lendlength = form.cleaned_data['lendlength'] * form.cleaned_data['lendlengthtype']
+
 						hardware.save()
 						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug])) # Redirect after POST
