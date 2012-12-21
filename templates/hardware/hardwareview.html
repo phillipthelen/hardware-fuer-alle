@@ -40,6 +40,13 @@ $(document).ready(function(){
 		lat: {{hardware.location.latitude}},
 		lng: {{hardware.location.longitude}}
 	});
+
+	{% if hardware.owner != user and user.get_profile.location != None}
+	map.addMarker({
+		lat: {{user.get_profile.location.latitude}},
+		lng: {{user.get_profile.location.longitude}}
+	});
+	{% endif %}
 });
 {% endif %}
 {% endlocalize %}
