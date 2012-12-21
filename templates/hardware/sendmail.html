@@ -28,6 +28,7 @@ Besitzer per Email kontaktieren
 			<span class="help-inline">{{form.text.errors}}</span>
 		</div>
 	</div>
+<a href="{% url hardware.views.displayHardware hardware.id hardare.slug %}"  class="btn btn-normal">Abbrechen</a>
 <input type="submit" value="Submit" class="btn btn-primary" />
 </form>
 {% endif %}

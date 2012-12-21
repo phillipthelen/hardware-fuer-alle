@@ -12,7 +12,8 @@
 				<span class="help-inline">{{form.description.errors}}</span>
 			</div>
 		</div>
-	<input type="hidden" name="type" value="main"><button type="submit" class="btn btn-primary">Abschicken</button>
+<a href="{% url hardware.views.displayHardware hardware.id hardare.slug %}"  class="btn btn-normal">Abbrechen</a>
+	<button type="submit" class="btn btn-primary">Abschicken</button>
 </form>
 </div>
 {% endblock %}
