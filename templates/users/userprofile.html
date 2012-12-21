@@ -34,7 +34,7 @@ $(document).ready(function(){
 		lng: {{userprofile.get_profile.location.longitude}}
 	});
 
-	{% if userprofile != user and user.get_profile.location != None}
+	{% if userprofile != user and user.get_profile.location != None %}
 	map.addMarker({
 		lat: {{user.get_profile.location.latitude}},
 		lng: {{user.get_profile.location.longitude}}
