@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
-{% load socialaccount %}
-{% load i18n %}
-
 {% block heading %}
-403 - Verboten
+{{flatpage.title}}
 {% endblock %}
-
 
 {% block content %}
 <div class="span12">
-	Es tut mir Leid, Dave, aber das kann ich nicht tun.
+{{flatpage.content}}
 </div>
 {% endblock %}

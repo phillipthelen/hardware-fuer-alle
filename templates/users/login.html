@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
+{% load socialaccount %}
+
 {% block heading %}
-Login
+Anmelden
 {% endblock %}
 
 {% block content %}
-Login via:
-<ul>
-	<li><a href="{% url socialauth_begin 'twitter' %}?{{ redirect_querystring }}">Twitter</a></li>
-
-	<li><a href="{% url socialauth_begin 'facebook' %}?{{ redirect_querystring }}">Facebook</a></li>
-
-	<li><a href="{% url socialauth_begin 'google-oauth2' %}?{{ redirect_querystring }}">Google</a></li>
+<div class="span12">
+{% for app in apps %}
+	<a href="{% provider_login_url app.provider %}" class="btn btn-success">Mit {{app.provider}} anmelden</a>
+{% endfor %}
+</div>
 {% endblock %}

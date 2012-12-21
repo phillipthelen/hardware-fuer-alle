@@ -32,11 +32,17 @@ def create_map(location, size=(250, 250)):
 	class MapForm(forms.Form):
 		map = forms.Field(widget=GoogleMap(attrs={'width':size[0], 'height':size[1]}))
 
+
+
 	if location != None and location.latitude != None and location.longitude != None:
+		if location.street != "":
+			zoom = 13
+		else:
+			zoom = 10
 		gmap = maps.Map(opts = {
 			'center': maps.LatLng(location.latitude, location.longitude),
 			'mapTypeId': maps.MapTypeId.ROADMAP,
-			'zoom': 10,
+			'zoom': zoom,
 		})
 		marker = maps.Marker(opts = {
 			'map': gmap,

@@ -36,9 +36,7 @@ def response_mimetype(request):
 class JSONResponse(HttpResponse):
 	"""JSON response class."""
 	def __init__(self,obj='',json_opts={},mimetype="application/json",*args,**kwargs):
-		print "test"
 		content = simplejson.dumps(obj,**json_opts)
-		print "content"
 		super(JSONResponse,self).__init__(content,mimetype,*args,**kwargs)
 
 class PictureCreateView(CreateView):
@@ -73,8 +71,6 @@ Main Multiuploader module.
 Parses data from jQuery plugin and makes database changes.
 """
 	if request.method == 'POST':
-		print request.POST
-		print request.FILES
 		log.info('received POST to main multiuploader view')
 		if request.FILES == None:
 			return HttpResponseBadRequest('Must have files attached!')
@@ -125,7 +121,7 @@ Parses data from jQuery plugin and makes database changes.
 					   "delete_url":file_delete_url+str(image.pk),
 					   "delete_type":"POST",})
 		response_data = simplejson.dumps(result)
-		
+
 		#checking for json data type
 		#big thanks to Guy Shapiro
 		if "application/json" in request.META['HTTP_ACCEPT_ENCODING']:

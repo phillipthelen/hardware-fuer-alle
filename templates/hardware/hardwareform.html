@@ -8,11 +8,70 @@
 {% endblock %}
 
 
-{% block script %}
 
+{% block script %}
+function checkStreet() {
+	if ($("#id_city").val() || $("#id_postcode").val()) {
+		$("#id_street").prop('disabled', false);
+	} else {
+		$("#id_street").val("");
+		$("#id_street").prop('disabled', true);
+	}
+}
+
+
+checkStreet()
+$(function() {
+	$("#id_city").keypress(function() {checkStreet()});
+	$("#id_postcode").keypress(function() {checkStreet()});
+	$("#id_city").change(function() {checkStreet()});
+	$("#id_postcode").change(function() {checkStreet()});
+
+	$( "#id_city" ).autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "http://ws.geonames.org/searchJSON",
+				dataType: "jsonp",
+				data: {
+					featureClass: "P",
+					style: "full",
+					maxRows: 12,
+					country: "DE",
+					lang:"de",
+					name_startsWith: request.term
+				},
+				success: function( data ) {
+					response( $.map( data.geonames, function( item ) {
+						return {
+							label: item.name + (item.adminName1 ? ", " + item.adminName1 : ""),
+							value: item.name,
+							postcode: item.lat
+						}
+					}));
+				}
+			});
+		},
+		minLength: 2,
+		select: function( event, ui ) {
+			 checkStreet();
+		},
+		open: function() {
+			$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+		},
+		close: function() {
+			$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+		}
+	});
+});
+$(document).ready(function () {
+$('input').tooltip({trigger: 'focus', placement:'right'});
+$('textarea').tooltip({trigger: 'focus', placement:'right'});
+$('select').tooltip({trigger: 'focus', placement:'right'});
+});
 {% endblock %}
 
 {% block content %}
+<div class="span12">
 {% if invalidmail %}
 	<p>You need a confirmed email adress</p>
 {% else %}
@@ -137,20 +196,20 @@
             <div class="span7">
                 <span class="btn btn-primary fileinput-button">
                     <i class="icon-plus icon-white"></i>
-                    <span>Add files...</span>
+                    <span>Dateien hinzufügen…</span>
                     <input type="file" name="file" multiple>
                 </span>
                 <button type="submit" class="btn btn-success start">
                     <i class="icon-upload icon-white"></i>
-                    <span>Start upload</span>
+                    <span>Upload beginnen</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="icon-ban-circle icon-white"></i>
-                    <span>Cancel upload</span>
+                    <span>Upload abbrechen</span>
                 </button>
                 <button type="button" class="btn btn-danger delete">
                     <i class="icon-trash icon-white"></i>
-                    <span>Delete files</span>
+                    <span>Dateien löschen</span>
                 </button>
                 <input type="checkbox" class="toggle">
             </div>
@@ -179,7 +238,7 @@
     <div class="modal-footer">
         <a class="btn modal-download" target="_blank">
             <i class="icon-download"></i>
-            <span>Download</span>
+            <span>Herunterladen</span>
         </a>
         <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
             <i class="icon-play icon-white"></i>
@@ -187,10 +246,10 @@
         </a>
         <a class="btn btn-info modal-prev">
             <i class="icon-arrow-left icon-white"></i>
-            <span>Previous</span>
+            <span>Vorheriges</span>
         </a>
         <a class="btn btn-primary modal-next">
-            <span>Next</span>
+            <span>Nächstes</span>
             <i class="icon-arrow-right icon-white"></i>
         </a>
     </div>
@@ -213,4 +272,5 @@
 <script src="/static/js/csrf.js"></script>
 {% endif %}
 {% endif %}
+</div>
 {% endblock %}

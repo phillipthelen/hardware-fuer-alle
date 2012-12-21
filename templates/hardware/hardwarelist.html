@@ -32,16 +32,17 @@ Path.map("/hardware/list/components/:page").to(function(){
                 Path.history.pushState({}, "", $(this).attr("href"));
             });
         });
-    
+
     </script>
 <div class="span6 offset3">
     <form class="form-search" action="{% url hardware.views.searchHardware %}" method="post" >{% csrf_token %}
       <div class="input-append">
-        <p><input type="text" class="input-block-level search-query" name="searchquery">
+        <input type="text" class="input-block-level search-query" name="searchquery" placeholder="Suchbegriff">
         <button type="submit" class="btn">Suchen</button>
         <span class="help-inline">{{searchform.searchquery.errors}}</span>
-        </p>
       </div>
+      <a href="{% url hardware.views.searchHardware %}" class="btn pull-right">erweiterte Suche</a>
+        </form>
 </div>
 
 <div class="span12" id="pagination">

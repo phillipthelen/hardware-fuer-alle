@@ -4,15 +4,16 @@
 {% load i18n %}
 
 {% block heading %}
-Set new mail
+Neue Emailadresse
 {% endblock %}
 
 
 {% block content %}
+<div class="span12">
 {% if set %}
-	<p>We sent you a mail with a confirmation link to {{user.email}}. Please follow the instructions in the mail in the next 48 hours to confirm your mail adress</p>
+	<p>Wir haben eine Email mit dem Bestätigungslink an {{user.email}} gesendet. Bitte folge den Anweisungen in der Email und bestätige die Adresse innerhalb von 48 Stunden.</p>
 {% elif unfinished %}
-	<p>We already sent you a confirmation link. please use that one first.</p>
+	<p>Wir haben dir bereits einen Bestätigungscode geschickt. Bitte benutze zuerst diesen.</p>
 {% else %}
 	<form action="{% url users.views.newEmail %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">
@@ -25,4 +26,5 @@ Set new mail
 		<button type="submit" class="btn btn-primary">Set email</button>
 </form>
 {% endif %}
+</div>
 {% endblock %}

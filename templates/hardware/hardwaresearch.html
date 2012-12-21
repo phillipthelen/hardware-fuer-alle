@@ -8,6 +8,11 @@
 {% endif %}
 {% endblock %}
 
+{% block script %}
+function loadpage(page) {
+Dajaxice.hardware.searchPagination(Dajax.process,{'p':page, 'searchquery':'{{searchquery}}', 'searchstate':'{{searchstate}}', 'searchcategory':'{{searchcategory}}', 'searchcondition':'{{searchcondition}}', 'searchsort':'{{searchsort}}'});$.scrollTo( $('#pagination'), 500, {offset:-10} );
+}
+{% endblock %}
 
 {% block content %}
 

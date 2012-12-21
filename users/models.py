@@ -29,12 +29,8 @@ class UserProfile(models.Model):
 		# Delete the file after the model
 		storage.delete(path)
 
-
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
 		UserProfile.objects.create(user=instance, displayname=instance.username)
-
-
-
 
 post_save.connect(create_user_profile, sender=User)

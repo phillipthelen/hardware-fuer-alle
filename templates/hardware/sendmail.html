@@ -4,16 +4,22 @@
 {% load i18n %}
 
 {% block heading %}
-Contact Owner
+Besitzer per Email kontaktieren
 {% endblock %}
 
-
 {% block content %}
+
+
+<div class="span12">
 {% if invalidmail %}
-	<p>Please check your mail.</p>
+	<p>Bitte überprüfe deine Emails.</p>
 {% elif ownhardware %}
-	<p>You can't contact yourself!</p>
+	<p>Du kannst dich nicht selbst kontaktieren!</p>
 {% else %}
+<div class="alert alert-block">
+  <h4>Achtung!</h4>
+  Wenn du diesem Benutzer eine Email sendest sieht er deine Email-Adresse, die du in den Einstellungen angegeben hast. Wenn du nicht möchtest, dass jemand anders deine Email-Adresse kennt solltest du eine neue Adresse anlegen und diese benutzen.
+</div>
 <form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">
 		<label class="control-label" for="id_text">Text</label>
@@ -25,4 +31,5 @@ Contact Owner
 <input type="submit" value="Submit" class="btn btn-primary" />
 </form>
 {% endif %}
+</div>
 {% endblock %}

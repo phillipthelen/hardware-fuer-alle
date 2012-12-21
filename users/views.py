@@ -17,35 +17,35 @@ from sorl.thumbnail import get_thumbnail
 from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
+from django.contrib import messages
 
 def set_mail(user, email):
-		if email != "":
-			profile = user.get_profile()
-			# Build the activation key for their account
-			salt = sha.new(str(random.random())).hexdigest()[:5]
-			confirmation_key = sha.new(salt+user.username).hexdigest()
-			key_expires = datetime.datetime.today() + datetime.timedelta(2)
+	if email != "":
+		profile = user.get_profile()
+		# Build the activation key for their account
+		salt = sha.new(str(random.random())).hexdigest()[:5]
+		confirmation_key = sha.new(salt+user.username).hexdigest()
+		key_expires = datetime.datetime.today() + datetime.timedelta(2)
 
 
 
-			profile.confirmation_key = confirmation_key
-			profile.key_expires = key_expires
-			profile.mail_confirmed = False
-			profile.save()
-			user.email = email
-			user.save()
-			# Send an email with the confirmation link
+		profile.confirmation_key = confirmation_key
+		profile.key_expires = key_expires
+		profile.mail_confirmed = False
+		profile.save()
+		user.email = email
+		user.save()
+		# Send an email with the confirmation link
 
-			email_subject = 'Your new hardware-fuer-alle.de email confirmation'
-			email_body = """Hello, %s, and thanks for signing up for an
-		example.com account!\n\nTo activate your account, click this link within 48
-		hours:\n\nhttp://hardware-fuer-alle.de/beta/accounts/confirm/%s""" % (
-				user.username,
-				profile.confirmation_key)
-			send_mail(email_subject,
-					email_body,
-					'support@hardware-fuer-alle.de',
-					[user.email])
+		email_subject = 'Your new hardware-fuer-alle.de email confirmation'
+		email_body = """Hallo, %s, um deine E-Mail Adresse bei hardware-fuer-alle.de einzutragen musst du sie noch bestätigen\n
+		Bitte klicke hierfür innerhalb der nächsten 48 Stunden auf diesen Link:\n\nhttp://hardware-fuer-alle.de/beta/accounts/confirm/%s""" % (
+			user.username,
+			profile.confirmation_key)
+		send_mail(email_subject,
+				email_body,
+				'support@hardware-fuer-alle.de',
+				[user.email])
 
 def error(request):
 	"""Error view"""
@@ -55,7 +55,7 @@ def error(request):
 
 def login(request):
 	"""Displays the login options"""
-	return render_to_response('users/login.html', {},
+	return render_to_response('users/login.html', {"apps":SocialApp.objects.all()},
 		RequestContext(request))
 
 def profile(request, userid):
@@ -106,17 +106,18 @@ def settings(request):
 						places = g.geocode(location.street + ", " + location.postcode + " " + location.city, exactly_one=False)
 						location.latitude = places[0][1][0]
 						location.longitude = places[0][1][1]
-					except Exception, e:
-						None
+						location.save()
+					except geocoders.google.GQueryError, e:
+						messages.add_message(request, messages.ERROR, u"Es konnte kein Ort gefunden werden, der deiner Eingabe entspricht. Hast du dich vielleicht vertippt?")
 				else:
 					location.latitude = None
 					location.longitude = None
-				location.save()
+					location.save()
 				profile.save()
-				print profile.location.city
 		else:
 			lform = LocationForm()
-			mform = UserSettingsForm(request.POST, request.FILES)
+			mform = UserSettingsForm(request.POST)
+			mform.user = request.user
 			if mform.is_valid():
 				if mform.cleaned_data['email'] != user.email:
 					set_mail(user, mform.cleaned_data['email'])
@@ -127,8 +128,6 @@ def settings(request):
 	else:
 		lform = LocationForm()
 		mform = UserSettingsForm()
-	if not profile.mail_confirmed:
-		context["mailconfirm"] = "We sent you a confirmation link. Please check your mail."
 	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform})
 	map, showmap = create_map(profile.location)
 	context["map"] = map
@@ -153,6 +152,7 @@ def newEmail(request):
 	profile = user.get_profile()
 	if request.POST:
 		form = EmailForm(request.POST)
+		form.user = request.user
 		if form.is_valid():
 			set_mail(user, form.cleaned_data["email"])
 			return render_to_response('users/newmail.html', {'set': True}, RequestContext(request))
@@ -161,3 +161,10 @@ def newEmail(request):
 		if not profile.mail_confirmed and user.email != "":
 			return render_to_response('users/newmail.html', {'unfinished': True}, RequestContext(request))
 	return render_to_response('users/newmail.html', {'form': form}, RequestContext(request))
+
+@login_required
+def disconnect(request, socialacc):
+	account = get_object_or_404(SocialAccount, user=request.user, provider=socialacc)
+	account.delete()
+	messages.add_message(request, messages.SUCCESS, u"Die Verknüpfung wurde aufgehoben.")
+	return HttpResponseRedirect(reverse(settings))

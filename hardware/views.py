@@ -4,6 +4,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader, Context, Template
 from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
 from hardware.models import Hardware, Category, Condition, State
@@ -22,20 +23,20 @@ from allauth.socialaccount.models import SocialAccount, SocialApp
 
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
-	
+
 	if maxitem < 5:
 		for i in range(1, maxitem+1):
 			pagelist.append(i)
 		return pagelist
 
-	if pagenumber <= 4: 
+	if pagenumber <= 4:
 		for i in range(1, pagenumber):
 			pagelist.append(i)
 	else:
 		pagelist.append(1)
 		for i in range(pagenumber-3, pagenumber):
 			pagelist.append(i)
-	if (maxitem - pagenumber) <= 4: 
+	if (maxitem - pagenumber) <= 4:
 		for i in range(pagenumber, maxitem+1):
 			pagelist.append(i)
 	else:
@@ -122,13 +123,17 @@ def hardwareEdit(request, id=None):
 						g = geocoders.Google()
 						if location.city!= "" or location.street!="" or location.street!="":
 							searchstring = location.street + ", " + location.postcode + " " + form.cleaned_data['city']
-							places = g.geocode(urllib.quote(searchstring), exactly_one=False)
-							location.latitude = places[0][1][0]
-							location.longitude = places[0][1][1]
+							try:
+								places = g.geocode(urllib.quote(searchstring), exactly_one=False)
+								location.latitude = places[0][1][0]
+								location.longitude = places[0][1][1]
+								location.save()
+							except geocoders.google.GQueryError, e:
+								messages.add_message(request, messages.ERROR, u"Es konnte kein Ort gefunden werden, der deiner Eingabe entspricht. Hast du dich vielleicht vertippt?")
 						else:
 							location.latitude = None
 							location.longitude = None
-						location.save()
+							location.save()
 						h.location = location
 					else:
 						h.location = profile.location
@@ -176,7 +181,6 @@ def hardwareEdit(request, id=None):
 						else:
 							hardware.location = profile.location
 						hardware.save()
-						print hardware.id
 						messages.add_message(request, messages.SUCCESS, "Hardware wurde erfolgreich bearbeitet.")
 						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug])) # Redirect after POST
 				else:
@@ -203,11 +207,11 @@ def new_images(request, hardwareid):
 	for account in accounts:
 		accountlist.append(account.provider)
 	t = Template("""<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><script src="https://apis.google.com/js/plusone.js"></script>
-Danke das du deine Hardware anderen zur verfügung stellen möchtest!<br />
-Willst du anderen mitteilen das deine Hardware nun hier verfügbar ist?<br />
-{% if 'facebook' in accountlist %}<a href='http://www.facebook.com/sharer.php' class="btn" target="blank">Auf Facebook teilen</a>{% endif %}
-{% if 'twitter' in accountlist %}<a href='https://twitter.com/intent/tweet' class="btn">Auf Twitter teilen</a>{% endif %}
-{% if 'google' in accountlist %}<a href='' class="btn">Auf Google+ teilen</a>{% endif %} """)
+Danke das du deine Hardware anderen zur verfügung stellen möchtest!<br />""")
+#Willst du anderen mitteilen das deine Hardware nun hier verfügbar ist?<br />
+#{% if 'facebook' in accountlist %}<a href='http://www.facebook.com/sharer.php' class="btn" target="blank">Auf Facebook teilen</a>{% endif %}
+#{% if 'twitter' in accountlist %}<a href='https://twitter.com/intent/tweet' class="btn">Auf Twitter teilen</a>{% endif %}
+#{% if 'google' in accountlist %}<a href='' class="btn">Auf Google+ teilen</a>{% endif %} """)
 	c = Context({'accountlist':accountlist})
 	messages.add_message(request, messages.SUCCESS, t.render(c))
 	return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
@@ -224,12 +228,17 @@ def sendMail(request, hardwareid):
 				if form.is_valid():
 					headers = {'Reply-To':user.email}  # From-header
 					from_email = 'support@hardware-fuer-alle.de'          # Return-Path header
-					subject = "Somebody is interested in your hardware!"
-					body = """The user {0} is interested in your hardware.
-He/She wrote the following text:
-{1}""".format(user.username, form.cleaned_data["text"])
+					subject = "[hardware für alle] Hardwareanfrage eines Benutzers/einer Benutzerin"
+					accounts = SocialAccount.objects.filter(user=request.user)
+					accountlist = []
+					for account in accounts:
+						accountlist.append(account)
+					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "accountlist":accountlist})
+					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
 									   headers=headers).send()
+					messages.add_message(request, messages.SUCCESS, "E-Mail an den Besitzer wurde verschickt.")
+					return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
 			else:
 				form = SendmailForm()
 			context = {"form":form, "hardware":hardware}
@@ -240,8 +249,16 @@ He/She wrote the following text:
 	else:
 		return render_to_response('hardware/sendmail.html', {"ownhardware":True} , RequestContext(request))
 
-def get_search_page(page=1, searchquery=""):
+def get_search_page(page=1, searchquery="", searchstate="", searchcategory="", searchcondition="", searchsort=""):
 	hardware = Hardware.objects.filter(name__icontains=searchquery)
+	if searchstate != "":
+		hardware = hardware.filter(state_id=searchstate)
+	if searchcategory != "":
+		hardware = hardware.filter(category_id=searchcategory)
+	if searchcondition != "":
+		hardware = hardware.filter(condition_id=searchcondition)
+	if searchsort != "":
+		hardware = hardware.extra(order_by=[searchsort,])
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
@@ -264,14 +281,31 @@ def searchHardware(request, page=1):
 			searchstate = form.cleaned_data["state"]
 			searchcategory = form.cleaned_data["category"]
 			searchcondition = form.cleaned_data["condition"]
-			context["searchquery"] = searchquery
+
+
+			if searchquery != None:
+				context["searchquery"] = searchquery.strip()
 			hardware = Hardware.objects.filter(name__icontains=searchquery)
 			if searchstate != None:
+				context["searchstate"] = str(searchstate.id).strip()
 				hardware = hardware.filter(state=searchstate)
+			else:
+				context["searchstate"] = ""
 			if searchcategory != None:
-				hardware = hardware.filter(category=searchcategory)
+				context["searchcategory"] = str(searchcategory.id).strip()
+				hardware = hardware.filter(category_id=searchcategory)
+			else:
+				context["searchcategory"] = ""
 			if searchcondition != None:
+				context["searchcondition"] = str(searchcondition.id).strip()
 				hardware = hardware.filter(condition=searchcondition)
+			else:
+				context["searchcondition"] = ""
+			if form.cleaned_data ["sortby"] != "":
+				context["searchsort"] = str(form.cleaned_data["sortby"]).strip()
+				hardware = hardware.extra(order_by=[form.cleaned_data["sortby"],])
+			else:
+				context["searchsort"] = ""
 			paginator = Paginator(hardware, 20)
 			try:
 				hardware = paginator.page(page)
