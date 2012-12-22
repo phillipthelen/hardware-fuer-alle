@@ -18,7 +18,12 @@ Besitzer per Email kontaktieren
 {% else %}
 <div class="alert alert-block">
   <h4>Achtung!</h4>
-  Wenn du diesem Benutzer eine Email sendest sieht er deine Email-Adresse, die du in den Einstellungen angegeben hast. Wenn du nicht möchtest, dass jemand anders deine Email-Adresse kennt solltest du eine neue Adresse anlegen und diese benutzen.
+  Um dich leichter Identifizieren zu können, wird die E-Mail, die an den Hardwarebesitzer verschickt wird, die folgenden Informationen beinhalten:
+<ul>
+	<li>Deine E-Mailadresse, die du in den Einstellungen angegeben hast.</li>
+	<li>Ein Link zu deinem Profil bei "Hardware für Alle".</li>
+	<li>Links zu deinen Profilen bei den sozialen Netzwerken, die du in den Einstellungen verknüpft hast.</li>
+</ul>
 </div>
 <form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">

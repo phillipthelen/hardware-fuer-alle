@@ -27,9 +27,9 @@ def hardwareAbuse(request):
 			from_email = 'support@hardware-fuer-alle.de'          # Return-Path header
 			subject = "Es wurde ein Missbrauch gemeldet"
 			body = """Der Benutzer {0} hat einen Missbrauch gemeldet.
-Es geht um: {1}
+Es geht um: http://beta.hardware-fuer-alle.de/hardware/{1}/{2}
 Beschreibung:
-{2}""".format(request.user.username, hardware, form.cleaned_data["description"])
+{2}""".format(request.user.username, hardware.id, hardware.name, form.cleaned_data["description"])
 			EmailMessage(subject, body, from_email, ["abuse@hardware-fuer-alle.de"],
 									   headers=headers).send()
 			messages.add_message(request, messages.SUCCESS, u"Die Email mit deiner Meldung wurde an uns verschickt. Wir werden uns so schnell wie möglich darum kümmern.")

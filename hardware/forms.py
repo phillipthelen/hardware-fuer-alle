@@ -14,7 +14,7 @@ lendlengthtypes = (
 class SelectWithTitles(forms.Select):
 	def __init__(self, *args, **kwargs):
 		super(SelectWithTitles, self).__init__(*args, **kwargs)
-		
+
 		self.titles = {}
 
 	def render_option(self, selected_choices, option_value, option_label):
@@ -79,7 +79,7 @@ class SearchForm(SimpleSearchForm):
 		("condition", "Zustand"),
 		("category", "Kategorie"),
 		("state", "Art"),
-		("distance", "Entfernung")
+	#	("distance", "Entfernung")
 	)
 	error_css_class = 'error'
 
