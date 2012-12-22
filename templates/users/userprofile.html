@@ -35,9 +35,17 @@ $(document).ready(function(){
 	});
 
 	{% if userprofile != user and user.get_profile.location != None %}
+	var image = new google.maps.MarkerImage(
+	    '/static/images/home.png',
+	    new google.maps.Size(32,37),    // size of the image
+	    new google.maps.Point(0,0), // origin, in this case top-left corner
+	    new google.maps.Point(16, 37)    // anchor, i.e. the point half-way along the bottom of the image
+	);
+
 	map.addMarker({
 		lat: {{user.get_profile.location.latitude}},
-		lng: {{user.get_profile.location.longitude}}
+		lng: {{user.get_profile.location.longitude}},
+		icon: image
 	});
 	{% endif %}
 });
