@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 from fileupload.models import MultiuploaderImage
 from django.views.generic import CreateView, DeleteView
 from hardware.models import Hardware
@@ -17,11 +18,13 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.utils import simplejson
 
 #for generating thumbnails
-#sorl-thumbnails must be installed and properly configuredhttps://twitter.com/sesh80/status/275253603848028160
+#sorl-thumbnails must be installed and properly configured
 from sorl.thumbnail import get_thumbnail
 
 
 from django.views.decorators.csrf import csrf_exempt
+
+import imghdr
 
 import logging
 log = logging
@@ -81,6 +84,31 @@ Parses data from jQuery plugin and makes database changes.
 		file_size = wrapped_file.file.size
 		log.info ('Got file: "%s"' % str(filename))
 		log.info('Content type: "$s" % file.content_type')
+		print(file_size, file.content_type)
+		if file_size > 3000000:
+			result = []
+			result.append({"name":filename,
+					   "size":file_size,
+					   "error":"Die Datei ist zu groß."})
+			response_data = simplejson.dumps(result)
+
+			if "application/json" in request.META['HTTP_ACCEPT_ENCODING']:
+				mimetype = 'application/json'
+			else:
+				mimetype = 'text/plain'
+			return HttpResponse(response_data, mimetype=mimetype)
+		if imghdr.what(file) == None:
+			result = []
+			result.append({"name":filename,
+					   "size":file_size,
+					   "error":"Die Date muss ein Bild sein."})
+			response_data = simplejson.dumps(result)
+
+			if "application/json" in request.META['HTTP_ACCEPT_ENCODING']:
+				mimetype = 'application/json'
+			else:
+				mimetype = 'text/plain'
+			return HttpResponse(response_data, mimetype=mimetype)
 
 		#writing file manually into model
 		#because we don't need form of any type.
