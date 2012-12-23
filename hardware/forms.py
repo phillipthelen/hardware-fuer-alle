@@ -38,7 +38,7 @@ class HardwareForm(forms.Form):
 	error_css_class = 'error'
 	namewidget=forms.TextInput(attrs={"class":"span3", 'title':"Gib den Namen deiner Hardware ein, am Besten einfach die Produktbezeichnung."})
 	name = forms.CharField(max_length=200, widget=namewidget)
-	descriptionwidget=forms.Textarea(attrs={"class":"span5", 'title':"Beschreibe deine Hardware: welche Macken und Eigenheiten erwarten einen neuen Besitzer eventuell? Was für Besonderheiten hat deine Hardware?"})
+	descriptionwidget=forms.Textarea(attrs={"class":"span6", "rows":15, 'title':"Beschreibe deine Hardware: welche Macken und Eigenheiten erwarten einen neuen Besitzer eventuell? Was für Besonderheiten hat deine Hardware?"})
 	description = forms.CharField(widget=descriptionwidget)
 	conditionwidget=forms.Select(attrs={"class":"span2", 'title':"Wähle den Zustand ehrlich aus; du musst nichts besser ausgeben als es ist."})
 	condition = forms.ModelChoiceField(queryset=Condition.objects.all(), empty_label=None, widget=conditionwidget)
