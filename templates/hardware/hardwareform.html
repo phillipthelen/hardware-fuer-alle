@@ -73,7 +73,7 @@ $('select').tooltip({trigger: 'focus', placement:'right'});
 {% block content %}
 <div class="span12">
 {% if invalidmail %}
-	<p>You need a confirmed email adress</p>
+	<p>Du benötigst eine bestätigte Email-Adresse. Trage sie in den Einstellungen ein und bestätige sie über dein Email-Postfach.</p>
 {% else %}
 	{%if edit%}
 	<form action="{% url hardware.views.hardwareEdit hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
