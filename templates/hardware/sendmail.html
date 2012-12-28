@@ -18,12 +18,13 @@ Besitzer per Email kontaktieren
 {% else %}
 <div class="alert alert-block">
   <h4>Achtung!</h4>
-  Um dich leichter Identifizieren zu können, wird die E-Mail, die an den Hardwarebesitzer verschickt wird, die folgenden Informationen beinhalten:
+  Damit dein Gegenüber weiß mit wem er schreibt, wird die E-Mail, die an den Hardwarebesitzer verschickt wird, die folgenden Informationen beinhalten:
 <ul>
 	<li>Deine E-Mailadresse, die du in den Einstellungen angegeben hast.</li>
 	<li>Ein Link zu deinem Profil bei "Hardware für Alle".</li>
 	<li>Links zu deinen Profilen bei den sozialen Netzwerken, die du in den Einstellungen verknüpft hast.</li>
 </ul>
+Du schreibst dem Anbieter der Hardware direkt. Die Nachricht und das Angebot sind unverbindlich. Stelle dem Anbieter eventuelle Fragen die du noch zu dem Gerät hast und klärt anschließend, ob ihr euch in der echten Welt trefft um das Gerät zu tauschen, oder ob ihr es irgendwie über den Postweg abwickelt. Wenn es um einen Verleih geht, solltet ihr auf jeden Fall klären was bei dem Gerät zu beachten ist - in jedem Fall sollte geklärt sein, dass es vor und nach dem Verleih komplett neu installiert wird. Ihr könnt auch weitere Kontaktinformationen austauschen und auf anderem Weg als per Mail kommunizieren.
 </div>
 <form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">

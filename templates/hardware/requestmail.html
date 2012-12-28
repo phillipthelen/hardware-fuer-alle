@@ -2,9 +2,12 @@ Der Benutzer/Die Benutzerin {{user}} ist an etwas interessiert, das du bei Hardw
 Es handelt sich dabei um das folgende: {{hardware}}
 
 Informationen zu der Person:
+
 Hardware für alle: http://beta.hardware-fuer-alle.de{% url users.views.profile user.id %}
 {% for account in accountlist %}
 {{account.provider}}: {{account.get_profile_url}}
 {% endfor %}
-Er/Sie hat den folgenden Text geschrieben:
+
+Er/Sie hat dir die folgende Nachricht geschickt:
+
 {{text}}
