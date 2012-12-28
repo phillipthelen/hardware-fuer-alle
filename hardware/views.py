@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib.messages.api import get_messages
 from django.contrib.auth.models import User
-from hardware.models import Hardware, Category, Condition, State
+from hardware.models import Hardware, Category, Condition, State, EmailLog
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import hfa.util as util
 from django.core.urlresolvers import reverse
@@ -20,6 +20,7 @@ from django.core.mail import EmailMessage
 from fileupload.models import MultiuploaderImage
 from django.contrib import messages
 from allauth.socialaccount.models import SocialAccount, SocialApp
+from datetime import timedelta, datetime
 
 def create_pagelist(pagenumber, maxitem):
 	pagelist = []
@@ -240,6 +241,31 @@ def sendMail(request, hardwareid):
 			if request.method == "POST":
 				form = SendmailForm(request.POST)
 				if form.is_valid():
+					logentries = EmailLog.objects.filter(sender=user)
+					now = datetime.now()
+					logentries = logentries.filter(date__gte=(now - timedelta(days=7)))
+					if len(logentries) > 10:
+						messages.add_message(request, messages.ERROR, "Du hast bereits einige Mails diese Woche verschickt. Bitte mach doch eine Pause.")
+						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
+
+					usermails = logentries.filter(receiver=hardware.owner)
+					if len(usermails) > 2:
+						messages.add_message(request, messages.ERROR, "Du hast bereits einige Mails an diese/n User verschickt. Bitte mach doch eine Pause.")
+						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
+
+
+					today = logentries.filter(date=now)
+					if len(logentries) > 4:
+						messages.add_message(request, messages.ERROR, "Du hast bereits einige Mails heute verschickt. Bitte mach doch eine Pause.")
+						return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.slug]))
+
+
+					log = EmailLog()
+					log.sender = user
+					log.hardware = hardware
+					log.receiver = hardware.owner
+					log.date = now
+					log.save()
 					headers = {'Reply-To':user.email}  # From-header
 					from_email = 'support@hardware-fuer-alle.de'          # Return-Path header
 					subject = "[hardware für alle] Hardwareanfrage eines Benutzers/einer Benutzerin"

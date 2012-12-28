@@ -90,3 +90,9 @@ class Image(models.Model):
 	def delete(self, *args, **kwargs):
 		self.image.delete(False)
 		super(Image, self).delete(*args, **kwargs)
+
+class EmailLog(models.Model):
+	sender = models.ForeignKey(User, related_name='log_sender')
+	hardware = models.ForeignKey(Hardware)
+	receiver = models.ForeignKey(User, related_name='log_receiver')
+	date = models.DateTimeField(auto_now_add=True)
