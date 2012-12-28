@@ -22,7 +22,7 @@ _We assume in the following you have [Python](http://www.python.org) and [setupt
 
 ### 2. Install the dependencies
 
-```easy_install django django-allauth geopy django-gmapi sorl-thumbnail django-dajaxice django-dajax django-gravatar2```
+```pip install -r dependencies.txt```
 
 ### 3. Create ```hfa/settings.py```
 
