@@ -6,5 +6,12 @@ python:
 install:
   - "cp hfa/settings.example.py hfa/settings.py"
   - "pip install -r dependencies.txt"
+  # create the test user
+  - "./manage.py createsuperuser --username=joe --email=joe@example.com"
+  # create the database
+  - "./manage.py syncdb"
+  # populate the project with test data
+  - "./manage.py populateTestUsers"
+  - "./manage.py populateTestHardware"
 # command to run tests
-script: "./manage.py test hardware users"
+script: "./manage.py test main hardware users"
