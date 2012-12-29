@@ -9,32 +9,11 @@ Welcome
 
 
 {% block content %}
+<div class="span12">
 <div class="featurette">
     <img class="featurette-image pull-right" src="/files/hardware-logo.png">
     <h2 class="featurette-heading"><span class="muted">Bedingungslos gescheite </span>Hardware für Alle!</h2>
     <p class="lead">Das Internet ist nicht nur ein Stück bequeme Technologie, es ist ein zentraler Bestandteil unseres Lebens. Es bietet jedem die Möglichkeit zur Teilhabe - erfordert dafür aber einen eigenen Computer. Nicht jeder kann sich ein eigenes Notebook oder ein eigenes Smartphone leisten, während bei anderen Vorgängermodelle unbenutzt im Schrank liegen. Warum damit nicht einander helfen? Wenn du einen Computer hast, der noch funktioniert, das du selbst nicht mehr benutzt und du bereit bist ihn kostenlos weiterzugeben oder gerade selbst dringend ein Gerät benötigst, melde dich einfach deinem Twitter-, Facebook-, Google- oder GitHub-Konto an, trag Geräte ein oder nehme mit einem Klick Kontakt mit einem Anbieter auf. Das ganze kostet nichts - Hardware für Alle ist keine Kleinanzeigenbörse, sondern eine Plattform, die Menschen dabei helfen soll, sich gegenseitig zu helfen.</p>
 </div>
-<hr />
-<div class="span12">
-Dies ist die Beta für Hardware für alle. Wenn du das sehen kannst, hast du die wunderbare Ehre Testingsklave zu sein. Wenn dir ein Fehler auffällt oder du sonst einen Kommentar hast, suche dir einen der folgenden Kommunikationskanäle aus:
-<ul>
-	<li><a href="https://github.com/vIiRuS/hardware-fuer-alle/issues">Github Issues</a></li>
-	<li>Email/Jabber an viirus@pherth.net</li>
-	<li>auf Twitter @viirus42 anschreiben</li>
-	<li>IRC "viirus" anschreiben. (z.B. Freenode)</li>
-</ul>
-Danke
-{% if social_auth.associated %}
-	{{ user.username }}
-	<ul>
-	{% for type, accounts in social_auth.associated.items %}
-		{% for account in accounts %}
-			<li>
-				<span class="disconnect">{{ account.provider|title }} (ID {{ account.id }})</span>
-			</li>
-		{% endfor %}
-	{% endfor %}
-	</ul>
-{% endif %}
 </div>
 {% endblock %}
