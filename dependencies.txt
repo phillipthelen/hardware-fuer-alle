@@ -1,0 +1,9 @@
+django
+django-allauth
+geopy
+django-gmapi
+sorl-thumbnail
+django-dajaxice
+django-dajax
+django-gravatar2
+pil
