@@ -41,3 +41,7 @@ Copy and rename the ```hfa/settings.example.py``` and configure it to your local
 ### 6. Run the test server
 
 ```./manage.py runserver```
+
+### 7. Run the unittests
+
+```./manage.py test main hardware users```
