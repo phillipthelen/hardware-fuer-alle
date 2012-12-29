@@ -137,7 +137,7 @@ Parses data from jQuery plugin and makes database changes.
 			file_url = settings.MULTI_IMAGE_URL+'/'+image.key_data+'/'
 		except AttributeError:
 			file_delete_url = '/upload/delete/'
-			file_url = '/image/'+str(image.image)
+			file_url = '/images/'+str(image.image)
 
 		#generating json response array
 		result = []
