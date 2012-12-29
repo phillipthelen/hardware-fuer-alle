@@ -40,7 +40,7 @@ def set_mail(user, email):
 
 		email_subject = 'Your new hardware-fuer-alle.de email confirmation'
 		email_body = """Hallo, {}, um deine E-Mail Adresse bei hardware-fuer-alle.de einzutragen musst du sie noch bestätigen\n
-		Bitte klicke hierfür innerhalb der nächsten 48 Stunden auf diesen Link:\n\nhttp://hardware-fuer-alle.de/beta/accounts/confirm/{}""".format(
+		Bitte klicke hierfür innerhalb der nächsten 48 Stunden auf diesen Link:\n\nhttp://hardware-fuer-alle.de/accounts/confirm/{}""".format(
 			user.username,
 			profile.confirmation_key)
 		send_mail(email_subject,
