@@ -1,15 +1,12 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
 # command to install dependencies
 install:
   - "cp hfa/settings.example.py hfa/settings.py"
   - "pip install -r dependencies.txt"
-  # create the test user
-  - "./manage.py createsuperuser --username=joe --email=joe@example.com --noinput
   # create the database
-  - "./manage.py syncdb"
+  - "./manage.py syncdb --noinput"
   # populate the project with test data
   - "./manage.py populateTestUsers"
   - "./manage.py populateTestHardware"
