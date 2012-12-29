@@ -41,6 +41,7 @@ urlpatterns = patterns('',
     url(r'^accounts/newmail$', newEmail),
     url(r'^accounts/disconnect/(?P<socialacc>.*)$', disconnect),
     url(r'^accounts/delete/$', disconnect),
+    url(r'^accounts/', include('allauth.urls')),
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
 
