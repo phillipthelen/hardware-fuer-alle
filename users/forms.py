@@ -22,26 +22,7 @@ class UserSettingsForm(forms.Form):
 	email = forms.EmailField(required=True)
 	error_css_class = 'error'
 
-	def clean_email(self):
-		value = self.cleaned_data["email"]
-		errors = {
-			"different_account": "Diese Adresse ist bereits mit einem anderen Benutzer verknüpft.",
-		}
-		emails = User.objects.filter(email__iexact=value)
-		if emails.exclude(username = self.user).exists():
-			raise forms.ValidationError(errors["different_account"])
-		return value
 
 class EmailForm(forms.Form):
 	email = forms.EmailField(required=True)
 	error_css_class = 'error'
-
-	def clean_email(self):
-		value = self.cleaned_data["email"]
-		errors = {
-			"different_account": "Diese Adresse ist bereits mit einem anderen Benutzer verknüpft.",
-		}
-		emails = User.objects.filter(email__iexact=value)
-		if emails.exclude(user=self.user).exists():
-			raise forms.ValidationError(errors["different_account"])
-		return value
