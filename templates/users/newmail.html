@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block heading %}
-Neue Emailadresse
+Neue E-Mail-Adresse
 {% endblock %}
 
 
@@ -17,13 +17,13 @@ Neue Emailadresse
 {% else %}
 	<form action="{% url users.views.newEmail %}" method="post" class="form-horizontal">{% csrf_token %}
 	<div class="control-group">
-		<label class="control-label {{form.email.css_classes}}" for="id_email">Email</label>
+		<label class="control-label {{form.email.css_classes}}" for="id_email">E-Mail-Adresse</label>
 		<div class="controls">
 			 {{form.email}}
 			<span class="help-inline">{{form.email.errors}}</span>
 		</div>
 	</div>
-		<button type="submit" class="btn btn-primary">E-Mail setzen</button>
+		<button type="submit" class="btn btn-primary">E-Mail-Adresse setzen</button>
 </form>
 {% endif %}
 </div>
