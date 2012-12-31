@@ -3,6 +3,7 @@
 {% load socialaccount %}
 {% load i18n %}
 {% load thumbnail %}
+{% load gravatar %}
 
 {% block heading %}
 Profil bearbeiten
@@ -101,7 +102,13 @@ $(function() {
 		<input type="hidden" name="type" value="main">
 		<p><button type="submit" class="btn btn-primary">Speichern</button></p>
 	</form>
-
+	<h3>Avatar</h3>
+	<p>Dein Avatar wird über den Dienst Gravatar gesetzt. Deine Mail-Adresse, die du hier hinterlegt hast bestimmt welches Bild von Gravatar abgerufen wird. Ein Avatarbild kannst du <a href="https://de.gravatar.com/" target="_blank">hier</a> ändern/setzen.</p>
+	{% if userp.get_profile.mail_confirmed %}
+	    	<img src="{% gravatar_url user.email 250 %}" class="img-polaroid">
+	    	{% else %}
+	    	<img src="{% gravatar_url "" 250 %}" class="img-polaroid">
+	    	{% endif %}
 	</div>
 	<div class="span6">
 
