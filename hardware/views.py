@@ -139,6 +139,12 @@ def hardwareEdit(request, id=None):
 								location.save()
 							except geocoders.google.GQueryError, e:
 								messages.add_message(request, messages.ERROR, u"Es konnte kein Ort gefunden werden, der deiner Eingabe entspricht. Hast du dich vielleicht vertippt?")
+								context = {'form':form, 'edit':False}
+								return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
+							except:
+								messages.add_message(request, messages.ERROR, u"Es gab einen Fehler beim überprüfen des Ortes. Hast du dich vielleicht vertippt?")
+								context = {'form':form, 'edit':False}
+								return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
 						else:
 							location.latitude = None
 							location.longitude = None
@@ -180,9 +186,18 @@ def hardwareEdit(request, id=None):
 							g = geocoders.Google()
 							if location.city!= "" or location.street!="" or location.street!="":
 								searchstring = location.street + ", " + location.postcode + " " + form.cleaned_data['city']
-								places = g.geocode(urllib.quote(searchstring), exactly_one=False)
-								location.latitude = places[0][1][0]
-								location.longitude = places[0][1][1]
+								try:
+									places = g.geocode(urllib.quote(searchstring), exactly_one=False)
+									location.latitude = places[0][1][0]
+									location.longitude = places[0][1][1]
+								except geocoders.google.GQueryError, e:
+									messages.add_message(request, messages.ERROR, u"Es konnte kein Ort gefunden werden, der deiner Eingabe entspricht. Hast du dich vielleicht vertippt?")
+									context = {'form':form, 'hardware':hardware, 'edit':True}
+									return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
+								except:
+									messages.add_message(request, messages.ERROR, u"Es gab einen Fehler beim überprüfen des Ortes. Hast du dich vielleicht vertippt?")
+									context = {'form':form, 'hardware':hardware, 'edit':True}
+									return render_to_response('hardware/hardwareform.html', context, RequestContext(request))
 							else:
 								location.latitude = None
 								location.longitude = None
