@@ -19,7 +19,7 @@ from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
 from django.contrib import messages
-
+from allauth.account.forms import LoginForm
 def set_mail(user, email):
 	if email != "":
 		profile = user.get_profile()
@@ -54,10 +54,26 @@ def error(request):
 	return render_to_response('error.html', {'messages': messages, },
 		RequestContext(request))
 
-def login(request):
-	"""Displays the login options"""
-	return render_to_response('users/login.html', {"apps":SocialApp.objects.all()},
-		RequestContext(request))
+def login(request,  **kwargs):
+	success_url = kwargs.pop("success_url", None)
+
+	if success_url is None:
+		success_url = "/"
+
+	if request.method == "POST":
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			return form.login(request, redirect_url=success_url)
+	else:
+		form = LoginFOrm()
+
+	ctx = {
+		"form": form,
+		"redirect_field_name": "next",
+		"redirect_field_value": request.REQUEST.get("next"),
+		"apps":SocialApp.objects.all(),
+	}
+	return render_to_response('users/login.html', RequestContext(request, ctx))
 
 def profile(request, userid):
 	"""displays a user profile"""

@@ -11,5 +11,25 @@ Anmelden
 {% for app in apps %}
 	<a href="{% provider_login_url app.provider %}" class="btn btn-success">Mit {{app.provider}} anmelden</a>
 {% endfor %}
+
+<h3>Mit Passwort anmelden</h3>
+<span>Achtung: Zurzeit gibt es noch keine Registrierung mit Passwort. Wir arbeiten aber zurzeit daran.</span>
+<form method="post" action="{% url allauth.account.views.login %}" class="form-horizontal">
+{{form.non_field_errors}}
+{% csrf_token %}
+ <div class="control-group">
+<label class="control-label" for="id_login">Benutzername</label>
+<div class="controls">
+{{form.login}}{{form.login.errors}}
+</div>
+ <div class="control-group">
+<label class="control-label" for="id_password">Passwort</label>
+<div class="controls">
+{{form.password}}{{form.password.errors}}
+</div>
+
+<input type="submit" value="login" class="btn btn-primary" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
 </div>
 {% endblock %}
