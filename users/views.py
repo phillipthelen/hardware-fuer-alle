@@ -65,7 +65,7 @@ def login(request,  **kwargs):
 		if form.is_valid():
 			return form.login(request, redirect_url=success_url)
 	else:
-		form = LoginFOrm()
+		form = LoginForm()
 
 	ctx = {
 		"form": form,
