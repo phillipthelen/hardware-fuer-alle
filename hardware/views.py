@@ -288,7 +288,7 @@ def sendMail(request, hardwareid):
 					accountlist = []
 					for account in accounts:
 						accountlist.append(account)
-					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "accountlist":accountlist})
+					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "usage":form.cleaned_data["usage"], "accountlist":accountlist})
 					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
 									   headers=headers).send()

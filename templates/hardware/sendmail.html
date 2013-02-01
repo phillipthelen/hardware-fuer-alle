@@ -36,6 +36,13 @@ Du schreibst dem Anbieter der Hardware direkt. Die Nachricht und das Angebot sin
 			<span class="help-inline">{{form.text.errors}}</span>
 		</div>
 	</div>
+	<div class="control-group">
+		<label class="control-label" for="id_text">Beschreibe bitte kurz wofür du die Hardware brauchst</label>
+		<div class="controls">
+			{{ form.usage}}
+			<span class="help-inline">{{form.usage.errors}}</span>
+		</div>
+	</div>
 <a href="{% url hardware.views.displayHardware hardware.id hardare.slug %}"  class="btn btn-normal">Abbrechen</a>
 <input type="submit" value="Submit" class="btn btn-primary" />
 </form>
