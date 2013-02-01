@@ -83,7 +83,7 @@ $(document).ready(function(){
 		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
 {% for h in available_hardware %}
 	<tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
-		<td>{{h.category}}</td>
+		<td><img src="/images/{{hardware.category.icon}}" /> {{h.category}}</td>
 		<td>{{h.condition}}</td>
 <td>{% if h.availability %}
 <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
