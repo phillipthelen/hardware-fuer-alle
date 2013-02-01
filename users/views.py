@@ -78,7 +78,8 @@ def login(request,  **kwargs):
 def profile(request, userid):
 	"""displays a user profile"""
 	user = get_object_or_404(User, id = userid)
-	hardware =Hardware.objects.filter(owner=user)
+	available_hardware =Hardware.objects.filter(owner=user, availability=True)
+	
 	accounts = SocialAccount.objects.filter(user=user)
 	accountlist = []
 	for account in accounts:
@@ -87,7 +88,14 @@ def profile(request, userid):
 		map, showmap = create_map(user.get_profile().location)
 	else:
 		map = None
-	context = {'userprofile':user, 'hardware':hardware, 'map':map, 'accountlist':accountlist}
+	context = {
+		'userprofile':user,
+		'available_hardware':available_hardware,
+		'map':map,
+		'accountlist':accountlist}
+	if request.user == user:
+		unavailable_hardware =Hardware.objects.filter(owner=user, availability=False)
+		context['unavailable_hardware'] = unavailable_hardware
 	return render_to_response('users/userprofile.html', context, RequestContext(request))
 
 @login_required

@@ -81,7 +81,7 @@ $(document).ready(function(){
 	<h3>Bedingungslos abzugebende Hardware</h3>
 <table class="table  table-bordered table-striped">
 		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
-{% for h in hardware %}
+{% for h in available_hardware %}
 	<tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
 		<td>{{h.category}}</td>
 		<td>{{h.condition}}</td>
@@ -92,6 +92,21 @@ $(document).ready(function(){
 {% endif %}</td>
 {% endfor %}</tr>
 </table>
-
+{% if user == userprofile %}
+	<h3>Vergebene Hardware</h3>
+<table class="table  table-bordered table-striped">
+		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
+{% for h in unavailable_hardware %}
+	<tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
+		<td>{{h.category}}</td>
+		<td>{{h.condition}}</td>
+<td>{% if h.availability %}
+<span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
+{% else %}
+<span class="badge badge-important"><i class="icon-remove-sign icon-white"></i></span>
+{% endif %}</td>
+{% endfor %}</tr>
+</table>
+{% endif %}
 </div>
 {% endblock %}
