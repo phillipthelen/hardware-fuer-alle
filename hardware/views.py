@@ -393,7 +393,7 @@ def giveaway(request):
 				hardware.save()
 				return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
 			else:
-				return render_to_response('hardware/giveaway', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
+				return render_to_response('hardware/giveaway.html', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
 		else:
 			return render_to_response('error.html', {"messages":["Du kannst nur deine eigene hardware weg geben."]}, RequestContext(request))
 	else:
