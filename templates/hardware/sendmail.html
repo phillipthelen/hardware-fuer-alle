@@ -12,7 +12,7 @@ Besitzer per Email kontaktieren
 
 <div class="span12">
 {% if invalidmail %}
-	<p>Bitte überprüfe deine Emails.</p>
+	<p>Etwas stimmt mit deiner E-Mail-Adresse nicht. Bist du sicher, das du sie korrekt eingetragen hast?</p>
 {% elif ownhardware %}
 	<p>Du kannst dich nicht selbst kontaktieren!</p>
 {% else %}
@@ -26,9 +26,11 @@ Besitzer per Email kontaktieren
 </ul>
 Du schreibst dem Anbieter der Hardware direkt. Die Nachricht und das Angebot sind unverbindlich. Stelle dem Anbieter eventuelle Fragen die du noch zu dem Gerät hast und klärt anschließend, ob ihr euch in der echten Welt trefft um das Gerät zu tauschen, oder ob ihr es irgendwie über den Postweg abwickelt. Wenn es um einen Verleih geht, solltet ihr auf jeden Fall klären was bei dem Gerät zu beachten ist - in jedem Fall sollte geklärt sein, dass es vor und nach dem Verleih komplett neu installiert wird. Ihr könnt auch weitere Kontaktinformationen austauschen und auf anderem Weg als per Mail kommunizieren.
 </div>
-<form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form-horizontal">{% csrf_token %}
+<div class="row">
+	<div class="span6">
+<form action="{% url hardware.views.sendMail hardware.id %}" method="post" class="form">{% csrf_token %}
 	<div class="control-group">
-		<label class="control-label" for="id_text">Text</label>
+		<label class="control-label" for="id_text">Text, der dem/der Besitzer*in Mitgeteilt werden soll</label>
 		<div class="controls">
 			{{ form.text}}
 			<span class="help-inline">{{form.text.errors}}</span>
@@ -37,6 +39,24 @@ Du schreibst dem Anbieter der Hardware direkt. Die Nachricht und das Angebot sin
 <a href="{% url hardware.views.displayHardware hardware.id hardare.slug %}"  class="btn btn-normal">Abbrechen</a>
 <input type="submit" value="Submit" class="btn btn-primary" />
 </form>
+</div>
+<div class="span6">
+	<h4>Informationen zur Hardware</h4>
+		<table class="table table-condensed">
+			<tr><th>Bezeichnung</th><td>{{hardware.name}}</td><tr>
+			<tr><th>Besitzer*in</th><td>{{hardware.owner}}</td><tr>
+			<tr><th>Zustand</th><td>{{hardware.condition}}</td><tr>
+			<tr><th>Art</th><td>{{hardware.state}}</td><tr>
+		{% if hardware.lendlength != None %}<tr><th>Verleihdauer</th><td>{{hardware.lendlength}} {{lendlengthtype}}</td><tr>{% endif %}
+            <tr><th>Gerätetyp</th><td><img src="/images/{{hardware.category.icon}}" />{{hardware.category}}</td><tr>
+			{% if distance %}
+			<tr><th>Entfernung</th><td>{{distance}}</td><tr>
+			{% endif%}
+		</table>
+	<h5>Beschreibungstext</h5>
+	<p>{{hardware.description}}</p>
+</div>
+</div>
 {% endif %}
 </div>
 {% endblock %}
