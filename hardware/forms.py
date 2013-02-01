@@ -89,4 +89,4 @@ class SearchForm(SimpleSearchForm):
 	sortby = forms.ChoiceField(choices=SORT_BY_CHOICES, required=False, widget=forms.Select(attrs={"class":"input-medium",}))
 
 class LendForm(forms.Form):
-	username = forms.CharField()
+	username = forms.CharField(required=False)
