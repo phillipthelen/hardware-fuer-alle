@@ -74,7 +74,7 @@ def displayHardware(request, id, name):
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def get_list_page(ready_to_use, page=1):
-	hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use)
+	hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use, availability=True)
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
