@@ -85,7 +85,9 @@
 		</div>
     {% endfor %}
 {% endif %}
+<div class="pull-right">{% block headinginfo %}{% endblock %}</div>
 	<h1>{% block heading %}{% endblock %}</h1>
+
 	<hr>
 	<div class="row">
 	{% block content %}{% endblock %}
