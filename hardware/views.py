@@ -387,8 +387,6 @@ def giveaway(request):
 		if hardware.owner == owner:
 			form = LendForm(request.POST)
 			if form.is_valid():
-				username = form.cleaned_data["username"]
-				hardware.lent_to = get_object_or_404(User, username=username)
 				hardware.availability = False
 				hardware.save()
 				return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST

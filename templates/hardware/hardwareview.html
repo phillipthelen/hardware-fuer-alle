@@ -142,10 +142,10 @@ $(document).ready(function(){
 	    	<img src="{% gravatar_url "" 200 %}" class="img-polaroid"style="margin-bottom:6px">
 	{% endif %}
 	<a class="btn btn-primary btn-block" href="{% url hardware.views.hardwareEdit hardware.id %}" style="margin:4px"><i class="icon-edit icon-white"></i> Eintrag bearbeiten</a>
-	{% if hardware.state.temporary and hardware.availability %}
-	<a class="btn btn-block" href="#lendModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Eintrag verleihen</a>
-	{% elif hardware.state.temporary %}
-	<a class="btn btn-block" href="#takebackModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Eintrag zurücknehmen</a>
+	{% if hardware.availability %}
+	<a class="btn btn-block" href="#lendModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Eintrag vergeben</a>
+	{% else %}
+	<a class="btn btn-block" href="#takebackModal" role="button" data-toggle="modal" style="margin:4px"><i class="icon-ok"></i> Zurück nehmen</a>
 	{% endif %}
 	<a href="#deleteModal" role="button" class="btn btn-danger btn-block" data-toggle="modal" style="margin:4px"><i class="icon-trash icon-white"></i> Eintrag löschen</a>
 <!-- Modal -->
@@ -166,22 +166,13 @@ $(document).ready(function(){
 <div id="lendModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="lendModalLabel" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-<h3 id="lendModalLabel">An wen soll der Eintrag verliehen werden?</h3>
+<h3 id="lendModalLabel">Soll der eintrag als vergeben markiert werden?</h3>
 </div>
 <form action="{% url hardware.views.giveaway %}" method="post" class="form-inline">{% csrf_token %}
-<div class="modal-body">
-	<p>Gib bitte den Benutzernamen des/der Benutzers/Benutzerin an, an den/die du den Eintrag verleihen möchtest. Falls die Person dir bereits eine Kontaktmail geschickt hat, taucht der Name im Autocomplete auf.</p>
-		<div class="control-group {{form.username.css_classes}}">
-		<div class="controls">
-			<input id="id_username" type="text" name="username" maxlength="200"  class="typeahead input-block-level" data-provide="typeahead" data-source="['test', 'test2']"/>
-		<span class="help-inline">{{form.username.errors}}</span>
-		</div>
-		</div>
-</div>
 <div class="modal-footer">
 <input type="hidden" name="hardware" value="{{hardware.id}}">
-    <a href="#" class="btn" data-dismiss="modal">Abbrechen</a>
-    <button type="submit" class="btn btn-primary">Verleihen</button>
+    <a href="#" class="btn" data-dismiss="modal">Nein</a>
+    <button type="submit" class="btn btn-primary">Ja</button>
 </div>
 </form>
 <script type="text/javascript">
