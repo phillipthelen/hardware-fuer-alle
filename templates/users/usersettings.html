@@ -102,6 +102,44 @@ $(function() {
 		<input type="hidden" name="type" value="main">
 		<p><button type="submit" class="btn btn-primary">Speichern</button></p>
 	</form>
+
+	
+	{% if user.password != "" %}
+	<h3>Passwort ändern</h3>
+	<form action="{% url allauth.account.views.password_change %}" method="post" class="form-inline">{% csrf_token %}
+	 	<div class="control-group">
+		<label class="control-label" for="id_oldpassword">altes Passwort</label>
+		<div class="controls">
+		{{passform.oldpassword}}{{passform.oldpassword1errors}}
+		</div></div>
+		 <div class="control-group">
+		<label class="control-label" for="id_password1">neues Passwort</label>
+		<div class="controls">
+		{{passform.password1}}{{passform.password1.errors}}
+		</div></div>
+		 <div class="control-group" id="passwordrepeat">
+		<label class="control-label" for="id_password2">neues Passwort wiederholen</label>
+		<div class="controls">
+		{{passform.password2}}{{passform.password2.errors}}
+		</div></div>
+		<p><button type="submit" class="btn btn-primary">Ändern</button></p>
+	</form>
+	{% else %}
+		<h3>Passwort setzen</h3>
+		<form action="{% url allauth.account.views.password_set %}" method="post" class="form-inline">{% csrf_token %}
+		 <div class="control-group">
+		<label class="control-label" for="id_password1">Passwort</label>
+		<div class="controls">
+		{{passform.password1}}{{passform.password1.errors}}
+		</div></div>
+		 <div class="control-group" id="passwordrepeat">
+		<label class="control-label" for="id_password2">Passwort wiederholen</label>
+		<div class="controls">
+		{{passform.password2}}{{passform.password2.errors}}
+		</div></div>
+		<p><button type="submit" class="btn btn-primary">Setzen</button></p>
+	{% endif %}
+
 	<h3>Avatar</h3>
 	<p>Dein Avatar wird über den Dienst Gravatar gesetzt. Deine Mail-Adresse, die du hier hinterlegt hast bestimmt welches Bild von Gravatar abgerufen wird. Ein Avatarbild kannst du <a href="https://de.gravatar.com/" target="_blank">hier</a> ändern/setzen.</p>
 	{% if user.get_profile.mail_confirmed %}

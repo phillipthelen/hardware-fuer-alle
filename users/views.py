@@ -19,7 +19,7 @@ from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
 from django.contrib import messages
-from allauth.account.forms import LoginForm, SignupForm
+from allauth.account.forms import LoginForm, SignupForm, SetPasswordForm, ChangePasswordForm
 def set_mail(user, email):
 	if email != "":
 		profile = user.get_profile()
@@ -156,7 +156,11 @@ def settings(request):
 	else:
 		lform = LocationForm()
 		mform = UserSettingsForm()
-	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform})
+	if user.password != "":
+		passform = ChangePasswordForm()
+	else:
+		passform = SetPasswordForm()
+	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform, 'passform':passform})
 	map, showmap = create_map(profile.location)
 	context["map"] = map
 	context["showmap"] = showmap
