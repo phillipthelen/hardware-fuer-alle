@@ -19,7 +19,7 @@ from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
 from django.contrib import messages
-from allauth.account.forms import LoginForm
+from allauth.account.forms import LoginForm, SignupForm
 def set_mail(user, email):
 	if email != "":
 		profile = user.get_profile()
@@ -67,8 +67,11 @@ def login(request,  **kwargs):
 	else:
 		form = LoginForm()
 
+	registerform = SignupForm()
+
 	ctx = {
 		"form": form,
+		"registerform":registerform,
 		"redirect_field_name": "next",
 		"redirect_field_value": request.REQUEST.get("next"),
 		"apps":SocialApp.objects.all(),
