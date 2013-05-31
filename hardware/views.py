@@ -323,6 +323,13 @@ def get_search_page(page=1, searchquery="", searchstate="", searchcategory="", s
 	return hardware, pagelist, paginator.count
 
 def searchHardware(request, page=1):
+
+	def sortLocation( hw):
+		if not hw.owner.get_profile().displayLocation:
+			return 9001
+		if hw.location == None:
+			return 9001
+		return hw.location.get_distance(request.user.get_profile().location)
 	"""list all available hardware"""
 	try:
 		page = int(util.stripSlash(page))
@@ -358,7 +365,11 @@ def searchHardware(request, page=1):
 				context["searchcondition"] = ""
 			if form.cleaned_data ["sortby"] != "":
 				context["searchsort"] = str(form.cleaned_data["sortby"]).strip()
-				hardware = hardware.extra(order_by=[form.cleaned_data["sortby"],])
+				if form.cleaned_data["sortby"] == "distance":
+					hardware = list(hardware.all())
+					hardware.sort(key=sortLocation)
+				else:
+					hardware = hardware.extra(order_by=[form.cleaned_data["sortby"],])
 			else:
 				context["searchsort"] = ""
 			paginator = Paginator(hardware, 20)

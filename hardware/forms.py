@@ -79,7 +79,7 @@ class SearchForm(SimpleSearchForm):
 		("condition", "Zustand"),
 		("category", "Kategorie"),
 		("state", "Art"),
-	#	("distance", "Entfernung")
+		("distance", "Entfernung")
 	)
 	error_css_class = 'error'
 
