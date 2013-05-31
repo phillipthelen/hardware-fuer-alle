@@ -15,7 +15,7 @@ def listPagination(request, p, ready_to_use):
 
 @dajaxice_register
 def listPagination(request, p):
-	items, pagelist, itemcount = get_list_page(True, True, p)
+	items, pagelist, itemcount = get_list_page(True, p, True)
 
 	render = render_to_string('hardware/hardwarelisttable.html', {'hardware': items, 'pagelist':pagelist, 'itemcount':itemcount, 'history':True})
 	dajax = Dajax()

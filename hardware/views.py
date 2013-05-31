@@ -92,13 +92,13 @@ def get_list_page(ready_to_use, page=1, history=False):
 
 def listHardware(request, page=1):
 	"""list all available hardware"""
-	hardware, pagelist, itemcount = get_list_page(True, False, page)
+	hardware, pagelist, itemcount = get_list_page(True, page, False)
 	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, "ready_to_use":True}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
 def listComponents(request, page=1):
 	"""list all available hardware"""
-	hardware, pagelist, itemcount = get_list_page(False, False,  page)
+	hardware, pagelist, itemcount = get_list_page(False, page, False)
 	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, "ready_to_use":False}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
@@ -426,6 +426,6 @@ def takeback(request, hardwareid):
 
 def history(request, page=1):
 	"""list all available hardware"""
-	hardware, pagelist, itemcount = get_list_page(False, True, page)
+	hardware, pagelist, itemcount = get_list_page(False, page, False)
 	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, 'history':True}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
