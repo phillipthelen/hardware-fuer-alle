@@ -78,6 +78,7 @@ def get_list_page(ready_to_use, page=1, history=False):
 		hardware = Hardware.objects.filter(availability=False)
 	else:
 		hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use)
+	hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use, availability=True)
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
@@ -291,7 +292,7 @@ def sendMail(request, hardwareid):
 					accountlist = []
 					for account in accounts:
 						accountlist.append(account)
-					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "accountlist":accountlist})
+					c = Context({"user":user, "hardware":hardware, "text":form.cleaned_data["text"], "usage":form.cleaned_data["usage"], "accountlist":accountlist})
 					body = render_to_string("hardware/requestmail.html", c)
 					EmailMessage(subject, body, from_email, [hardware.owner.email],
 									   headers=headers).send()
@@ -401,13 +402,11 @@ def giveaway(request):
 		if hardware.owner == owner:
 			form = LendForm(request.POST)
 			if form.is_valid():
-				username = form.cleaned_data["username"]
-				hardware.lent_to = get_object_or_404(User, username=username)
 				hardware.availability = False
 				hardware.save()
 				return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
 			else:
-				return render_to_response('hardware/giveaway', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
+				return render_to_response('hardware/giveaway.html', {'hardwareid':hardwareid, 'form':form}, RequestContext(request))
 		else:
 			return render_to_response('error.html', {"messages":["Du kannst nur deine eigene hardware weg geben."]}, RequestContext(request))
 	else:

@@ -19,7 +19,7 @@ from hfa.util import create_map
 import datetime, random, sha
 from django.core.mail import send_mail
 from django.contrib import messages
-from allauth.account.forms import LoginForm
+from allauth.account.forms import LoginForm, SignupForm, SetPasswordForm, ChangePasswordForm
 def set_mail(user, email):
 	if email != "":
 		profile = user.get_profile()
@@ -67,8 +67,11 @@ def login(request,  **kwargs):
 	else:
 		form = LoginForm()
 
+	registerform = SignupForm()
+
 	ctx = {
 		"form": form,
+		"registerform":registerform,
 		"redirect_field_name": "next",
 		"redirect_field_value": request.REQUEST.get("next"),
 		"apps":SocialApp.objects.all(),
@@ -78,7 +81,8 @@ def login(request,  **kwargs):
 def profile(request, userid):
 	"""displays a user profile"""
 	user = get_object_or_404(User, id = userid)
-	hardware =Hardware.objects.filter(owner=user)
+	available_hardware =Hardware.objects.filter(owner=user, availability=True)
+	
 	accounts = SocialAccount.objects.filter(user=user)
 	accountlist = []
 	for account in accounts:
@@ -87,7 +91,14 @@ def profile(request, userid):
 		map, showmap = create_map(user.get_profile().location)
 	else:
 		map = None
-	context = {'userprofile':user, 'hardware':hardware, 'map':map, 'accountlist':accountlist}
+	context = {
+		'userprofile':user,
+		'available_hardware':available_hardware,
+		'map':map,
+		'accountlist':accountlist}
+	if request.user == user:
+		unavailable_hardware =Hardware.objects.filter(owner=user, availability=False)
+		context['unavailable_hardware'] = unavailable_hardware
 	return render_to_response('users/userprofile.html', context, RequestContext(request))
 
 @login_required
@@ -145,7 +156,11 @@ def settings(request):
 	else:
 		lform = LocationForm()
 		mform = UserSettingsForm()
-	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform})
+	if user.password != "":
+		passform = ChangePasswordForm()
+	else:
+		passform = SetPasswordForm()
+	context.update({"apps":apps, "accountlist":accountlist, 'profile':profile, 'lform':lform, 'mform':mform, 'passform':passform})
 	map, showmap = create_map(profile.location)
 	context["map"] = map
 	context["showmap"] = showmap

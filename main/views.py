@@ -8,10 +8,17 @@ from main.forms import HardwareReportForm
 from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-
+from allauth.account.models import EmailAddress
 # Create your views here.
 def home(request):
 	"""Home view, displays login mechanism"""
+	user = request.user
+	if user.is_authenticated() and user.email != "" and not user.get_profile().mail_confirmed:
+		emails = EmailAddress.objects.filter(user=user)
+		if len(emails) > 0:
+			profile = user.get_profile()
+			profile.mail_confirmed = emails[0].verified
+			profile.save()
 	return render_to_response('home.html', {},
 		RequestContext(request))
 

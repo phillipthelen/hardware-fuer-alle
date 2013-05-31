@@ -57,6 +57,11 @@ $(document).ready(function(){
 {{userprofile.get_profile.displayname}}
 {% endblock %}
 
+{% block headinginfo %}
+{% for acc in accountlist %}
+	<span style="padding-left:10px;"><a href="{{acc.get_profile_url}}" target="_blank" /><img src="/static/images/16px/{{acc.get_provider.name}}.png" style="margin-right:4px">{% if acc.get_provider.name == "Twitter" %}{{acc.extra_data.screen_name}}{% else %}{{acc.extra_data.name}}{% endif %}</a></span>
+	{% endfor %}
+{% endblock %}
 
 {% block content %}
 	<div class="span3">
@@ -73,17 +78,12 @@ $(document).ready(function(){
 
 	</div>
 <div class="span9">
-	<div class="pull-right">
-	{% for acc in accountlist %}
-	<span style="padding-left:10px;"><a href="{{acc.get_profile_url}}" target="_blank" /><img src="/static/images/16px/{{acc.get_provider.name}}.png" style="margin-right:4px">{% if acc.get_provider.name == "Twitter" %}{{acc.extra_data.screen_name}}{% else %}{{acc.extra_data.name}}{% endif %}</a></span>
-	{% endfor %}
-	</div>
 	<h3>Bedingungslos abzugebende Hardware</h3>
 <table class="table  table-bordered table-striped">
 		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
-{% for h in hardware %}
+{% for h in available_hardware %}
 	<tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
-		<td>{{h.category}}</td>
+		<td><img src="/images/{{h.category.icon}}" /> {{h.category}}</td>
 		<td>{{h.condition}}</td>
 <td>{% if h.availability %}
 <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
@@ -92,6 +92,21 @@ $(document).ready(function(){
 {% endif %}</td>
 {% endfor %}</tr>
 </table>
-
+{% if user == userprofile %}
+	<h3>Vergebene Hardware</h3>
+<table class="table  table-bordered table-striped">
+		<tr><th>Name</th><th>Typ</th><th>Zustand</th><th>Verfügbarkeit</th></tr>
+{% for h in unavailable_hardware %}
+	<tr><td><a href="{% url hardware.views.displayHardware h.id h.slug %}">{{h.name}}</a></td>
+		<td><img src="/images/{{h.category.icon}}" /> {{h.category}}</td>
+		<td>{{h.condition}}</td>
+<td>{% if h.availability %}
+<span class="badge badge-success"><i class="icon-ok-sign icon-white"></i></span>
+{% else %}
+<span class="badge badge-important"><i class="icon-remove-sign icon-white"></i></span>
+{% endif %}</td>
+{% endfor %}</tr>
+</table>
+{% endif %}
 </div>
 {% endblock %}
