@@ -2,10 +2,14 @@
 
 
 {% block heading %}
+{% if history %}
+Historie
+{% else %}
 {% if ready_to_use %}
 Internetfähige Hardware
 {% else %}
 Einzelteile
+{% endif %}
 {% endif %}
 {% endblock %}
 
@@ -13,13 +17,17 @@ Einzelteile
 {% block content %}
   <script src="/static/js/path.min.js" type="text/javascript"></script>
   <script type="text/javascript">
-
-{% if ready_to_use %}
-Path.map("/hardware/list/:page").to(function(){
-    Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page'], 'ready_to_use':true})
+{% if history %}
+  Path.map("/hardware/list/:page").to(function(){
+      Dajaxice.hardware.listHistory(Dajax.process,{'p':this.params['page']})
 {% else %}
-Path.map("/hardware/list/components/:page").to(function(){
-    Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page'], 'ready_to_use':false})
+  {% if ready_to_use %}
+  Path.map("/hardware/list/:page").to(function(){
+      Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page'], 'ready_to_use':true})
+  {% else %}
+  Path.map("/hardware/list/components/:page").to(function(){
+      Dajaxice.hardware.listPagination(Dajax.process,{'p':this.params['page'], 'ready_to_use':false})
+  {% endif %}
 {% endif %}
     $.scrollTo( $('#pagination'), 500, {offset:-60} );
 });

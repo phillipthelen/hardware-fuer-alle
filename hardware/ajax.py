@@ -12,6 +12,17 @@ def listPagination(request, p, ready_to_use):
 	dajax.assign('#pagination', 'innerHTML', render)
 	return dajax.json()
 
+
+@dajaxice_register
+def listPagination(request, p):
+	items, pagelist, itemcount = get_list_page(True, True, p)
+
+	render = render_to_string('hardware/hardwarelisttable.html', {'hardware': items, 'pagelist':pagelist, 'itemcount':itemcount, 'history':True})
+	dajax = Dajax()
+	dajax.assign('#pagination', 'innerHTML', render)
+	return dajax.json()
+
+
 @dajaxice_register
 def searchPagination(request, p, searchquery, searchstate, searchcategory, searchcondition, searchsort):
 	items, pagelist, itemcount = get_search_page(p, searchquery,  searchstate, searchcategory, searchcondition, searchsort)

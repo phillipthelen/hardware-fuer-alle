@@ -73,8 +73,11 @@ def displayHardware(request, id, name):
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-def get_list_page(ready_to_use, page=1):
-	hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use)
+def get_list_page(ready_to_use, page=1, history=False):
+	if history:
+		hardware = Hardware.objects.filter(availability=False)
+	else:
+		hardware = Hardware.objects.filter(category__ready_to_use = ready_to_use)
 	paginator = Paginator(hardware, 20)
 	try:
 		hardware = paginator.page(page)
@@ -88,13 +91,13 @@ def get_list_page(ready_to_use, page=1):
 
 def listHardware(request, page=1):
 	"""list all available hardware"""
-	hardware, pagelist, itemcount = get_list_page(True, page)
+	hardware, pagelist, itemcount = get_list_page(True, False, page)
 	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, "ready_to_use":True}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
 def listComponents(request, page=1):
 	"""list all available hardware"""
-	hardware, pagelist, itemcount = get_list_page(False, page)
+	hardware, pagelist, itemcount = get_list_page(False, False,  page)
 	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, "ready_to_use":False}
 	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
 
@@ -421,3 +424,9 @@ def takeback(request, hardwareid):
 		return HttpResponseRedirect(reverse(displayHardware, args=[hardware.id, hardware.name])) # Redirect after POST
 	else:
 		return render_to_response('error.html', {"messages":["Nicht deine Hardware"]}, RequestContext(request))
+
+def history(request, page=1):
+	"""list all available hardware"""
+	hardware, pagelist, itemcount = get_list_page(False, True, page)
+	context = {'hardware':hardware, 'pagelist':pagelist, 'itemcount':itemcount, 'history':True}
+	return render_to_response('hardware/hardwarelist.html', context, RequestContext(request))
