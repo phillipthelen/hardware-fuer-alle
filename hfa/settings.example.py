@@ -79,7 +79,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+SECRET_KEY = 'EXAMPLE_TEST_KEY'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
    "django.core.context_processors.request",
